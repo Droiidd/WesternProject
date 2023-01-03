@@ -1,0 +1,15 @@
+name: WesternProject
+version: '${project.version}'
+main: droiidpelaez.westernproject.Core
+api-version: 1.19
+authors: [ Droiid ]
+description: A collage of minecraft plugins for a western themed minecraft server
+commands:
+  eco:
+  giveGold:
+  balance:
+    aliases:
+      - bal
+  drop:
+    aliases:
+      - dm
