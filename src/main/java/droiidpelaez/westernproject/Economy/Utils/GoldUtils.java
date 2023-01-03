@@ -23,4 +23,9 @@ public class GoldUtils {
         return gold;
     }
 
+    public static ItemStack getNormNugget(){
+        ItemStack gold = new ItemStack(Material.GOLD_NUGGET);
+        return gold;
+    }
+
 }

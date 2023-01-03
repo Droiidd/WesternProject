@@ -13,3 +13,4 @@ commands:
   drop:
     aliases:
       - dm
+  team:

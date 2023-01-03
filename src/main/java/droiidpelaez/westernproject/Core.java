@@ -7,6 +7,8 @@ import droiidpelaez.westernproject.Economy.Commands.GiveGold;
 import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
+import droiidpelaez.westernproject.Teams.Commands.CreateTeam;
+import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -23,9 +25,13 @@ public final class Core extends JavaPlugin {
         getCommand("giveGold").setExecutor(new GiveGold());
         getCommand("drop").setExecutor(new DropGold());
 
+        getCommand("team").setExecutor(new CreateTeam());
+
         // === EVENTS ===
         getServer().getPluginManager().registerEvents(new OnPlayerDeath(), this);
         getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
+
+        getServer().getPluginManager().registerEvents(new OnPlayerChat(), this);
 
         // === SAVING ===
         this.saveDefaultConfig();

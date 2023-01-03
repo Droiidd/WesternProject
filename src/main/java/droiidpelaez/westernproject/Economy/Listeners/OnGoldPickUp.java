@@ -19,11 +19,12 @@ public class OnGoldPickUp implements Listener {
         Player p = e.getPlayer();
         //Creating a gold Item to compare the picked up item to
         ItemStack testGold = GoldUtils.getGoldItem(0.0);
-        if(e.getItem().getItemStack().getType().equals(Material.GOLD_NUGGET)){
+
+        //Ensuring its a gold coin and not something else
+        if(e.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Gold Nugget")){
             e.setCancelled(false);
             p.sendMessage(ChatColor.GOLD+ "Picked up gold.");
         }
-        //Ensuring its a gold coin and not something else
         else if(e.getItem().getItemStack().getType().equals(testGold.getType())){
             //remove the coin to avoid duping money
             e.getItem().remove();
@@ -34,12 +35,17 @@ public class OnGoldPickUp implements Listener {
             String amount = ChatColor.stripColor(checkIfGold.getItemMeta().getDisplayName());
             String numberOnly= amount.replaceAll("[^0-9]", "");
             Double depositGold  = (GlobalUtils.checkPlayerStrToD(numberOnly,p))/10;
+            if(depositGold == 0){
+                e.getPlayer().getInventory().addItem(GoldUtils.getNormNugget());
+                return;
+            }
 
             //Confirm pick up and give the player their money
             p.sendMessage(ChatColor.GRAY+ "You picked up "+ChatColor.GOLD +depositGold+"g");
             BankAccountUtils.updateBalance(p, depositGold);
 
         }
+
 
 
     }
