@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class GlobalUtils {
 
-        public static Double checkPlayerStrToD(String s, Player p){
+        public static Double checkStrToDErrMsg(String s, Player p){
             try{
                 Double amount = Double.parseDouble(s);
                 return amount;
@@ -14,6 +14,15 @@ public class GlobalUtils {
             }
             return 0.0;
         }
+    public static Double StrToDNoMsg(String s, Player p){
+        try{
+            Double amount = Double.parseDouble(s);
+            return amount;
+        }catch(NumberFormatException e){
+            return -1.0;
+        }
+
+    }
         public static Double strToD(String s){
             try{
                 Double amount = Double.parseDouble(s);

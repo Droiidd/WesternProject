@@ -15,42 +15,32 @@ public class OnGoldPickUp implements Listener {
 
 
     @EventHandler
-    public void onPlayerPickUp(PlayerPickupItemEvent e){
+    public void onPlayerPickUp(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
-        //Creating a gold Item to compare the picked up item to
-        ItemStack testGold = GoldUtils.getGoldItem(0.0);
-
         //Ensuring its a gold coin and not something else
-        if(e.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Gold Nugget")){
-            e.setCancelled(false);
-            p.sendMessage(ChatColor.GOLD+ "Picked up gold.");
-        }
-        else if(e.getItem().getItemStack().getType().equals(testGold.getType())){
-            //remove the coin to avoid duping money
-            e.getItem().remove();
-            e.setCancelled(true);
+            ItemStack pickedUpGold = e.getItem().getItemStack();
+            Double depositGold = getGoldValue(pickedUpGold,p);
 
-            //Clones the coin to avoid damage, then converts its name to a readable double. ()
-            ItemStack checkIfGold = e.getItem().getItemStack();
-            String amount = ChatColor.stripColor(checkIfGold.getItemMeta().getDisplayName());
-            String numberOnly= amount.replaceAll("[^0-9]", "");
-            Double depositGold  = (GlobalUtils.checkPlayerStrToD(numberOnly,p))/10;
-            if(depositGold == 0){
-                e.getPlayer().getInventory().addItem(GoldUtils.getNormNugget());
-                return;
+            if(depositGold == -1.0){
+                p.sendMessage(ChatColor.GOLD + "Picked up gold!");
+                e.setCancelled(false);
             }
-
-            //Confirm pick up and give the player their money
-            p.sendMessage(ChatColor.GRAY+ "You picked up "+ChatColor.GOLD +depositGold+"g");
-            BankAccountUtils.updateBalance(p, depositGold);
-
-        }
-
-
-
+            else if (depositGold > 0.0) {
+                //remove the coin to avoid duping money
+                e.getItem().remove();
+                e.setCancelled(true);
+                //Confirm pick up and give the player their money
+                p.sendMessage(ChatColor.GRAY + "You picked up " + ChatColor.GOLD + depositGold + "g");
+                BankAccountUtils.updateBalance(p, depositGold);
+            }
     }
 
-
+        public Double getGoldValue(ItemStack goldItem, Player p ){
+            String amount = ChatColor.stripColor(goldItem.getItemMeta().getDisplayName());
+            String numberOnly= amount.replaceAll("[^0-9]", "");
+            Double depositGold  = (GlobalUtils.StrToDNoMsg(numberOnly,p))/10;
+            return depositGold;
+        }
 
 }
 
