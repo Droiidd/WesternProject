@@ -38,7 +38,7 @@ public class AdminCommands implements CommandExecutor {
                     //This handles offline players, or misspelled players
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
 
-                    Double deposit = GlobalUtils.checkPlayerStrToD(args[2], target);
+                    Double deposit = GlobalUtils.checkStrToDErrMsg(args[2], target);
                     BankAccountUtils.updateBalance(target, deposit);
 
                 }
@@ -54,7 +54,7 @@ public class AdminCommands implements CommandExecutor {
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;  }
 
                     if(bankList.containsKey(target.getUniqueId().toString()) == false){ BankAccountUtils.createBankAccount(target); }
-                    Double withdrawal = GlobalUtils.checkPlayerStrToD(args[2], target);
+                    Double withdrawal = GlobalUtils.checkStrToDErrMsg(args[2], target);
                     Double original = bankList.get(target.getUniqueId().toString());
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
 

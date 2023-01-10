@@ -14,7 +14,7 @@ public class DropGold implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
             Player p = (Player) sender;
-            Double dropAmount = GlobalUtils.checkPlayerStrToD(args[0], p);
+            Double dropAmount = GlobalUtils.checkStrToDErrMsg(args[0], p);
             ItemStack goldAmount = GoldUtils.getGoldItem(dropAmount);
             Bukkit.getServer().getWorld("Midland").dropItem(p.getLocation(), goldAmount);
 
