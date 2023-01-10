@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GoldUtils {
 
-    public static ItemStack getGoldItem(Double amount){
+    public static ItemStack getNewCoin(Double amount){
         //Create a new item based off a gold nugget
         ItemStack gold = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta goldMeta = gold.getItemMeta();

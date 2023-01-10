@@ -34,7 +34,7 @@ public class GiveGold implements CommandExecutor {
             if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
             //Creates a gold coin of desired input
             Double amount = GlobalUtils.checkStrToDErrMsg(args[1], target);
-            ItemStack gold = GoldUtils.getGoldItem(amount);
+            ItemStack gold = GoldUtils.getNewCoin(amount);
             //Add it to the inv
             target.getPlayer().getInventory().addItem(gold);
             target.sendMessage(ChatColor.GREEN+"Given "+target.getPlayer().getDisplayName()+" "+amount+"g!");
