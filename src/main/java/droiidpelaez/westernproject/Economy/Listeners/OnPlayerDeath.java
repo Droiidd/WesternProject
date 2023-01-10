@@ -29,7 +29,7 @@ public class OnPlayerDeath implements Listener {
 
         BankAccountUtils.removeMoney(p, lostMoney);
 
-        ItemStack gold = GoldUtils.getGoldItem(lostMoney);
+        ItemStack gold = GoldUtils.getNewCoin(lostMoney);
         deathPoint.getBlock().getWorld().dropItem(deathPoint, gold);
 
 
