@@ -21,7 +21,7 @@ public class OnPlayerDeath implements Listener {
         Player p = e.getEntity();
         //Important location: where we'll spawn the gold coin
         Location deathPoint = p.getLocation();
-        HashMap<String, Double> tempList = BankAccountUtils.listAllBanks();
+        HashMap<String, Double> tempList = BankAccountUtils.getBankList();
         //Checking to see if the player has money or not. If not: create an account
         if(!tempList.containsKey(p.getUniqueId().toString())){BankAccountUtils.createBankAccount(p); }
         //Double of your bank, create a gold coin of that value and drop it at deathpoint

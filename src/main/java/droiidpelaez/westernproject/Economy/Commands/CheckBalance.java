@@ -13,7 +13,7 @@ public class CheckBalance implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
             Player p = (Player) sender;
-            HashMap<String,Double> playerBank = BankAccountUtils.listAllBanks();
+            HashMap<String,Double> playerBank = BankAccountUtils.getBankList();
             if(playerBank.containsKey(p.getUniqueId().toString()) != true){ BankAccountUtils.createBankAccount(p);}
             else
 

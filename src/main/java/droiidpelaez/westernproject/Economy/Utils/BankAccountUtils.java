@@ -18,7 +18,7 @@ public class BankAccountUtils {
         p.sendMessage(ChatColor.GRAY+p.getDisplayName()+"'s current balance: $"+startBal);
     }
     // ==== READ (From) ====
-    public static HashMap<String, Double> listAllBanks(){return bankList;}
+    public static HashMap<String, Double> getBankList(){return bankList;}
 
     // ==== UPDATE ====
     public static void updateBalance(Player p, Double revenue){

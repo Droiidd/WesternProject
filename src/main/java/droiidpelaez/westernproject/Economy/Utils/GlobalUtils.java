@@ -12,7 +12,7 @@ public class GlobalUtils {
             }catch(NumberFormatException e){
                 p.sendMessage(ChatColor.RED+ "Incorrect usage "+ ChatColor.GRAY+"please enter a valid amount.");
             }
-            return 0.0;
+            return -1.0;
         }
     public static Double StrToDNoMsg(String s, Player p){
         try{
