@@ -88,7 +88,7 @@ public class TeamCommands implements CommandExecutor {
                 p.sendMessage(ChatColor.GRAY+"-------------");
 
                 for(int i = 0; i < playerList.size(); i++){
-                    p.sendMessage((i+1) + ".)"+  playerList.get(i));
+                    p.sendMessage((i+1) + ".) "+  playerList.get(i));
                 }
 
 

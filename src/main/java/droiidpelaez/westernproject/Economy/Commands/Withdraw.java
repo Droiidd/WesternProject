@@ -34,8 +34,9 @@ public class Withdraw implements CommandExecutor {
                 return true;
             }
             if((bankList.get(p.getUniqueId().toString()) - amount) > 0.0){
-                walletList.put(p.getUniqueId().toString(), amount);
-                p.sendMessage(ChatColor.GREEN+ amount.toString() +"g deposited!");
+
+                WalletUtils.updateBalance(p, amount);
+                p.sendMessage(ChatColor.GREEN+"You withdrew "+amount+"g");
                 BankAccountUtils.removeMoney(p, amount);
                 return true;
             }
