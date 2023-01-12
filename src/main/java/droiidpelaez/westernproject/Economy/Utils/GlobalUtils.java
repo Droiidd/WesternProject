@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.Economy.Utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class GlobalUtils {
 
@@ -23,15 +24,13 @@ public class GlobalUtils {
         }
 
     }
-        public static Double strToD(String s){
-            try{
-                Double amount = Double.parseDouble(s);
-                return amount;
-            }catch(NumberFormatException e){
-                e.printStackTrace();
-            }
-            return 0.0;
-        }
+
+    public static Double getGoldStrToD(ItemStack goldItem, Player p ){
+        String amount = ChatColor.stripColor(goldItem.getItemMeta().getDisplayName());
+        String numberOnly= amount.replaceAll("[^0-9]", "");
+        Double depositGold  = (GlobalUtils.StrToDNoMsg(numberOnly,p))/10;
+        return depositGold;
+    }
 
 
 

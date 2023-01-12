@@ -21,6 +21,12 @@ public class WalletUtils {
         else{ createWallet(p); }
     }
 
+    public static void removeMoney(Player p, Double withdrawal){
+        Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
+        walletList.replace(p.getUniqueId().toString(), newBalance);
+        p.sendMessage(ChatColor.GREEN+"Remaining balance: "+walletList.get(p.getUniqueId().toString())+"g");
+    }
+
 
 
 }

@@ -25,7 +25,7 @@ public class WalletCommands implements CommandExecutor {
             if(args.length == 0){
                 if(walletList.containsKey(p.getUniqueId().toString()) != true){ WalletUtils.createWallet(p);}
                 else
-                    p.sendMessage(ChatColor.GRAY+"Wallet: $"+ChatColor.GOLD+walletList.get(p.getUniqueId().toString()));
+                    p.sendMessage(ChatColor.GRAY+"Wallet: "+ChatColor.GOLD+walletList.get(p.getUniqueId().toString())+"g");
             }
         }
 

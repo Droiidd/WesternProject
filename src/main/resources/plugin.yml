@@ -18,3 +18,4 @@ commands:
     aliases:
       - wa
   withdraw:
+  deposit:

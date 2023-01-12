@@ -11,8 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class Withdraw implements CommandExecutor {
-
+public class Deposit implements CommandExecutor {
     private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
     private static HashMap<String, Double> walletList = WalletUtils.getWallets();
 
@@ -20,29 +19,28 @@ public class Withdraw implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
             Player p = (Player) sender;
-            if(args.length >1 || args.length<1){
+            if(args.length != 1){
                 p.sendMessage(ChatColor.RED+ "Incorrect usage please try:");
-                p.sendMessage(ChatColor.GRAY+ "/withdraw {amount}");
+                p.sendMessage(ChatColor.GRAY+ "/deposit {amount}");
                 return true;
             }
             Double amount = GlobalUtils.checkStrToDErrMsg(args[0], p);
             if(amount == -1.0){
                 return true;
             }
-            if(bankList.containsKey(p.getUniqueId().toString()) != true){
-                p.sendMessage(ChatColor.RED+"Account not found.");
-                return true;
+            if(walletList.containsKey(p.getUniqueId().toString()) != true){
+                WalletUtils.createWallet(p);
             }
-            if((bankList.get(p.getUniqueId().toString()) - amount) >= 0.0){
+            if((walletList.get(p.getUniqueId().toString()) - amount) >= 0.0){
 
-                WalletUtils.updateBalance(p, amount);
-                p.sendMessage(ChatColor.GREEN+"You withdrew "+amount+"g");
-                BankAccountUtils.removeMoney(p, amount);
+                BankAccountUtils.updateBalance(p, amount);
+                p.sendMessage(ChatColor.GREEN+"You deposited "+amount+"g");
+                WalletUtils.removeMoney(p, amount);
                 return true;
             }
+
 
         }
-
 
 
 
