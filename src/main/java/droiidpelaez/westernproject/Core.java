@@ -27,7 +27,7 @@ import java.util.Map;
 public final class Core extends JavaPlugin {
     private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
     private static HashMap<String, Double> walletList = WalletUtils.getWallets();
-    private static HashMap<Team, Double> teamList = Team.getTeamAccounts();
+
     private static CustomConfig bankAccounts = new CustomConfig("bankAccounts");
     private ConfigManager walletConfig;
     private ConfigManager teamConfig;
@@ -103,9 +103,9 @@ public final class Core extends JavaPlugin {
             walletConfig.playerCFG.set("data."+entry.getKey(), entry.getValue());
         }
         walletConfig.savePlayers();
-        for(Map.Entry<Team, Double> entry : teamList.entrySet()){
-            teamConfig.playerCFG.set("data."+entry.getKey(), entry.getValue());
-        }
+//        for(Map.Entry<Team, Double> entry : teamList.entrySet()){
+//            teamConfig.playerCFG.set("data."+entry.getKey(), entry.getValue());
+//        }
     }
     public void restoreFile(){
         walletConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
