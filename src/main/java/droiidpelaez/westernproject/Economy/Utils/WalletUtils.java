@@ -16,6 +16,7 @@ public class WalletUtils {
     }
     public static void updateBalance(Player p, Double revenue){
         if(walletList.containsKey(p.getUniqueId().toString()) == true){
+            p.sendMessage(walletList.get(p.getUniqueId().toString()).toString());
             walletList.replace(p.getUniqueId().toString(), revenue + walletList.get(p.getUniqueId().toString()));
         }
         else{ createWallet(p); }
