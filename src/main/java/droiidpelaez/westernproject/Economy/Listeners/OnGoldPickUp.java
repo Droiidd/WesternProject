@@ -3,6 +3,7 @@ package droiidpelaez.westernproject.Economy.Listeners;
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Utils.GoldUtils;
+import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,28 +20,23 @@ public class OnGoldPickUp implements Listener {
         Player p = e.getPlayer();
         //Ensuring its a gold coin and not something else
             ItemStack pickedUpGold = e.getItem().getItemStack();
-            Double depositGold = getGoldValue(pickedUpGold,p);
+            Double namedGold = GlobalUtils.getGoldStrToD(pickedUpGold,p);
 
-            if(depositGold == -1.0){
+            if(namedGold == -1.0){
                 p.sendMessage(ChatColor.GOLD + "Picked up gold!");
                 e.setCancelled(false);
             }
-            else if (depositGold > 0.0) {
+            else if (namedGold > 0.0) {
                 //remove the coin to avoid duping money
                 e.getItem().remove();
                 e.setCancelled(true);
                 //Confirm pick up and give the player their money
-                p.sendMessage(ChatColor.GRAY + "You picked up " + ChatColor.GOLD + depositGold + "g");
-                BankAccountUtils.updateBalance(p, depositGold);
+                p.sendMessage(ChatColor.GRAY + "You picked up " + ChatColor.GOLD + namedGold + "g");
+                WalletUtils.updateBalance(p, namedGold);
             }
     }
 
-        public Double getGoldValue(ItemStack goldItem, Player p ){
-            String amount = ChatColor.stripColor(goldItem.getItemMeta().getDisplayName());
-            String numberOnly= amount.replaceAll("[^0-9]", "");
-            Double depositGold  = (GlobalUtils.StrToDNoMsg(numberOnly,p))/10;
-            return depositGold;
-        }
+
 
 }
 

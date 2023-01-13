@@ -14,3 +14,8 @@ commands:
     aliases:
       - dm
   team:
+  wallet:
+    aliases:
+      - wa
+  withdraw:
+  deposit:

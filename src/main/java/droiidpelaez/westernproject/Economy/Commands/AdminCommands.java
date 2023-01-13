@@ -49,7 +49,7 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
                     Player target = Bukkit.getServer().getPlayerExact(args[1]);
-                    HashMap<String, Double> bankList = BankAccountUtils.listAllBanks();
+                    HashMap<String, Double> bankList = BankAccountUtils.getBankList();
 
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;  }
 
