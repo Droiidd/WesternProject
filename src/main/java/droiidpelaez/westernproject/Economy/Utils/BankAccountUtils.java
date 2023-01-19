@@ -42,6 +42,14 @@ public class BankAccountUtils {
         bankList = new HashMap<String, Double>();
     }
 
+    //Checks if a player has an account
+    public static Boolean hasAccount(Player p){
+        return bankList.containsKey(p.getUniqueId().toString());
+    }
+    public static Double getPlayerFunds(Player p){
+        return bankList.get(p.getUniqueId().toString());
+    }
+
 
 
     // ==== MISC ====

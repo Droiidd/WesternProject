@@ -7,21 +7,15 @@ import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import droiidpelaez.westernproject.Files.ConfigManager;
 import droiidpelaez.westernproject.Files.CustomConfig;
+import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
+import droiidpelaez.westernproject.PlayerCore.Listeners.OnPlayerJoinEvent;
+import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
 import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
-import droiidpelaez.westernproject.Teams.Utils.Team;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.data.type.Wall;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class Core extends JavaPlugin {
@@ -50,11 +44,18 @@ public final class Core extends JavaPlugin {
 
         getCommand("team").setExecutor(new TeamCommands());
 
+        getCommand("role").setExecutor(new RoleCommands());
+
+        getCommand("toggleplayerinfo").setExecutor(new ToggleScoreBoard());
+
+
         // === EVENTS ===
         getServer().getPluginManager().registerEvents(new OnPlayerDeath(), this);
         getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
 
         getServer().getPluginManager().registerEvents(new OnPlayerChat(), this);
+
+        getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(), this);
 
         if(walletConfig.playerCFG.contains("data")){
             System.out.println(ChatColor.RED+"DATA FOUND");

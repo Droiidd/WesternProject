@@ -19,7 +19,6 @@ public class Role {
     public void addPlayer(Player p){
         playerRole.put(p.getUniqueId().toString(), this);
         p.sendMessage("Added to role: "+ getRoleName());
-
     }
     public void removePlayer(Player p){
         //blank for now
@@ -29,7 +28,7 @@ public class Role {
     public static Boolean hasRole(Player p){
         return playerRole.containsKey(p.getUniqueId().toString());
     }
-    public Role getPlayerRole(Player p){
+    public static Role getPlayerRole(Player p){
         if(!playerRole.containsKey(p.getUniqueId().toString())){
             return null;
         }

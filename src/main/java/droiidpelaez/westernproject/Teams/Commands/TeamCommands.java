@@ -40,7 +40,7 @@ public class TeamCommands implements CommandExecutor {
                     p.sendMessage(ChatColor.RED+"You are already in a team!");
                     return true;
                 }
-                String teamName = args[1];
+                String teamName = ChatColor.GRAY+"[" +args[1].trim() +"]"+ChatColor.RESET;
                 //Checking name availability
                 for(int i = 0; i < teamList.size(); i++){
                     if(teamName.equals(teamList.get(i).getName()) == true){
@@ -49,7 +49,8 @@ public class TeamCommands implements CommandExecutor {
                     }
                 }
 
-                Team newTeam = new Team(teamName.trim());
+
+                Team newTeam = new Team(teamName);
                 newTeam.addPlayer(p);
                 for(int i = 0; i < teamList.size(); i++){
                     System.out.println(teamList.get(i).getName());

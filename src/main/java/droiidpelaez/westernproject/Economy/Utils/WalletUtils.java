@@ -27,6 +27,12 @@ public class WalletUtils {
         walletList.replace(p.getUniqueId().toString(), newBalance);
         p.sendMessage(ChatColor.GREEN+"Remaining balance: "+walletList.get(p.getUniqueId().toString())+"g");
     }
+    public static Boolean hasAccount(Player p){
+        return walletList.containsKey(p.getUniqueId().toString());
+    }
+    public static Double getPlayerFunds(Player p){
+        return walletList.get(p.getUniqueId().toString());
+    }
 
 
 
