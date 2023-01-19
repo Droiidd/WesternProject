@@ -121,7 +121,7 @@ public class Team {
     }
 
     public static Team getTeam(Player p){
-        if(hasTeam(p) == false){return null;}
+        if(!hasTeam(p)){return null;}
         return playerTeam.get(p.getUniqueId().toString());
     }
     public static void removeTeam(Team removedTeam, Player p){

@@ -49,7 +49,7 @@ public class TeamCommands implements CommandExecutor {
                     }
                 }
 
-                Team newTeam = new Team(teamName);
+                Team newTeam = new Team(teamName.trim());
                 newTeam.addPlayer(p);
                 for(int i = 0; i < teamList.size(); i++){
                     System.out.println(teamList.get(i).getName());
@@ -66,7 +66,7 @@ public class TeamCommands implements CommandExecutor {
                     p.sendMessage(ChatColor.RED+ "Incorrect usage, please try: "+ ChatColor.GRAY+"/team delete");
                     return true;
                 }
-                if(Team.hasTeam(p) != true){
+                if(!Team.hasTeam(p)){
                     p.sendMessage(ChatColor.RED+"You are not in a team!");
                     return true;
                 }
@@ -83,7 +83,7 @@ public class TeamCommands implements CommandExecutor {
                     return true;
                 }
                 if(args.length == 1){
-                    if(Team.hasTeam(p) == false){p.sendMessage(ChatColor.RED+"You are not in a team!"); return true;}
+                    if(!Team.hasTeam(p)){p.sendMessage(ChatColor.RED+"You are not in a team!"); return true;}
 
                     Team playerTeam = Team.getTeam(p);
                     List<String> playerList = playerTeam.getAllPlayers();

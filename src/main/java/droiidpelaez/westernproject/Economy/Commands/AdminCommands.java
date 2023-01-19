@@ -44,7 +44,7 @@ public class AdminCommands implements CommandExecutor {
                 }
                 // CASE : remove
                 else if(args[0].toLowerCase().compareTo(remove) == 0){
-                    if(args.length < 3 || args.length > 3){
+                    if(args.length != 3){
                         p.sendMessage(ChatColor.RED+ "Incorrect usage, please try: "+ ChatColor.GRAY+"/eco remove {Player} {Amount}");
                         return true;
                     }
@@ -53,7 +53,7 @@ public class AdminCommands implements CommandExecutor {
 
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;  }
 
-                    if(bankList.containsKey(target.getUniqueId().toString()) == false){ BankAccountUtils.createBankAccount(target); }
+                    if(!bankList.containsKey(target.getUniqueId().toString())){ BankAccountUtils.createBankAccount(target); }
                     Double withdrawal = GlobalUtils.checkStrToDErrMsg(args[2], target);
                     Double original = bankList.get(target.getUniqueId().toString());
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
