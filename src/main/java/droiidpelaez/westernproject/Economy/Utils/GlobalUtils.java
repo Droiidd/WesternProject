@@ -31,6 +31,9 @@ public class GlobalUtils {
         Double depositGold  = (GlobalUtils.StrToDNoMsg(numberOnly,p))/10;
         return depositGold;
     }
+    public static String color(String msg){
+        return ChatColor.translateAlternateColorCodes('&',msg);
+    }
 
 
 

@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Role {
-    private static List<Role> allRoles = new ArrayList<>();
-    private static HashMap<String, Role> playerRole = new HashMap<>();
+public class Roles {
+    private static List<Roles> allRoles = new ArrayList<>();
+    private static HashMap<String, Roles> playerRole = new HashMap<>();
 
     private String roleName;
 
-    public Role(String name){
+    public Roles(String name){
         this.roleName = name;
         allRoles.add(this);
     }
@@ -28,7 +28,7 @@ public class Role {
     public static Boolean hasRole(Player p){
         return playerRole.containsKey(p.getUniqueId().toString());
     }
-    public static Role getPlayerRole(Player p){
+    public static Roles getPlayerRole(Player p){
         if(!playerRole.containsKey(p.getUniqueId().toString())){
             return null;
         }

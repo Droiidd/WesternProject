@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.Roles.Commands;
 
-import droiidpelaez.westernproject.Roles.Role;
+import droiidpelaez.westernproject.Roles.RoleController;
+import droiidpelaez.westernproject.Roles.Roles;
 import droiidpelaez.westernproject.Roles.RoleUtils;
 import droiidpelaez.westernproject.Teams.Utils.Team;
 import org.bukkit.Bukkit;
@@ -10,18 +11,23 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoleCommands implements CommandExecutor {
+    private final RoleController roleController;
+
+    public RoleCommands(RoleController roleController) {
+        this.roleController = roleController;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args[0].toLowerCase().compareTo("create") == 0) {
-                if(!Role.hasRole(p)){
+                if(!Roles.hasRole(p)){
                     String roleName = args[1];
-                    Role newRole = new Role(roleName.trim());
+                    Roles newRole = new Roles(roleName.trim());
                     newRole.addPlayer(p);
                     return true;
                 }
@@ -29,11 +35,11 @@ public class RoleCommands implements CommandExecutor {
                 return true;
             }
             else if(args[0].toLowerCase().compareTo("list") == 0){
-                if(!Role.hasRole(p)){
+                if(!Roles.hasRole(p)){
                     p.sendMessage(ChatColor.BLUE+ "You do not have a role!");
                     return true;
                 }
-                Role playersRole = Role.getPlayerRole(p);
+                Roles playersRole = Roles.getPlayerRole(p);
 
                 p.sendMessage(ChatColor.BLUE+"List of "+playersRole.getRoleName()+"'s");
                 p.sendMessage(ChatColor.GRAY+"----------");
@@ -50,6 +56,16 @@ public class RoleCommands implements CommandExecutor {
 
 
                 return true;
+            }
+            else if(args[0].toLowerCase().compareTo("set") == 0){
+                Player target = Bukkit.getServer().getPlayer(args[1]);
+                //This handles offline players, or misspelled players
+                if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
+                String roleName = args[2];
+                roleController.setPlayerRole(p, roleName);
+
+
+
             }
 
 

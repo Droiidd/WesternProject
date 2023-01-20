@@ -1,0 +1,7 @@
+roles:
+  bandit:
+    name: "Bandit"
+    color: "&c"
+  sheriff:
+    name: "Sheriff"
+    color: "&c"

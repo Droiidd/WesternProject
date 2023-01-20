@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.PlayerCore.Commands;
 
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,6 +36,11 @@ public class ToggleScoreBoard implements CommandExecutor {
             bankDisplay.setScore(6);
             walletDisplay.setScore(5);
             separatorLine.setScore(4);
+            if(!PlayerCore.hasPlayer(p)){
+                //error
+            }
+            //PlayerCore targetPlayer = PlayerCore.getCore()
+
 
             p.setScoreboard(sb);
 
