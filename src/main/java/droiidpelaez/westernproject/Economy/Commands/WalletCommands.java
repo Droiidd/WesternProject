@@ -11,8 +11,6 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class WalletCommands implements CommandExecutor {
-
-    private static HashMap<String, Double> walletList = WalletUtils.getWallets();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
@@ -22,15 +20,8 @@ public class WalletCommands implements CommandExecutor {
                 p.sendMessage(ChatColor.GRAY+ "/wallet or /wa");
                 return true;
             }
-            if(args.length == 0){
-                if(walletList.containsKey(p.getUniqueId().toString()) != true){ WalletUtils.createWallet(p);}
-                else
-                    p.sendMessage(ChatColor.GRAY+"Wallet: "+ChatColor.GOLD+walletList.get(p.getUniqueId().toString())+"g");
-            }
+            p.sendMessage(ChatColor.GRAY+"Wallet: "+ChatColor.GOLD+WalletUtils.getPlayerFunds(p)+"g");
         }
-
-
-
         return true;
     }
 }

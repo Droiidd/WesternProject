@@ -22,13 +22,6 @@ public class ToggleScoreBoard implements CommandExecutor {
             Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GOLD+"Contract Info");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-
-            if(!BankAccountUtils.hasAccount(p)){
-                BankAccountUtils.createBankAccount(p);
-            }
-            if(!WalletUtils.hasAccount(p)){
-                WalletUtils.createWallet(p);
-            }
             Score bankDisplay = objective.getScore(ChatColor.GREEN+"Bank: "+ChatColor.GRAY+ BankAccountUtils.getPlayerFunds(p).toString()+"g");
             Score walletDisplay = objective.getScore(ChatColor.GREEN+"Wallet: "+ChatColor.GRAY+ WalletUtils.getPlayerFunds(p).toString()+"g");
             Score separatorLine = objective.getScore(ChatColor.GRAY+"---------------");

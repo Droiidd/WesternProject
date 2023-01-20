@@ -49,15 +49,11 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
                     Player target = Bukkit.getServer().getPlayerExact(args[1]);
-                    HashMap<String, Double> bankList = BankAccountUtils.getBankList();
-
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;  }
 
-                    if(!bankList.containsKey(target.getUniqueId().toString())){ BankAccountUtils.createBankAccount(target); }
                     Double withdrawal = GlobalUtils.checkStrToDErrMsg(args[2], target);
-                    Double original = bankList.get(target.getUniqueId().toString());
+                    Double original = BankAccountUtils.getPlayerFunds(target);
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
-
                     if(original - withdrawal < 0){ p.sendMessage(ChatColor.RED+"Attempted to remove too many funds!"); }
                     else{
                         BankAccountUtils.removeMoney(target, withdrawal);

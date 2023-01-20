@@ -12,9 +12,6 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class Deposit implements CommandExecutor {
-    private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
-    private static HashMap<String, Double> walletList = WalletUtils.getWallets();
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
@@ -28,10 +25,7 @@ public class Deposit implements CommandExecutor {
             if(amount == -1.0){
                 return true;
             }
-            if(walletList.containsKey(p.getUniqueId().toString()) != true){
-                WalletUtils.createWallet(p);
-            }
-            if((walletList.get(p.getUniqueId().toString()) - amount) >= 0.0){
+            if((WalletUtils.getPlayerFunds(p) - amount) >= 0.0){
 
                 BankAccountUtils.updateBalance(p, amount);
                 p.sendMessage(ChatColor.GREEN+"You deposited "+amount+"g");

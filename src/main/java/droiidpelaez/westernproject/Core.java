@@ -17,11 +17,14 @@ import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
 import droiidpelaez.westernproject.Roles.RoleController;
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
 import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public final class Core extends JavaPlugin {
     private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
@@ -126,9 +129,10 @@ public final class Core extends JavaPlugin {
     }
     public void restoreFile(){
         walletConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
-            Double account = (Double) walletConfig.playerCFG.get("data."+key);
-            walletList.put(key, account);
+            Double account = (Double) walletConfig.playerCFG.get("data."+key);;
+            WalletUtils.setBalance(key, account);
         });
+        System.out.println("PLayers loaded.");
         bankConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) bankConfig.playerCFG.get("data."+key);
             bankList.put(key, account);

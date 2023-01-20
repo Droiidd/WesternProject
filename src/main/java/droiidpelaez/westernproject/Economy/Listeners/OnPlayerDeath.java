@@ -15,19 +15,13 @@ import java.util.HashMap;
 
 public class OnPlayerDeath implements Listener {
 
-
-
-
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         //Important location: where we'll spawn the gold coin
         Location deathPoint = p.getLocation();
-        HashMap<String, Double> walletList = WalletUtils.getWallets();
-        //Checking to see if the player has money or not. If not: create an account
-        if(!walletList.containsKey(p.getUniqueId().toString())){WalletUtils.createWallet(p); }
         //Double of your bank, create a gold coin of that value and drop it at deathpoint
-        Double lostMoney = walletList.get(p.getUniqueId().toString());
+        Double lostMoney = WalletUtils.getPlayerFunds(p);
 
         WalletUtils.removeMoney(p, lostMoney);
 
