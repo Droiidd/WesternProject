@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class BankAccountUtils {
     private static HashMap<String, Double> bankList = new HashMap<>();
@@ -16,11 +17,10 @@ public class BankAccountUtils {
         p.sendMessage(ChatColor.GREEN + "Player bank created.");
         p.sendMessage(ChatColor.GRAY + p.getDisplayName() + "'s current balance: $" + startBal);
     }
-    // ==== READ (From) ====
+
     public static HashMap<String, Double> getBankList() {
         return bankList;
     }
-    // ==== UPDATE ====
     public static void updateBalance(Player p, Double revenue) {
         if (bankList.containsKey(p.getUniqueId().toString())) {
             bankList.replace(p.getUniqueId().toString(), revenue + bankList.get(p.getUniqueId().toString()));
@@ -29,9 +29,13 @@ public class BankAccountUtils {
             createBankAccount(p);
         }
     }
-
-    // ==== DELETE ====
-    public static void removeMoney(Player p, Double withdrawal) {
+    public static void setBalance(String playerId, Double amount){
+        if(bankList.containsKey(playerId)){
+            bankList.replace(playerId,amount);
+        }
+        bankList.put(playerId, amount);
+    }
+    public static void removeFunds(Player p, Double withdrawal) {
         if (!bankList.containsKey(p.getUniqueId().toString())) {
             createBankAccount(p);
         }
@@ -39,29 +43,9 @@ public class BankAccountUtils {
         bankList.replace(p.getUniqueId().toString(), newBalance);
         p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
     }
-
-    public static void deleteAccount(Player p) {
-        bankList.remove(p.getUniqueId().toString());
-    }
-
-    public static void deleteAllAct() {
-        bankList = new HashMap<String, Double>();
-    }
-
-    //Checks if a player has an account
     public static Boolean hasAccount(Player p) {
         return bankList.containsKey(p.getUniqueId().toString());
     }
-
-    public static void removeFunds(Player p, Double withdrawal) {
-        if (!bankList.containsKey(p.getUniqueId().toString())) {
-            createBankAccount(p);
-        }
-        Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
-        bankList.replace(p.getUniqueId().toString(), newBalance);
-        p.sendMessage(ChatColor.GREEN + "Remaining balance: " + getPlayerFunds(p) + "g");
-    }
-
     public static Double getPlayerFunds(Player p) {
         if (bankList.containsKey(p.getUniqueId().toString())) {
             return bankList.get(p.getUniqueId().toString());
@@ -71,6 +55,13 @@ public class BankAccountUtils {
         }
         return -1.0;
     }
+    public static void deleteAccount(Player p) {
+        bankList.remove(p.getUniqueId().toString());
+    }
+    public static void deleteAllAct() {
+        bankList = new HashMap<String, Double>();
+    }
+
 
 }
 

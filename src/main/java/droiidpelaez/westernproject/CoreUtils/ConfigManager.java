@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.Files;
+package droiidpelaez.westernproject.CoreUtils;
 
 import droiidpelaez.westernproject.Core;
 import org.bukkit.configuration.file.FileConfiguration;

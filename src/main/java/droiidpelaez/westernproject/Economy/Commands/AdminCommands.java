@@ -1,15 +1,13 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
-import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 
 public class AdminCommands implements CommandExecutor {
         @Override
@@ -56,7 +54,7 @@ public class AdminCommands implements CommandExecutor {
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
                     if(original - withdrawal < 0){ p.sendMessage(ChatColor.RED+"Attempted to remove too many funds!"); }
                     else{
-                        BankAccountUtils.removeMoney(target, withdrawal);
+                        BankAccountUtils.removeFunds(target, withdrawal);
                     }
                 }
                 // CASE : reset

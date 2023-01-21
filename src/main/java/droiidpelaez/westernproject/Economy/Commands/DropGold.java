@@ -1,8 +1,7 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
-import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Utils.GoldUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

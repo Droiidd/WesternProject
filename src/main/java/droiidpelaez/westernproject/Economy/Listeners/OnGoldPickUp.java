@@ -1,11 +1,8 @@
 package droiidpelaez.westernproject.Economy.Listeners;
 
-import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
-import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
-import droiidpelaez.westernproject.Economy.Utils.GoldUtils;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

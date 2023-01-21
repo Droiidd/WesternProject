@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import org.bukkit.ChatColor;

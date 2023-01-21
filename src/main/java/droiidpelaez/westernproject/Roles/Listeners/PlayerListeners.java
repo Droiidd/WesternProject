@@ -1,9 +1,8 @@
 package droiidpelaez.westernproject.Roles.Listeners;
 
-import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Roles.Commands.Role;
 import droiidpelaez.westernproject.Roles.RoleController;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

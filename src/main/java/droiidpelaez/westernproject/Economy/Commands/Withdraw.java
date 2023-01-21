@@ -1,15 +1,13 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
-import droiidpelaez.westernproject.Economy.Utils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 
 public class Withdraw implements CommandExecutor {
     @Override
@@ -32,15 +30,11 @@ public class Withdraw implements CommandExecutor {
             if((BankAccountUtils.getPlayerFunds(p) - amount) >= 0.0){
                 WalletUtils.updateBalance(p, amount);
                 p.sendMessage(ChatColor.GREEN+"You withdrew "+amount+"g");
-                BankAccountUtils.removeMoney(p, amount);
+                BankAccountUtils.removeFunds(p, amount);
                 return true;
             }
 
         }
-
-
-
-
         return true;
     }
 }
