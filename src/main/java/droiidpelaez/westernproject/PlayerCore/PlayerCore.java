@@ -69,8 +69,9 @@ public class PlayerCore {
     public static PlayerCore getPlayerCore(Player player){
         return playersCoreList.get(player.getUniqueId().toString());
     }
-
-
+    public Player getPlayer(){
+        return p;
+    }
     public Boolean getPlayerBleedStat(){
         return bleedList.get(p.getUniqueId().toString());
     }

@@ -11,6 +11,7 @@ import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
 import droiidpelaez.westernproject.PlayerCore.Listeners.OnPlayerJoinEvent;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.PlayerCore.PlayerUtils;
 import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
 import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
 import droiidpelaez.westernproject.Roles.RoleController;
@@ -27,12 +28,6 @@ import java.util.Map;
 public final class Core extends JavaPlugin {
     private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
     private static HashMap<String, Double> walletList = WalletUtils.getWallets();
-    private static HashMap<String, Boolean> bleedList = PlayerCore.getBleedList();
-    private static HashMap<String, Double> pBountyList = PlayerCore.getPlayerBountyList();
-    private static HashMap<String, Boolean> wantedList = PlayerCore.getWantedList();
-    private static HashMap<String, Boolean> crippleList = PlayerCore.getCrippleList();
-    private static HashMap<String,String> playerList = PlayerCore.getPlayerList();
-
     private ConfigManager walletConfig;
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
@@ -42,6 +37,7 @@ public final class Core extends JavaPlugin {
         System.out.println("HEY WE STARTED");
         loadConfigManager();
         saveDefaultConfig();
+        PlayerUtils playerSaver = new PlayerUtils();
 
         //
 
@@ -78,10 +74,13 @@ public final class Core extends JavaPlugin {
             System.out.println(ChatColor.RED+"DATA FOUND");
             restoreFile();
         }
-        if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
-        && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")){
-            System.out.println(ChatColor.RED+"DATA FOUND");
-            restorePlayerFile();
+//        if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
+//        && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")){
+//            System.out.println(ChatColor.RED+"DATA FOUND");
+//            restorePlayerFile();
+//        }
+        if(playerSaver.checkPlayerFileData(playerConfig)){
+           playerSaver.restorePlayerFile(playerConfig);
         }
         roleController = new RoleController(this);
     }
@@ -89,31 +88,14 @@ public final class Core extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        PlayerUtils playerSaver = new PlayerUtils();
         if(!bankList.isEmpty() && !walletList.isEmpty()){
             //saveDoubleFile(bankAccounts,bankList);
             saveFile();
         }
-        if(!bleedList.isEmpty() && !pBountyList.isEmpty()){
-            savePlayerFile();
+        if(playerSaver.checkPlayerMaps()){
+            playerSaver.savePlayerFile(playerConfig);
         }
-    }
-    public void savePlayerFile(){
-        for(Map.Entry<String, Boolean> entry : bleedList.entrySet()){
-            playerConfig.playerCFG.set("bloodData."+entry.getKey(), entry.getValue());
-        }
-        for(Map.Entry<String, Boolean> entry : crippleList.entrySet()){
-            playerConfig.playerCFG.set("crippleData."+entry.getKey(), entry.getValue());
-        }
-        for(Map.Entry<String, Boolean> entry : wantedList.entrySet()){
-            playerConfig.playerCFG.set("wantedData."+entry.getKey(), entry.getValue());
-        }
-        for(Map.Entry<String, Double> entry : pBountyList.entrySet()){
-            playerConfig.playerCFG.set("bountyData."+entry.getKey(), entry.getValue());
-        }
-        for(Map.Entry<String, String> entry : playerList.entrySet()){
-            playerConfig.playerCFG.set("playerData."+entry.getKey(), entry.getValue());
-        }
-        playerConfig.savePlayers();
     }
     public void saveFile(){
         for(Map.Entry<String, Double> entry : walletList.entrySet()){
@@ -124,42 +106,6 @@ public final class Core extends JavaPlugin {
             bankConfig.playerCFG.set("data."+entry.getKey(), entry.getValue());
         }
         bankConfig.savePlayers();
-    }
-    public void restorePlayerFile(){
-        playerConfig.playerCFG.getConfigurationSection("bloodData").getKeys(false).forEach(key ->{
-            Boolean bloodStat = (Boolean) playerConfig.playerCFG.get("bloodData."+key);
-
-            bleedList.put(key, bloodStat);
-        });
-        playerConfig.playerCFG.getConfigurationSection("crippleData").getKeys(false).forEach(key ->{
-            Boolean crippleStat = (Boolean) playerConfig.playerCFG.get("crippleData."+key);
-
-            crippleList.put(key, crippleStat);
-        });
-        playerConfig.playerCFG.getConfigurationSection("wantedData").getKeys(false).forEach(key ->{
-            Boolean wantedStat = (Boolean) playerConfig.playerCFG.get("wantedData."+key);
-
-            wantedList.put(key, wantedStat);
-        });
-        playerConfig.playerCFG.getConfigurationSection("bountyData").getKeys(false).forEach(key -> {
-            Double bounty = (Double) playerConfig.playerCFG.get("bountyData."+key);
-            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ bounty);
-            pBountyList.put(key, bounty);
-        });
-        playerConfig.playerCFG.getConfigurationSection("playerData").getKeys(false).forEach(key -> {
-            String playerId = (String) playerConfig.playerCFG.get("playerData."+key);
-            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ playerId);
-            playerList.put(key, playerId);
-        });
-
-        for (String playerId : playerList.values()) {
-            Player player = GlobalUtils.getPlayerFromString(playerId);
-            if(player == null){
-                System.out.println(ChatColor.LIGHT_PURPLE+"EROEIR");
-            }
-            PlayerCore pCore = new PlayerCore(player,bleedList.get(playerId),crippleList.get(playerId),wantedList.get(playerId),pBountyList.get(playerId));
-            System.out.printf(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
-        }
     }
     public void restoreFile(){
         walletConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
