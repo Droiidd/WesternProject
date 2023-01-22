@@ -25,14 +25,14 @@ public class OnPlayerJoinEvent implements Listener {
     @EventHandler
     public void onPlayerChat(PlayerChatEvent e){
         Player p = e.getPlayer();
-        p.sendMessage("Shut up! Bounty +10");
+
         if(!PlayerCore.hasPlayer(p)){
             p.sendMessage("no no no.");
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(p);
         pCore.updateBounty(10.0);
 
-        p.sendMessage("Bounty: " + pCore.getPlayerBounty(p));
+
 
     }
 }

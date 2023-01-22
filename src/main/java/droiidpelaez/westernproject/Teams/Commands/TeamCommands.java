@@ -1,6 +1,8 @@
 package droiidpelaez.westernproject.Teams.Commands;
 
+import droiidpelaez.westernproject.Roles.RoleUtils;
 import droiidpelaez.westernproject.Teams.Utils.Team;
+import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,28 +34,27 @@ public class TeamCommands implements CommandExecutor {
 
     // ===== CREATE =====
             if(args[0].toLowerCase().compareTo("create") == 0){
-                if(args.length < 2 || args.length > 2){
+                // ===== ERROR CHECKING =====
+                if(args.length != 2){
                     p.sendMessage(ChatColor.RED+ "Incorrect usage, please try: "+ ChatColor.GRAY+"/team create {Team Name}");
                     return true;
                 }
-                if(Team.hasTeam(p) == true){
+                if(Team.hasTeam(p.getUniqueId().toString())){
                     p.sendMessage(ChatColor.RED+"You are already in a team!");
                     return true;
                 }
-                String teamName = ChatColor.GRAY+"[" +args[1].trim() +"]"+ChatColor.RESET;
+                //String teamName = ChatColor.GRAY+"[" +args[1].trim() +"]"+ChatColor.RESET;
+                String teamName = args[1].trim();
                 //Checking name availability
-                for(int i = 0; i < teamList.size(); i++){
-                    if(teamName.equals(teamList.get(i).getName()) == true){
+                if(!Team.isNameAvail(teamName)){
                         p.sendMessage(ChatColor.RED+"Team name already exists!");
                         return true;
-                    }
                 }
-
-
-                Team newTeam = new Team(teamName);
-                newTeam.addPlayer(p);
+                // ===== TEAM INFORMATION DISPLAY =====
+                Team newTeam = new Team(teamName, "white");
+                newTeam.addPlayer(p.getUniqueId().toString());
                 for(int i = 0; i < teamList.size(); i++){
-                    System.out.println(teamList.get(i).getName());
+                    System.out.println(teamList.get(i).getTeamName());
                     System.out.println(teamList.size());
                 }
 
@@ -63,20 +64,18 @@ public class TeamCommands implements CommandExecutor {
 
     // ===== REMOVE =====
             else if(args[0].toLowerCase().compareTo("delete") == 0){
-                if(args.length > 1 || args.length < 1){
+                if(args.length != 1){
                     p.sendMessage(ChatColor.RED+ "Incorrect usage, please try: "+ ChatColor.GRAY+"/team delete");
                     return true;
                 }
-                if(!Team.hasTeam(p)){
+                if(!Team.hasTeam(p.getUniqueId().toString())){
                     p.sendMessage(ChatColor.RED+"You are not in a team!");
                     return true;
                 }
-
                 Team playersTeam = Team.getTeam(p);
-                Team.removeTeam(playersTeam,p);
+                playersTeam.removeTeam(playersTeam,p);
                 p.sendMessage("Team deleted.");
                 return true;
-
             }
             else if(args[0].toLowerCase().compareTo("info") == 0){
                 if(args.length > 2 || args.length < 1){
@@ -84,20 +83,24 @@ public class TeamCommands implements CommandExecutor {
                     return true;
                 }
                 if(args.length == 1){
-                    if(!Team.hasTeam(p)){p.sendMessage(ChatColor.RED+"You are not in a team!"); return true;}
+                    if(!Team.hasTeam(p.getUniqueId().toString())){p.sendMessage(ChatColor.RED+"You are not in a team!"); return true;}
 
                     Team playerTeam = Team.getTeam(p);
-                    List<String> playerList = playerTeam.getAllPlayers();
-                    List<String> playerUuidList = playerTeam.getAllUuid();
-                    HashMap<String, String> teamOfficers = playerTeam.getTeamOfficers();
-
-                    p.sendMessage(ChatColor.AQUA+playerTeam.getName()+ "'s Info:");
+                    List<Player> teamPlayerList = TeamUtils.getTeamPlayers(p);
+                    p.sendMessage(ChatColor.AQUA+playerTeam.getTeamName()+ "'s Info:");
                     p.sendMessage(ChatColor.GRAY+"-------------");
                     p.sendMessage(ChatColor.GOLD+"Capacity: "+ChatColor.GRAY+ playerTeam.getTeamCapacity()+"/6");
 
-                    for(int i = 0; i < playerList.size(); i++){
-                        p.sendMessage((i+1) + ".) "+  playerList.get(i)+ " - "+ teamOfficers.get(playerUuidList.get(i)));
+                    for(int i = 0; i < teamPlayerList.size();i++){
+                        if(Team.hasTeam(teamPlayerList.get(i).getUniqueId().toString())){
+                            p.sendMessage(Team.getTeam(teamPlayerList.get(i)).getTeamName()+" "+ teamPlayerList.get(i).getDisplayName());
+                        }
+                        else{
+                            p.sendMessage(teamPlayerList.get(i).getDisplayName());
+                        }
                     }
+
+
 
                 }
                 else if(args.length == 2){
@@ -106,18 +109,6 @@ public class TeamCommands implements CommandExecutor {
                     if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
 
                     Team targetTeam = Team.getTeam(target);
-                    List<String> playerList = targetTeam.getAllPlayers();
-                    List<String> playerUuidList = targetTeam.getAllUuid();
-                    HashMap<String, String> targetTeamOfficers = targetTeam.getTeamOfficers();
-
-                    p.sendMessage(ChatColor.AQUA+targetTeam.getName()+ "'s Info:");
-                    p.sendMessage(ChatColor.GRAY+"-------------");
-                    p.sendMessage(ChatColor.GOLD+"Capacity: "+ChatColor.GRAY+ targetTeam.getTeamCapacity()+"/6");
-
-                    for(int i = 0; i < playerList.size(); i++){
-                        p.sendMessage((i+1) + ".) "+  playerList.get(i)+ " - "+ targetTeamOfficers.get(playerUuidList.get(i)));
-                    }
-
 
                 }
 
@@ -125,7 +116,12 @@ public class TeamCommands implements CommandExecutor {
             }
             else if (args[0].toLowerCase().compareTo("leave") == 0){
                 if(args.length == 1){
-                    Team.removePlayer(p);
+                    if(!Team.hasTeam(p.getUniqueId().toString())){
+                        p.sendMessage("You do not have a team!");
+                        return true;
+                    }
+                    Team pTeam = Team.getTeam(p);
+                    pTeam.removePlayer(p);
                     return true;
                 }
                 p.sendMessage(ChatColor.RED+"Could not leave team, try again.");
@@ -140,11 +136,13 @@ public class TeamCommands implements CommandExecutor {
                 Player target = Bukkit.getServer().getPlayer(args[1]);
                 //This handles offline players, or misspelled players
                 if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
-                if(Team.hasTeam(target) == true){
+                if(Team.hasTeam(target.getUniqueId().toString()) == true){
                     p.sendMessage(ChatColor.RED+"Cannot invite player. "+ChatColor.GRAY+target.getDisplayName()+" is already in a team.");
+                    return true;
                 }
-                if(Team.hasTeam(p) != true){
+                if(Team.hasTeam(p.getUniqueId().toString()) != true){
                     p.sendMessage(ChatColor.YELLOW+"You are not in a team!");
+                    return true;
                 }
                 Team.invitePlayer(target, p);
                 p.sendMessage(ChatColor.YELLOW+"You have invited "+target.getDisplayName()+ " to the team.");
@@ -156,7 +154,7 @@ public class TeamCommands implements CommandExecutor {
                     p.sendMessage(ChatColor.YELLOW+ "Incorrect usage, please try: "+ ChatColor.WHITE+"/team accept");
                     return true;
                 }
-                if(Team.hasTeam(p) == true){
+                if(Team.hasTeam(p.getUniqueId().toString())){
                     p.sendMessage(ChatColor.YELLOW+ "You are already in a team!");
                     p.sendMessage("/team leave "+ChatColor.YELLOW+"to leave.");
                     return true;

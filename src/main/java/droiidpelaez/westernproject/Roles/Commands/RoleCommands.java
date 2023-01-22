@@ -46,8 +46,8 @@ public class RoleCommands implements CommandExecutor {
 
                 List<Player> listRolePlayers = RoleUtils.getRolePlayers(p);
                 for(int i = 0; i < listRolePlayers.size();i++){
-                   if(Team.hasTeam(listRolePlayers.get(i))){
-                       p.sendMessage(Team.getTeam(listRolePlayers.get(i)).getName()+" "+ listRolePlayers.get(i).getDisplayName());
+                   if(Team.hasTeam(listRolePlayers.get(i).getUniqueId().toString())){
+                       p.sendMessage(Team.getTeam(listRolePlayers.get(i)).getTeamName()+" "+ listRolePlayers.get(i).getDisplayName());
                    }
                    else{
                        p.sendMessage(listRolePlayers.get(i).getDisplayName());

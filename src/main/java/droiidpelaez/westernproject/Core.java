@@ -17,6 +17,7 @@ import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
 import droiidpelaez.westernproject.Roles.RoleController;
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
 import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
+import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,13 +32,16 @@ public final class Core extends JavaPlugin {
     private ConfigManager walletConfig;
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
+    private ConfigManager teamConfig;
     private RoleController roleController;
+
     @Override
     public void onEnable() {
         System.out.println("HEY WE STARTED");
         loadConfigManager();
         saveDefaultConfig();
         PlayerUtils playerSaver = new PlayerUtils();
+        TeamUtils teamSaver = new TeamUtils();
 
         //
 
@@ -74,13 +78,12 @@ public final class Core extends JavaPlugin {
             System.out.println(ChatColor.RED+"DATA FOUND");
             restoreFile();
         }
-//        if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
-//        && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")){
-//            System.out.println(ChatColor.RED+"DATA FOUND");
-//            restorePlayerFile();
-//        }
         if(playerSaver.checkPlayerFileData(playerConfig)){
            playerSaver.restorePlayerFile(playerConfig);
+        }
+        if(teamSaver.checkPlayerFileData(teamConfig)){
+            System.out.println("LOADING TEAMS");
+            teamSaver.loadTeams(teamConfig);
         }
         roleController = new RoleController(this);
     }
@@ -89,13 +92,18 @@ public final class Core extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         PlayerUtils playerSaver = new PlayerUtils();
+        TeamUtils teamSaver = new TeamUtils();
         if(!bankList.isEmpty() && !walletList.isEmpty()){
             //saveDoubleFile(bankAccounts,bankList);
             saveFile();
         }
+        if(teamSaver.checkPlayerMaps()){
+            teamSaver.saveTeams(teamConfig);
+        }
         if(playerSaver.checkPlayerMaps()){
             playerSaver.savePlayerFile(playerConfig);
         }
+
     }
     public void saveFile(){
         for(Map.Entry<String, Double> entry : walletList.entrySet()){
@@ -122,13 +130,16 @@ public final class Core extends JavaPlugin {
     public void loadConfigManager(){
         //wallets
         walletConfig = new ConfigManager();
-        walletConfig.setup("playerWallet");
+        walletConfig.setup("walletInfo");
         //teams
         bankConfig = new ConfigManager();
-        bankConfig.setup("playerBank");
+        bankConfig.setup("bankInfo");
         //players
         playerConfig = new ConfigManager();
-        playerConfig.setup("playerStats");
+        playerConfig.setup("playerInfo");
+
+        teamConfig = new ConfigManager();
+        teamConfig.setup("teamInfo");
 
     }
 

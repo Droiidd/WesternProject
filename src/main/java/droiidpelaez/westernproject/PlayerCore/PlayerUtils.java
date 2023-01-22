@@ -67,12 +67,12 @@ public class PlayerUtils {
                 System.out.println(ChatColor.LIGHT_PURPLE+"EROEIR");
             }
             PlayerCore pCore = new PlayerCore(player,bleedList.get(playerId),crippleList.get(playerId),wantedList.get(playerId),pBountyList.get(playerId));
-            System.out.printf(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
+            System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
         }
     }
 
     public boolean checkPlayerMaps(){
-        if(!bleedList.isEmpty() && !pBountyList.isEmpty() & !wantedList.isEmpty() && !playerList.isEmpty() && !crippleList.isEmpty()){
+        if(!bleedList.isEmpty() && !pBountyList.isEmpty() && !wantedList.isEmpty() && !playerList.isEmpty() && !crippleList.isEmpty()){
             return true;
         }
         return false;
@@ -81,7 +81,7 @@ public class PlayerUtils {
         if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
                 && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")
                 && playerConfig.playerCFG.contains("playerData")){
-            System.out.println(ChatColor.RED+"DATA FOUND");
+            System.out.println(ChatColor.RED+"DATA FOUND!!");
             return true;
         }
         return false;
