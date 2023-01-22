@@ -15,8 +15,6 @@ public class CheckBalance implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player p = (Player) sender;
-            HashMap<String, Double> bankList = BankAccountUtils.getBankList();
-
             if (args.length == 1) {
                 Player target = Bukkit.getServer().getPlayer(args[0]);
                 //This handles offline players, or misspelled players
@@ -24,20 +22,10 @@ public class CheckBalance implements CommandExecutor {
                     p.sendMessage(ChatColor.GRAY + "This player is not online.");
                     return true;
                 }
-                if (bankList.containsKey(target.getUniqueId().toString()) != true) {
-                    BankAccountUtils.createBankAccount(target);
-                }
-                p.sendMessage(target.getDisplayName() + "'s balance  :  $" + bankList.get(target.getUniqueId().toString()));
+                p.sendMessage(target.getDisplayName() + "'s balance  :  $" + BankAccountUtils.getPlayerFunds(target));
                 return true;
             }
-
-
-            if (bankList.containsKey(p.getUniqueId().toString()) != true) {
-                BankAccountUtils.createBankAccount(p);
-            }
-
-
-            p.sendMessage(p.getDisplayName() + "'s balance  :  $" + bankList.get(p.getUniqueId().toString()));
+            p.sendMessage(p.getDisplayName() + "'s balance  :  $" + BankAccountUtils.getPlayerFunds(p));
         }
         return true;
     }

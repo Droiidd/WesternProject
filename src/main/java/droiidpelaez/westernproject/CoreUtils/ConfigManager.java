@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.Files;
+package droiidpelaez.westernproject.CoreUtils;
 
 import droiidpelaez.westernproject.Core;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,16 +10,15 @@ import java.io.IOException;
 public class ConfigManager {
 
     private Core plugin = Core.getPlugin(Core.class);
-
     //Files & config here
     public FileConfiguration playerCFG;
     public File playerFile;
 
-    public void setup(){
+    public void setup(String fileName){
         if(!plugin.getDataFolder().exists()){
             plugin.getDataFolder().mkdir();
         }
-        playerFile = new File(plugin.getDataFolder(), "players.yml");
+        playerFile = new File(plugin.getDataFolder(), fileName+".yml");
         if(!playerFile.exists()){
             try{
                 playerFile.createNewFile();

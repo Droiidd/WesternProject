@@ -14,16 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnPlayerChat implements Listener {
-    private static List<Team> teamList = Team.getAllTeams();
-
 
     @EventHandler
     public static void onPlayerChat(PlayerChatEvent e){
         Player p = e.getPlayer();
-        if(Team.hasTeam(p) == true){
+        if(Team.hasTeam(p.getUniqueId().toString()) == true){
 
             Team playerTeam = Team.getTeam(p);
-            String teamName = playerTeam.getName();
+            String teamName = playerTeam.getTeamName();
 
             e.setFormat((ChatColor.BOLD+""+ ChatColor.GRAY+"["+teamName+"] ")+ChatColor.RESET+e.getFormat());
 

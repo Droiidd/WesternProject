@@ -6,6 +6,7 @@ authors: [ Droiid ]
 description: A collage of minecraft plugins for a western themed minecraft server
 commands:
   eco:
+  playerinfo:
   toggleplayerinfo:
     aliases:
       - tinfo
@@ -24,4 +25,3 @@ commands:
   wallet:
     aliases:
       - wa
-
