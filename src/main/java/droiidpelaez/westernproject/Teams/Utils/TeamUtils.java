@@ -16,6 +16,7 @@ public class TeamUtils {
     private HashMap<String, String> teamInfo = Team.getTeamInfo();
     private HashMap<String, String> playerTeamList = Team.getPTeamStringList();
     private List<Team> teamList = new ArrayList<>();
+    private HashMap<String,String> teamNameList = new HashMap<>();
     private Core mainPlugin;
 
     public TeamUtils(Core mainPlugin){
@@ -62,13 +63,41 @@ public class TeamUtils {
         System.out.println(ChatColor.GREEN+"TEAMS LOADED");
         teamConfig.playerCFG.getConfigurationSection("playerData").getKeys(false).forEach(key -> {
             String teamName = (String) teamConfig.playerCFG.get("playerData."+key);
-            for(int i = 0; i< teamList.size(); i++){
-                if(teamName.compareTo(teamList.get(i).getTeamName())==0){
-                    teamList.get(i).addPlayer(key);
-                    System.out.printf(ChatColor.LIGHT_PURPLE+"TEAM LOADED!");
+            teamNameList.put(key, teamName);
+            System.out.println("tam:: "+teamName);
+
+        });
+        Iterator hmIterator = teamNameList.entrySet().iterator();
+        while(hmIterator.hasNext()){
+            Map.Entry map = (Map.Entry)hmIterator.next();
+            String teamName = (String) map.getValue();
+            String playerId = (String) map.getKey();
+            System.out.println("THIS IS MAPPED INFPO;");
+            System.out.println(playerId + " "+ teamName);
+
+            for(int i =  0; i < teamList.size(); i++){
+                if(teamList.get(i).getTeamName().compareTo(teamName) == 0){
+                    teamList.get(i).addPlayer(playerId);
+                    System.out.println("Player loaded into team");
                 }
             }
-        });
+
+
+
+            System.out.println(map.getKey() + " ::: " + map.getValue());
+        }
+
+//        for(int i = 0; i< teamList.size(); i++){
+//
+//
+//
+//
+//            if(teamName.compareTo(teamList.get(i).getTeamName())==0){
+//                teamList.get(i).addPlayer(key);
+//                System.out.println(ChatColor.LIGHT_PURPLE+"TEAM LOADED!");
+//            }
+//            System.out.println("no team...");
+//        }
         System.out.println(ChatColor.GREEN+"TEAMS CREATED");
     }
 

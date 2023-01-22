@@ -85,6 +85,7 @@ public class Team {
         else if(teamCapacity <= 3-1){
             //teamOfficers.put(p.getUniqueId().toString(),ChatColor.GRAY+ "Member");
             playerTeam.put(pId, this);
+            pTeamStringList.put(pId, this.teamName);
             //teamsPlayers.add(p.getUniqueId().toString());
             teamCapacity++;
 
@@ -108,6 +109,7 @@ public class Team {
             }
             else{
                 p.sendMessage("Successfully left the team");
+                plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
                 //teamsPlayers.remove(p.getUniqueId().toString());

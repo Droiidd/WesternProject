@@ -66,17 +66,17 @@ public class PlayerUtils {
         });
 
         for (int i =0;i<playerUuid.size();i++) {
-            System.out.println("Playerfouind " + playerUuid.get(i));
+            System.out.println("Loading player ID: " + playerUuid.get(i));
             Player player = GlobalUtils.getPlayerFromString(playerUuid.get(i));
-            System.out.println("Player created");
+            System.out.println("Player loaded!");
             if(player != null){
-                System.out.println("Making core");
+                System.out.println("Making player core...");
                 PlayerCore pCore = new PlayerCore(player,bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),
                         wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
                 System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
 
             }
-            System.out.println(ChatColor.LIGHT_PURPLE+"EROEIR");
+            System.out.println(ChatColor.LIGHT_PURPLE+"Player offline.");
 
         }
     }
@@ -96,6 +96,9 @@ public class PlayerUtils {
         }
         return false;
     }
+
+
+
 
 
 }
