@@ -41,7 +41,7 @@ public final class Core extends JavaPlugin {
         loadConfigManager();
         saveDefaultConfig();
         PlayerUtils playerSaver = new PlayerUtils();
-        TeamUtils teamSaver = new TeamUtils();
+        TeamUtils teamSaver = new TeamUtils(this);
 
         //
 
@@ -55,7 +55,7 @@ public final class Core extends JavaPlugin {
         getCommand("withdraw").setExecutor(new Withdraw());
         getCommand("deposit").setExecutor(new Deposit());
 
-        getCommand("team").setExecutor(new TeamCommands());
+        getCommand("team").setExecutor(new TeamCommands(this));
 
         getCommand("role").setExecutor(new RoleCommands(roleController));
 
@@ -92,7 +92,7 @@ public final class Core extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         PlayerUtils playerSaver = new PlayerUtils();
-        TeamUtils teamSaver = new TeamUtils();
+        TeamUtils teamSaver = new TeamUtils(this);
         if(!bankList.isEmpty() && !walletList.isEmpty()){
             //saveDoubleFile(bankAccounts,bankList);
             saveFile();
@@ -125,6 +125,20 @@ public final class Core extends JavaPlugin {
             Double account = (Double) bankConfig.playerCFG.get("data."+key);
             BankAccountUtils.setBalance(key, account);
         });
+
+    }
+    public void removeTeam(String teamName, String playerId){
+        if(teamConfig.playerCFG.contains("teamData."+teamName)){
+            teamConfig.playerCFG.set("teamData."+teamName, null);
+            teamConfig.savePlayers();
+            System.out.println(ChatColor.AQUA+"DATA SAVED");
+        }
+        if(teamConfig.playerCFG.contains("playerData."+playerId)){
+            teamConfig.playerCFG.set("playerData."+playerId, null);
+            teamConfig.savePlayers();
+            System.out.println(ChatColor.AQUA+"DATA SAVED");
+        }
+
 
     }
     public void loadConfigManager(){

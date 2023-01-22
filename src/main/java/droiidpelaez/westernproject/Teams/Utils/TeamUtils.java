@@ -1,7 +1,9 @@
 package droiidpelaez.westernproject.Teams.Utils;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
 import droiidpelaez.westernproject.Roles.Roles;
+import jdk.tools.jlink.plugin.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,11 +16,16 @@ public class TeamUtils {
     private HashMap<String, String> teamInfo = Team.getTeamInfo();
     private HashMap<String, String> playerTeamList = Team.getPTeamStringList();
     private List<Team> teamList = new ArrayList<>();
+    private Core mainPlugin;
 
+    public TeamUtils(Core mainPlugin){
+        this.mainPlugin = mainPlugin;
+    }
     public static List<Player> getTeamPlayers(Player p){
         Team playersTeam = Team.getTeam(p);
         List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<Player> teamPlayerList = new ArrayList<>();
+
 
         for (int i = 0; i< playerList.size(); i++) {
             if(Team.hasTeam(playerList.get(i).getUniqueId().toString())){
@@ -42,10 +49,10 @@ public class TeamUtils {
 
     public void loadTeams(ConfigManager teamConfig){
         System.out.println("Attempting to load teams");
-        teamConfig.playerCFG.getConfigurationSection("teamData").getKeys(true).forEach(key -> {
+        teamConfig.playerCFG.getConfigurationSection("teamData").getKeys(false).forEach(key -> {
             String color = (String) teamConfig.playerCFG.get("teamData."+key);
             System.out.println("Check one");
-            Team newTeam = new Team(key, color);
+            Team newTeam = new Team(key, color, mainPlugin);
             System.out.println("check 2");
             teamList.add(newTeam);
             System.out.println("check 3");
@@ -53,7 +60,7 @@ public class TeamUtils {
             System.out.println(teamList.get(0).getTeamName());
         });
         System.out.println(ChatColor.GREEN+"TEAMS LOADED");
-        teamConfig.playerCFG.getConfigurationSection("playerData").getKeys(true).forEach(key -> {
+        teamConfig.playerCFG.getConfigurationSection("playerData").getKeys(false).forEach(key -> {
             String teamName = (String) teamConfig.playerCFG.get("playerData."+key);
             for(int i = 0; i< teamList.size(); i++){
                 if(teamName.compareTo(teamList.get(i).getTeamName())==0){
@@ -79,6 +86,7 @@ public class TeamUtils {
         }
         return false;
     }
+
 
 
 

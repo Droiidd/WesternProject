@@ -19,11 +19,11 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void  onJoin(PlayerJoinEvent e){
-        e.getPlayer().sendMessage("GDJHBNFKJK");
-        Player p = e.getPlayer();
-        p.sendMessage("p joined");
-        roleController.loadPlayer(p);
-        p.sendMessage("p loaded");
+//        e.getPlayer().sendMessage("GDJHBNFKJK");
+//        Player p = e.getPlayer();
+//        p.sendMessage("p joined");
+//        roleController.loadPlayer(p);
+//        p.sendMessage("p loaded");
 
     }
     @EventHandler
@@ -33,11 +33,11 @@ public class PlayerListeners implements Listener {
     }
     @EventHandler
     public void onChat(PlayerChatEvent e){
-        Player p = e.getPlayer();
-
-        Role role = roleController.getPlayer(p);
-        p.sendMessage("Chat recognized");
-        e.setMessage(GlobalUtils.color(role.getColor()) +e.getMessage());
+//        Player p = e.getPlayer();
+//
+//        Role role = roleController.getPlayer(p);
+//        p.sendMessage("Chat recognized");
+//        e.setMessage(GlobalUtils.color(role.getColor()) +e.getMessage());
 
     }
 

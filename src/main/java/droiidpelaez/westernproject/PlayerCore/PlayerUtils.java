@@ -6,7 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerUtils {
@@ -15,6 +17,7 @@ public class PlayerUtils {
     private static HashMap<String, Boolean> wantedList = PlayerCore.getWantedList();
     private static HashMap<String, Boolean> crippleList = PlayerCore.getCrippleList();
     private static HashMap<String,String> playerList = PlayerCore.getPlayerList();
+    private List<String> playerUuid = new ArrayList<>();
     public void savePlayerFile(ConfigManager playerConfig){
         for(Map.Entry<String, Boolean> entry : bleedList.entrySet()){
             playerConfig.playerCFG.set("bloodData."+entry.getKey(), entry.getValue());
@@ -59,15 +62,22 @@ public class PlayerUtils {
             String playerId = (String) playerConfig.playerCFG.get("playerData."+key);
             System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ playerId);
             playerList.put(key, playerId);
+            playerUuid.add(playerId);
         });
 
-        for (String playerId : playerList.values()) {
-            Player player = GlobalUtils.getPlayerFromString(playerId);
-            if(player == null){
-                System.out.println(ChatColor.LIGHT_PURPLE+"EROEIR");
+        for (int i =0;i<playerUuid.size();i++) {
+            System.out.println("Playerfouind " + playerUuid.get(i));
+            Player player = GlobalUtils.getPlayerFromString(playerUuid.get(i));
+            System.out.println("Player created");
+            if(player != null){
+                System.out.println("Making core");
+                PlayerCore pCore = new PlayerCore(player,bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),
+                        wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
+                System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
+
             }
-            PlayerCore pCore = new PlayerCore(player,bleedList.get(playerId),crippleList.get(playerId),wantedList.get(playerId),pBountyList.get(playerId));
-            System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
+            System.out.println(ChatColor.LIGHT_PURPLE+"EROEIR");
+
         }
     }
 

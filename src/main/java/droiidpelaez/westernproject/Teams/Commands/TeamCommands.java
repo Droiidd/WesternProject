@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.Teams.Commands;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Roles.RoleUtils;
 import droiidpelaez.westernproject.Teams.Utils.Team;
 import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
@@ -17,7 +18,12 @@ import java.util.UUID;
 public class TeamCommands implements CommandExecutor {
 
     private static List<Team> teamList = Team.getAllTeams();
+    private Core plugin;
     private static HashMap<String, String> teamInvites = Team.getTeamInvites();
+
+    public TeamCommands(Core plugin){
+        this.plugin = plugin;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -51,7 +57,7 @@ public class TeamCommands implements CommandExecutor {
                         return true;
                 }
                 // ===== TEAM INFORMATION DISPLAY =====
-                Team newTeam = new Team(teamName, "white");
+                Team newTeam = new Team(teamName, "white", plugin);
                 newTeam.addPlayer(p.getUniqueId().toString());
                 for(int i = 0; i < teamList.size(); i++){
                     System.out.println(teamList.get(i).getTeamName());

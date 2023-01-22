@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.Teams.Utils;
 
+import droiidpelaez.westernproject.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -18,15 +19,15 @@ public class Team {
     private static HashMap<String,String> teamInvites = new HashMap<>();
     private static HashMap<String,String> teamInfo = new HashMap<>();
     private static HashMap<String, String> pTeamStringList = new HashMap<>();
-    //private static HashMap<Team, String> teamPlayers = new HashMap<>();
-    //private static List<String> teamsPlayers;
+    private Core plugin;
     private final String teamName;
     private final String teamColor;
     private Integer teamCapacity;
 
-    public Team(String teamName,String teamColor){
+    public Team(String teamName,String teamColor, Core plugin){
         this.teamName = teamName.trim();
         this.teamColor = teamColor;
+        this.plugin = plugin;
         teamInfo.put(teamName,teamColor);
         allTeams.add(this);
         this.teamCapacity = 0;
@@ -92,10 +93,12 @@ public class Team {
 
     }
     public void removePlayer(Player p){
+        TeamUtils teamUtils = new TeamUtils(plugin);
         if(hasTeam(p.getUniqueId().toString()) ){
             if(teamCapacity == 1) {
                 p.sendMessage("The team has been disbanded");
                 teamCapacity--;
+                plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
                 teamInfo.remove(getTeam(p).teamName);
                 playerTeam.remove(p.getUniqueId().toString());
