@@ -1,8 +1,8 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
-import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
+import droiidpelaez.westernproject.Economy.Utils.Bank;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
+import droiidpelaez.westernproject.Economy.Utils.Wallet;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,22 +15,23 @@ public class Withdraw implements CommandExecutor {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args.length != 1){
-                p.sendMessage(ChatColor.RED+ "Incorrect usage please try:");
-                p.sendMessage(ChatColor.GRAY+ "/withdraw {amount}");
+                p.sendMessage(ChatColor.GRAY+ "Incorrect usage please try:");
+                p.sendMessage(ChatColor.DARK_GREEN+ "/withdraw {amount}");
                 return true;
             }
             Double amount = GlobalUtils.checkStrToDErrMsg(args[0], p);
             if(amount == -1.0){
+                p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                 return true;
             }
-            if(!BankAccountUtils.hasAccount(p)){
+            if(!Bank.hasAccount(p)){
                 p.sendMessage(ChatColor.RED+"Account not found.");
                 return true;
             }
-            if((BankAccountUtils.getPlayerFunds(p) - amount) >= 0.0){
-                WalletUtils.updateBalance(p, amount);
-                p.sendMessage(ChatColor.GREEN+"You withdrew "+amount+"g");
-                BankAccountUtils.removeFunds(p, amount);
+            if((Bank.getPlayerFunds(p) - amount) >= 0.0){
+                Wallet.updateBalance(p, amount);
+                p.sendMessage(ChatColor.GRAY+"You withdrew "+ChatColor.GOLD+ amount+"g");
+                Bank.removeFunds(p, amount);
                 return true;
             }
 

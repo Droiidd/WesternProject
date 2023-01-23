@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.CoreUtils;
 
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.Roles.Roles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,6 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 public class GlobalUtils {
+    public static void loadPidScoreboard(String pId){
+        Player target = GlobalUtils.getPlayerFromString(pId);
+        if(target != null){
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+        }
+        System.out.println("Oops - team add player");
+    }
         public static Double checkStrToDErrMsg(String s, Player p){
             try{
                 Double amount = Double.parseDouble(s);

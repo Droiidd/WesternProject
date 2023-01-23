@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.Teams.PlayerCore;
+package droiidpelaez.westernproject.PlayerCore;
 
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;

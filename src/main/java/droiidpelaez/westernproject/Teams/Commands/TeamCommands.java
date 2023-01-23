@@ -28,9 +28,11 @@ public class TeamCommands implements CommandExecutor {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args.length == 0){
+                p.sendMessage(ChatColor.GRAY+"==========");
                 p.sendMessage(ChatColor.GRAY+"Try:");
                 p.sendMessage(ChatColor.DARK_AQUA+"/team help");
                 p.sendMessage(ChatColor.DARK_AQUA+"/team create");
+                p.sendMessage(ChatColor.GRAY+"==========");
                 return true;
             }
 
@@ -194,9 +196,11 @@ public class TeamCommands implements CommandExecutor {
             }
             // ===== LAST ONE =====
             else {
+                p.sendMessage(ChatColor.GRAY+"==========");
                 p.sendMessage(ChatColor.GRAY+"Try:");
                 p.sendMessage(ChatColor.DARK_AQUA+"/team help");
                 p.sendMessage(ChatColor.DARK_AQUA+"/team create");
+                p.sendMessage(ChatColor.GRAY+"==========");
                 return true;
             }
         }

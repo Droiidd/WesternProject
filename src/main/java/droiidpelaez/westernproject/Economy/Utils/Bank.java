@@ -1,13 +1,14 @@
 package droiidpelaez.westernproject.Economy.Utils;
 
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class BankAccountUtils {
+public class Bank {
     private static HashMap<String, Double> bankList = new HashMap<>();
 
     // ==== CREATE ====
@@ -16,6 +17,7 @@ public class BankAccountUtils {
         bankList.put(p.getUniqueId().toString(), startBal);
         p.sendMessage(ChatColor.GREEN + "Player bank created.");
         p.sendMessage(ChatColor.GRAY + p.getDisplayName() + "'s current balance: $" + startBal);
+        GlobalUtils.loadPidScoreboard(p.getUniqueId().toString());
     }
 
     public static HashMap<String, Double> getBankList() {
@@ -25,6 +27,8 @@ public class BankAccountUtils {
         if (bankList.containsKey(p.getUniqueId().toString())) {
             bankList.replace(p.getUniqueId().toString(), revenue + bankList.get(p.getUniqueId().toString()));
             p.sendMessage(ChatColor.GRAY + "$" + revenue + " has been added to your account!");
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
         } else {
             createBankAccount(p);
         }
@@ -32,8 +36,10 @@ public class BankAccountUtils {
     public static void setBalance(String playerId, Double amount){
         if(bankList.containsKey(playerId)){
             bankList.replace(playerId,amount);
+            //GlobalUtils.loadPidScoreboard(playerId);
         }
         bankList.put(playerId, amount);
+       // GlobalUtils.loadPidScoreboard(playerId);
     }
     public static void removeFunds(Player p, Double withdrawal) {
         if (!bankList.containsKey(p.getUniqueId().toString())) {
@@ -42,6 +48,8 @@ public class BankAccountUtils {
         Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
         bankList.replace(p.getUniqueId().toString(), newBalance);
         p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
     }
     public static Boolean hasAccount(Player p) {
         return bankList.containsKey(p.getUniqueId().toString());

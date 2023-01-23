@@ -1,6 +1,6 @@
-package droiidpelaez.westernproject.Teams.PlayerCore.Commands;
+package droiidpelaez.westernproject.PlayerCore.Commands;
 
-import droiidpelaez.westernproject.Teams.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

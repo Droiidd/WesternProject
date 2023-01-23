@@ -2,6 +2,8 @@ package droiidpelaez.westernproject.Teams.Utils;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -71,12 +73,25 @@ public class Team {
             playerTeam.put(pId, this);
             pTeamStringList.put(pId, this.teamName);
             teamCapacity++;
+            Player target = GlobalUtils.getPlayerFromString(pId);
+            if(target != null){
+                ScoreboardUtils sb = new ScoreboardUtils();
+                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+            }
+            System.out.println("Oops - team add player");
+
         }
         else if(teamCapacity <= 3-1){
             //teamOfficers.put(p.getUniqueId().toString(),ChatColor.GRAY+ "Member");
             playerTeam.put(pId, this);
             pTeamStringList.put(pId, this.teamName);
             teamCapacity++;
+            Player target = GlobalUtils.getPlayerFromString(pId);
+            if(target != null){
+                ScoreboardUtils sb = new ScoreboardUtils();
+                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+            }
+            System.out.println("Oops - team add player");
         }
     }
     public void removePlayer(Player p){
@@ -90,6 +105,8 @@ public class Team {
                 teamInfo.remove(getTeam(p).teamName);
                 playerTeam.remove(p.getUniqueId().toString());
                 removeTeam(getTeam(p), p);
+                ScoreboardUtils sb = new ScoreboardUtils();
+                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
             }
             else{
                 p.sendMessage( ChatColor.DARK_AQUA+"Successfully left the team");
@@ -98,14 +115,11 @@ public class Team {
                 for(int i = 0;i<teamPlayerList.size();i++){
                     teamPlayerList.get(i).sendMessage(ChatColor.DARK_AQUA+p.getDisplayName()+ChatColor.GRAY+" has left the crew...");
                 }
-
-
                 plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
-
-
-
+                ScoreboardUtils sb = new ScoreboardUtils();
+                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
                 teamCapacity--;
             }
 

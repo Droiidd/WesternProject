@@ -1,5 +1,6 @@
-package droiidpelaez.westernproject.Teams.PlayerCore;
+package droiidpelaez.westernproject.PlayerCore;
 
+import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -83,16 +84,24 @@ public class PlayerCore {
     }
     public void updateBleed(Boolean newStat){
         bleedList.replace(p.getUniqueId().toString(), newStat);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
     }
     public void updateCripple(Boolean newStat){
         crippleList.replace(p.getUniqueId().toString(), newStat);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
     }
     public void updateWanted(Boolean newStat){
         wantedList.replace(p.getUniqueId().toString(), newStat);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
     }
     public void updateBounty(Double bountyInc){
         bountyInc += playerBountyList.get(p.getUniqueId().toString());
         playerBountyList.replace(p.getUniqueId().toString(), bountyInc);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
     }
 
 }

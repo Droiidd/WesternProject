@@ -3,13 +3,13 @@ package droiidpelaez.westernproject;
 import droiidpelaez.westernproject.Economy.Commands.*;
 import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
-import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
-import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
+import droiidpelaez.westernproject.Economy.Utils.Bank;
+import droiidpelaez.westernproject.Economy.Utils.Wallet;
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
-import droiidpelaez.westernproject.Teams.PlayerCore.Commands.CoreDisplay;
-import droiidpelaez.westernproject.Teams.PlayerCore.Commands.ToggleScoreBoard;
-import droiidpelaez.westernproject.Teams.PlayerCore.Listeners.OnPlayerJoinEvent;
-import droiidpelaez.westernproject.Teams.PlayerCore.PlayerUtils;
+import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
+import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
+import droiidpelaez.westernproject.PlayerCore.Listeners.WesternPlayerEvents;
+import droiidpelaez.westernproject.PlayerCore.PlayerUtils;
 import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
 import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
 import droiidpelaez.westernproject.Roles.RoleController;
@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Core extends JavaPlugin {
-    private static HashMap<String, Double> bankList = BankAccountUtils.getBankList();
-    private static HashMap<String, Double> walletList = WalletUtils.getWallets();
+    private static HashMap<String, Double> bankList = Bank.getBankList();
+    private static HashMap<String, Double> walletList = Wallet.getWallets();
     private ConfigManager walletConfig;
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
@@ -47,7 +47,7 @@ public final class Core extends JavaPlugin {
         getCommand("giveGold").setExecutor(new GiveGold());
         getCommand("drop").setExecutor(new DropGold());
 
-        getCommand("wallet").setExecutor(new WalletCommands());
+        getCommand("wallet").setExecutor(new CheckWallet());
         getCommand("withdraw").setExecutor(new Withdraw());
         getCommand("deposit").setExecutor(new Deposit());
 
@@ -66,7 +66,7 @@ public final class Core extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new OnPlayerChat(), this);
 
-        getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(), this);
+        getServer().getPluginManager().registerEvents(new WesternPlayerEvents(), this);
         getServer().getPluginManager().registerEvents(new PlayerListeners(roleController), this);
 
         // === SAVING ===
@@ -114,12 +114,12 @@ public final class Core extends JavaPlugin {
     public void restoreFile(){
         walletConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) walletConfig.playerCFG.get("data."+key);;
-            WalletUtils.setBalance(key, account);
+            Wallet.setBalance(key, account);
         });
         System.out.println("PLayers loaded.");
         bankConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) bankConfig.playerCFG.get("data."+key);
-            BankAccountUtils.setBalance(key, account);
+            Bank.setBalance(key, account);
         });
 
     }

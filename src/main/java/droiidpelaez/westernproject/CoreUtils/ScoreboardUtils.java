@@ -1,8 +1,9 @@
 package droiidpelaez.westernproject.CoreUtils;
 
-import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
-import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
-import droiidpelaez.westernproject.Teams.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.Economy.Utils.Bank;
+import droiidpelaez.westernproject.Economy.Utils.Wallet;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.Teams.Utils.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,32 +11,96 @@ import org.bukkit.scoreboard.*;
 
 public class ScoreboardUtils {
 
-    public static void loadPlayerScoreboard(PlayerCore pCore){
+    public void loadPlayerScoreboard(PlayerCore pCore){
         Player p = pCore.getPlayer();
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard sb = manager.getNewScoreboard();
-        //Title of scoreboard
-        Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GOLD+"Contract Info");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        Score separatorLine = objective.getScore(ChatColor.GRAY+"---------------");
-        Score separatorLine2 = objective.getScore(ChatColor.GRAY+"---------------");
-        Score separatorLine3 = objective.getScore(ChatColor.GRAY+"---------------");
-        Score bankDisplay = objective.getScore(ChatColor.GREEN+"Bank: "+ChatColor.GRAY+ BankAccountUtils.getPlayerFunds(p).toString()+"g");
-        Score walletDisplay = objective.getScore(ChatColor.GREEN+"Wallet: "+ChatColor.GRAY+ WalletUtils.getPlayerFunds(p).toString()+"g");
-
-
-        separatorLine.setScore(7);
-        bankDisplay.setScore(6);
-        walletDisplay.setScore(5);
-        separatorLine2.setScore(4);
-
         if(!PlayerCore.hasPlayer(p)){
-            //error
+            System.out.println("NO PLAYER CORE --> SCOREBOARD SHIT");
         }
-        //PlayerCore targetPlayer = PlayerCore.getCore()
+        //Title of scoreboard
+        if(Team.hasTeam(p.getUniqueId().toString())){
 
+            if(pCore.getPlayerWantedStat()){
+                Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GRAY+Team.getTeam(p).getTeamName()+" " + p.getDisplayName());
+                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+                Score wantedDisplay = objective.getScore(ChatColor.BOLD+""+ ChatColor.DARK_RED+ "< Wanted >");
+                Score separatorLine = objective.getScore(ChatColor.GRAY+"------------==");
+                Score separatorLine2 = objective.getScore(ChatColor.GRAY+"---------==");
+                Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
+                Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
+                Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
+                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
 
-        p.setScoreboard(sb);
+                wantedDisplay.setScore(10);
+                separatorLine.setScore(9);
+                bountyDisplay.setScore(8);
+                separatorLine2.setScore(7);
+                bankDisplay.setScore(6);
+                walletDisplay.setScore(5);
+                separatorLine3.setScore(4);
+                p.setScoreboard(sb);
+            }else{
+                Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GRAY+Team.getTeam(p).getTeamName()+" " + p.getDisplayName());
+                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+                Score separatorLine = objective.getScore(ChatColor.GRAY+"------------==");
+                Score separatorLine2 = objective.getScore(ChatColor.GRAY+"---------==");
+                Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
+                Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
+                Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
+                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+
+                separatorLine.setScore(9);
+                bountyDisplay.setScore(8);
+                separatorLine2.setScore(7);
+                bankDisplay.setScore(6);
+                walletDisplay.setScore(5);
+                separatorLine3.setScore(4);
+                p.setScoreboard(sb);
+            }
+
+        }
+
+        else if(pCore.getPlayerWantedStat()){
+            Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GRAY+p.getDisplayName());
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            Score wantedDisplay = objective.getScore(ChatColor.BOLD+""+ ChatColor.DARK_RED+ "< Wanted >");
+            Score separatorLine = objective.getScore(ChatColor.GRAY+"------------==");
+            Score separatorLine2 = objective.getScore(ChatColor.GRAY+"---------==");
+            Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
+            Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
+            Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
+            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+
+            wantedDisplay.setScore(10);
+            separatorLine.setScore(9);
+            bountyDisplay.setScore(8);
+            separatorLine2.setScore(7);
+            bankDisplay.setScore(6);
+            walletDisplay.setScore(5);
+            separatorLine3.setScore(4);
+            p.setScoreboard(sb);
+        }
+        else{
+            Objective objective = sb.registerNewObjective("Western Project", "dummy", ChatColor.GRAY+p.getDisplayName());
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            Score separatorLine = objective.getScore(ChatColor.GRAY+"------------==");
+            Score separatorLine2 = objective.getScore(ChatColor.GRAY+"---------==");
+            Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
+            Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
+            Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
+            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+
+            separatorLine.setScore(9);
+            bountyDisplay.setScore(8);
+            separatorLine2.setScore(7);
+            bankDisplay.setScore(6);
+            walletDisplay.setScore(5);
+            separatorLine3.setScore(4);
+            //PlayerCore targetPlayer = PlayerCore.getCore()
+            p.setScoreboard(sb);
+        }
+
 
 
     }
