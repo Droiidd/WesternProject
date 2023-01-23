@@ -66,7 +66,7 @@ public final class Core extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new OnPlayerChat(), this);
 
-        getServer().getPluginManager().registerEvents(new WesternPlayerEvents(), this);
+        getServer().getPluginManager().registerEvents(new WesternPlayerEvents(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListeners(roleController), this);
 
         // === SAVING ===

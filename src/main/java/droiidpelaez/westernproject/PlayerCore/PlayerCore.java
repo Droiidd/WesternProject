@@ -76,7 +76,7 @@ public class PlayerCore {
     public Boolean getPlayerCrippleStat(){
         return crippleList.get(p.getUniqueId().toString());
     }
-    public Boolean getPlayerWantedStat(){
+    public Boolean isPlayerWanted(){
         return wantedList.get(p.getUniqueId().toString());
     }
     public Double getPlayerBounty(Player player){

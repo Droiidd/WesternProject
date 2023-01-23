@@ -21,7 +21,7 @@ public class CoreDisplay implements CommandExecutor {
                 p.sendMessage("--- --- ---");
                 p.sendMessage("Bounty: "+pCore.getPlayerBounty(p));
                 p.sendMessage("Bleeding: "+pCore.getPlayerBleedStat());
-                p.sendMessage("Wanted: "+pCore.getPlayerWantedStat());
+                p.sendMessage("Wanted: "+pCore.isPlayerWanted());
                 return true;
             }
             if(args.length != 1){
