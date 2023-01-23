@@ -1,8 +1,8 @@
-package droiidpelaez.westernproject.PlayerCore.Commands;
+package droiidpelaez.westernproject.Teams.PlayerCore.Commands;
 
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.Teams.PlayerCore.PlayerCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

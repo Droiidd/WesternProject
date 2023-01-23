@@ -1,17 +1,15 @@
 package droiidpelaez.westernproject;
 
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Commands.*;
 import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
 import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
 import droiidpelaez.westernproject.Economy.Utils.WalletUtils;
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
-import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
-import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
-import droiidpelaez.westernproject.PlayerCore.Listeners.OnPlayerJoinEvent;
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
-import droiidpelaez.westernproject.PlayerCore.PlayerUtils;
+import droiidpelaez.westernproject.Teams.PlayerCore.Commands.CoreDisplay;
+import droiidpelaez.westernproject.Teams.PlayerCore.Commands.ToggleScoreBoard;
+import droiidpelaez.westernproject.Teams.PlayerCore.Listeners.OnPlayerJoinEvent;
+import droiidpelaez.westernproject.Teams.PlayerCore.PlayerUtils;
 import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
 import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
 import droiidpelaez.westernproject.Roles.RoleController;
@@ -19,11 +17,9 @@ import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
 import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
 import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class Core extends JavaPlugin {

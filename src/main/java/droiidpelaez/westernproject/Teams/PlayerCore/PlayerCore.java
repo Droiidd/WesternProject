@@ -1,8 +1,5 @@
-package droiidpelaez.westernproject.PlayerCore;
+package droiidpelaez.westernproject.Teams.PlayerCore;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

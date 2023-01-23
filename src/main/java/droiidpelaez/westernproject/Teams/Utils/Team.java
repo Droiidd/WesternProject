@@ -1,16 +1,14 @@
 package droiidpelaez.westernproject.Teams.Utils;
 
 import droiidpelaez.westernproject.Core;
+import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.units.qual.A;
 
 import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Team {
     private static List<Team> allTeams = new ArrayList<>();
@@ -33,13 +31,6 @@ public class Team {
         this.teamCapacity = 0;
         //teamsPlayers = new ArrayList<>();
     }
-//    public Team(String teamName,String teamColor, String playerName){
-//        this.teamName = teamName.trim();
-//        this.teamColor = teamColor.trim();
-//        allTeams.add(this);
-//        this.teamCapacity = 0;
-//        addPlayer(playerName);
-//    }
     // ===== Getters =====
     public static List<Team> getAllTeams(){ return allTeams; }
     public static HashMap<String, String> getTeamInfo(){ return teamInfo; }
@@ -53,12 +44,11 @@ public class Team {
     public String getTeamName(){
         return teamName;
     }
+
+    // ==== UTIL METHODS ====
     public static Team getTeam(Player p){
         if(!hasTeam(p.getUniqueId().toString())){return null;}
         return playerTeam.get(p.getUniqueId().toString());
-    }
-    public void removeTeam(Team removedTeam, Player p){
-        allTeams.remove(removedTeam);
     }
     public static boolean isNameAvail(String teamName){
         if(allTeams.size() == 0){
@@ -71,75 +61,99 @@ public class Team {
         }
         return true;
     }
-//    public List<String> getTeamPlayers(){
-//        return this.teamsPlayers;
-//    }
+    public void removeTeam(Team removedTeam, Player p){
+        allTeams.remove(removedTeam);
+
+    }
     public void addPlayer(String pId){
         if(teamCapacity == 0){
             //teamOfficers.put(p.getUniqueId().toString(), ChatColor.RED+"Captain");
             playerTeam.put(pId, this);
             pTeamStringList.put(pId, this.teamName);
-            //teamsPlayers.add(p.getUniqueId().toString());
             teamCapacity++;
         }
         else if(teamCapacity <= 3-1){
             //teamOfficers.put(p.getUniqueId().toString(),ChatColor.GRAY+ "Member");
             playerTeam.put(pId, this);
             pTeamStringList.put(pId, this.teamName);
-            //teamsPlayers.add(p.getUniqueId().toString());
             teamCapacity++;
-
         }
-
-
     }
     public void removePlayer(Player p){
         TeamUtils teamUtils = new TeamUtils(plugin);
         if(hasTeam(p.getUniqueId().toString()) ){
             if(teamCapacity == 1) {
-                p.sendMessage("The team has been disbanded");
+                p.sendMessage( ChatColor.GRAY+ getTeam(p).teamName + ChatColor.DARK_AQUA+ " has been disbanded");
                 teamCapacity--;
                 plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
                 teamInfo.remove(getTeam(p).teamName);
                 playerTeam.remove(p.getUniqueId().toString());
                 removeTeam(getTeam(p), p);
-                //teamsPlayers.remove(p.getUniqueId().toString());
-                //teamOfficers.remove(p.getUniqueId().toString());
             }
             else{
-                p.sendMessage("Successfully left the team");
+                p.sendMessage( ChatColor.DARK_AQUA+"Successfully left the team");
+
+                List<Player> teamPlayerList = getPlayerList(getTeam(p).getTeamName());
+                for(int i = 0;i<teamPlayerList.size();i++){
+                    teamPlayerList.get(i).sendMessage(ChatColor.DARK_AQUA+p.getDisplayName()+ChatColor.GRAY+" has left the crew...");
+                }
+
+
                 plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
-                //teamsPlayers.remove(p.getUniqueId().toString());
-                //teamOfficers.remove(p.getUniqueId().toString());
+
+
+
                 teamCapacity--;
             }
 
         }
     }
+
+    public static List<Player> getPlayerList(String targetTeamName){
+        Iterator hmIterator = pTeamStringList.entrySet().iterator();
+        List<String> targetTeamPlayerList = new ArrayList<>();
+        List<Player> targetTeamPlayers = new ArrayList<>();
+        while(hmIterator.hasNext()){
+            Map.Entry map = (Map.Entry)hmIterator.next();
+            String playerId =(String) map.getKey();
+            String teamName =(String) map.getValue();
+
+            if(teamName.compareTo(targetTeamName)==0){
+                targetTeamPlayerList.add(playerId);
+            }
+        }
+        for (int i=0; i< targetTeamPlayerList.size();i++){
+            Player p = GlobalUtils.getPlayerFromString(targetTeamPlayerList.get(i));
+            if(p == null){
+                System.out.println("Player offline :(");
+            }
+            targetTeamPlayers.add(p);
+        }
+        return targetTeamPlayers;
+    }
+
+    // === Invitational ===
     public static void invitePlayer(Player target, Player p){
         if(hasTeam(target.getUniqueId().toString())){
-            target.sendMessage(ChatColor.YELLOW+"You are already in a team!");
+            target.sendMessage(ChatColor.DARK_AQUA +"You are already in a team!");
         }
         Team proposedTeam = getTeam(p);
         if(!teamInvites.containsKey(target.getUniqueId().toString())){
             teamInvites.put(target.getUniqueId().toString(), p.getUniqueId().toString());
-            target.sendMessage(ChatColor.YELLOW+"You are invited to join, "+ ChatColor.GRAY+proposedTeam.getTeamName());
+            target.sendMessage(ChatColor.DARK_AQUA +"You are invited to join, "+ ChatColor.GRAY+proposedTeam.getTeamName());
         }
         else{
             teamInvites.replace(target.getUniqueId().toString(), p.getUniqueId().toString());
-            target.sendMessage(ChatColor.YELLOW+"You are invited to join, "+ ChatColor.GRAY+proposedTeam.getTeamName());
+            target.sendMessage(ChatColor.DARK_AQUA+"You are invited to join, "+ ChatColor.GRAY+proposedTeam.getTeamName());
         }
 
     }
     public static void acceptInvite(Player invPlayer){
-        if(hasTeam(invPlayer.getUniqueId().toString())){
-            invPlayer.sendMessage(ChatColor.YELLOW+"You are already in a team!");
-        }
         if(!teamInvites.containsKey(invPlayer.getUniqueId().toString())){
-            invPlayer.sendMessage(ChatColor.YELLOW+"You have no pending invites!");
+            invPlayer.sendMessage(ChatColor.GRAY+"You have "+ChatColor.DARK_AQUA+"0"+ChatColor.GRAY+  " pending invites!");
         }
         else{
             UUID playerId = UUID.fromString(teamInvites.get(invPlayer.getUniqueId().toString()));
@@ -147,7 +161,15 @@ public class Team {
             if(inviter == null){ invPlayer.sendMessage(ChatColor.GRAY+"This player is not online."); }
             else{
                 Team proposedTeam = getTeam(inviter);
+                teamInvites.remove(invPlayer.getUniqueId().toString());
                 proposedTeam.addPlayer(invPlayer.getUniqueId().toString());
+                //invPlayer.sendMessage(ChatColor.DARK_AQUA+"Successfully joined "+ChatColor.GRAY+ proposedTeam.getTeamName()+ChatColor.DARK_AQUA+"!");
+                List<Player> teamPlayerList = getPlayerList(getTeam(invPlayer).getTeamName());
+                for(int i = 0;i<teamPlayerList.size();i++){
+                    teamPlayerList.get(i).sendMessage(ChatColor.DARK_AQUA+invPlayer.getDisplayName()+ChatColor.GRAY+" has joined the crew!");
+                }
+
+
             }
         }
     }

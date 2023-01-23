@@ -1,7 +1,6 @@
-package droiidpelaez.westernproject.PlayerCore.Listeners;
+package droiidpelaez.westernproject.Teams.PlayerCore.Listeners;
 
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
-import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
+import droiidpelaez.westernproject.Teams.PlayerCore.PlayerCore;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,9 +1,8 @@
-package droiidpelaez.westernproject.PlayerCore;
+package droiidpelaez.westernproject.Teams.PlayerCore;
 
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
