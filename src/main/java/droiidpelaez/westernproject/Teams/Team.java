@@ -1,15 +1,13 @@
-package droiidpelaez.westernproject.Teams.Utils;
+package droiidpelaez.westernproject.Teams;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
-import java.sql.Array;
 import java.util.*;
 
 public class Team {
@@ -76,7 +74,7 @@ public class Team {
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+                sb.loadBanditScoreboard(target);
             }
             System.out.println("Oops - team add player");
 
@@ -89,7 +87,7 @@ public class Team {
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+                sb.loadBanditScoreboard(target);
             }
             System.out.println("Oops - team add player");
         }
@@ -106,7 +104,7 @@ public class Team {
                 playerTeam.remove(p.getUniqueId().toString());
                 removeTeam(getTeam(p), p);
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+                sb.loadBanditScoreboard(p);
             }
             else{
                 p.sendMessage( ChatColor.DARK_AQUA+"Successfully left the team");
@@ -119,7 +117,7 @@ public class Team {
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+                sb.loadBanditScoreboard(p);
                 teamCapacity--;
             }
 

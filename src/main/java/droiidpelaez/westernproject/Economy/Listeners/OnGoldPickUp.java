@@ -1,7 +1,7 @@
 package droiidpelaez.westernproject.Economy.Listeners;
 
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.Economy.Utils.Wallet;
+import droiidpelaez.westernproject.Economy.Wallet;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

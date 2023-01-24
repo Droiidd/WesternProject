@@ -16,7 +16,7 @@ public class GlobalUtils {
         Player target = GlobalUtils.getPlayerFromString(pId);
         if(target != null){
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(target));
+            sb.loadBanditScoreboard(target);
         }
         System.out.println("Oops - team add player");
     }
@@ -50,7 +50,7 @@ public class GlobalUtils {
 
     public static Player getPlayerFromString(String uuid){
         UUID playerId = UUID.fromString(uuid);
-        Player p = Bukkit.getPlayer(playerId);
+        Player p = (Player) Bukkit.getOfflinePlayer(playerId);
         if(p == null){
             System.out.println(ChatColor.RED+"PLAYER NOT FOUNDN NOT FOUND");
             return null;

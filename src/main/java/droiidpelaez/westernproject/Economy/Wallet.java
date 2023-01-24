@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.Economy.Utils;
+package droiidpelaez.westernproject.Economy;
 
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
@@ -21,7 +21,7 @@ public class Wallet {
         if(walletList.containsKey(p.getUniqueId().toString())){
             walletList.replace(p.getUniqueId().toString(), revenue + walletList.get(p.getUniqueId().toString()));
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+            sb.loadBanditScoreboard(p);
         }
         else{ createWallet(p.getUniqueId().toString()); }
     }
@@ -38,7 +38,7 @@ public class Wallet {
         Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
         walletList.replace(p.getUniqueId().toString(), newBalance);
         ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+        sb.loadBanditScoreboard(p);
     }
     public static Boolean hasAccount(Player player){
         return walletList.containsKey(player.getUniqueId().toString());

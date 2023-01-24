@@ -1,7 +1,7 @@
 package droiidpelaez.westernproject.Economy.Listeners;
 
 import droiidpelaez.westernproject.Economy.Utils.GoldUtils;
-import droiidpelaez.westernproject.Economy.Utils.Wallet;
+import droiidpelaez.westernproject.Economy.Wallet;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

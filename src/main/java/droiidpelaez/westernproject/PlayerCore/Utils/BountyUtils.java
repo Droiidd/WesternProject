@@ -21,15 +21,14 @@ public class BountyUtils {
         count = 0;
     }
 
-    public void startWantedTimer(PlayerCore pCore){
+    public void startWantedTimer(Player p){
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         BukkitScheduler schedular = Bukkit.getServer().getScheduler();
         timerSeconds = 0;
         timerMinutes = 2;
         ScoreboardUtils sbUtils = new ScoreboardUtils();
-        Player p = pCore.getPlayer();
         Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has gone rogue!");
-        p.setPlayerListName( ChatColor.translateAlternateColorCodes('&', "&4&lWanted&r ")+p.getDisplayName());
-        pCore.updateWanted(true);
+        pCore.updateOnlineWanted(p,true);
 
 
 
@@ -42,8 +41,7 @@ public class BountyUtils {
                         timerMinutes--;
                     }
                     //Bukkit.broadcastMessage(timerMinutes.toString()+" "+ timerSeconds.toString());
-
-                    sbUtils.loadWantedScoreboard(pCore, timerMinutes, timerSeconds);
+                    sbUtils.loadWantedScoreboard(p, timerMinutes, timerSeconds);
                     timerSeconds--;
 
                 }
@@ -55,7 +53,7 @@ public class BountyUtils {
             @Override
             public void run() {
                 p.sendMessage("Enough.");
-                pCore.updateWanted(false);
+                pCore.updateOnlineWanted(p,false);
                 Bukkit.getScheduler().cancelTask(id);
             }
         },  2400);

@@ -1,9 +1,9 @@
 package droiidpelaez.westernproject.Roles.Commands;
 
-import droiidpelaez.westernproject.Roles.RoleController;
 import droiidpelaez.westernproject.Roles.Roles;
 import droiidpelaez.westernproject.Roles.RoleUtils;
-import droiidpelaez.westernproject.Teams.Utils.Team;
+import droiidpelaez.westernproject.Roles.Sheriff;
+import droiidpelaez.westernproject.Teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,11 +14,6 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class RoleCommands implements CommandExecutor {
-    private final RoleController roleController;
-
-    public RoleCommands(RoleController roleController) {
-        this.roleController = roleController;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -58,11 +53,12 @@ public class RoleCommands implements CommandExecutor {
                 return true;
             }
             else if(args[0].toLowerCase().compareTo("set") == 0){
-                Player target = Bukkit.getServer().getPlayer(args[1]);
-                //This handles offline players, or misspelled players
-                if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
-                String roleName = args[2];
-                roleController.setPlayerRole(p, roleName);
+//                Player target = Bukkit.getServer().getPlayer(args[1]);
+//                //This handles offline players, or misspelled players
+//                if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
+                Sheriff newSheriff = new Sheriff();
+                newSheriff.addSheriff(p);
+
 
 
 

@@ -3,19 +3,17 @@ package droiidpelaez.westernproject;
 import droiidpelaez.westernproject.Economy.Commands.*;
 import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
-import droiidpelaez.westernproject.Economy.Utils.Bank;
-import droiidpelaez.westernproject.Economy.Utils.Wallet;
+import droiidpelaez.westernproject.Economy.Bank;
+import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
-import droiidpelaez.westernproject.PlayerCore.Listeners.WesternPlayerEvents;
-import droiidpelaez.westernproject.PlayerCore.PlayerUtils;
-import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
-import droiidpelaez.westernproject.Roles.Listeners.PlayerListeners;
-import droiidpelaez.westernproject.Roles.RoleController;
+import droiidpelaez.westernproject.PlayerCore.Listeners.AllChatEvents;
+import droiidpelaez.westernproject.PlayerCore.Listeners.GlobalPlayerEvents;
+import droiidpelaez.westernproject.ConfigFiles.PlayerUtils;
+
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
-import droiidpelaez.westernproject.Teams.Listeners.OnPlayerChat;
-import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
+import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,7 +27,7 @@ public final class Core extends JavaPlugin {
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
     private ConfigManager teamConfig;
-    private RoleController roleController;
+
 
     @Override
     public void onEnable() {
@@ -42,6 +40,7 @@ public final class Core extends JavaPlugin {
         //
 
         // === COMMANDS ===
+        System.out.println(ChatColor.RED+"Registering commands.");
         getCommand("balance").setExecutor(new CheckBalance());
         getCommand("eco").setExecutor(new AdminCommands());
         getCommand("giveGold").setExecutor(new GiveGold());
@@ -53,25 +52,24 @@ public final class Core extends JavaPlugin {
 
         getCommand("team").setExecutor(new TeamCommands(this));
 
-        getCommand("role").setExecutor(new RoleCommands(roleController));
+
 
         getCommand("toggleplayerinfo").setExecutor(new ToggleScoreBoard());
         getCommand("playerinfo").setExecutor(new CoreDisplay());
-        System.out.println("COMMANDS REGISTERED");
+        System.out.println(ChatColor.RED+"COMMANDS REGISTERED");
 
 
         // === EVENTS ===
         getServer().getPluginManager().registerEvents(new OnPlayerDeath(), this);
         getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
 
-        getServer().getPluginManager().registerEvents(new OnPlayerChat(), this);
 
-        getServer().getPluginManager().registerEvents(new WesternPlayerEvents(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerListeners(roleController), this);
+        getServer().getPluginManager().registerEvents(new GlobalPlayerEvents(this), this);
+        getServer().getPluginManager().registerEvents(new AllChatEvents(this), this);
 
         // === SAVING ===
         if(walletConfig.playerCFG.contains("data") && bankConfig.playerCFG.contains("data")){
-            System.out.println(ChatColor.RED+"DATA FOUND");
+            System.out.println(ChatColor.DARK_GREEN+"Loading bank funds");
             restoreFile();
         }
         if(playerSaver.checkPlayerFileData(playerConfig)){
@@ -81,7 +79,6 @@ public final class Core extends JavaPlugin {
             System.out.println("LOADING TEAMS");
             teamSaver.loadTeams(teamConfig);
         }
-        roleController = new RoleController(this);
     }
 
     @Override
@@ -116,11 +113,12 @@ public final class Core extends JavaPlugin {
             Double account = (Double) walletConfig.playerCFG.get("data."+key);;
             Wallet.setBalance(key, account);
         });
-        System.out.println("PLayers loaded.");
+        System.out.println(ChatColor.DARK_GREEN+"Wallets loaded");
         bankConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) bankConfig.playerCFG.get("data."+key);
             Bank.setBalance(key, account);
         });
+        System.out.println(ChatColor.DARK_GREEN+"Bank accounts loaded");
 
     }
     public void removeTeam(String teamName, String playerId){

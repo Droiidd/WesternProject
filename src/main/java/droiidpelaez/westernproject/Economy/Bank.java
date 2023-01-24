@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.Economy.Utils;
+package droiidpelaez.westernproject.Economy;
 
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
 import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
@@ -28,7 +28,7 @@ public class Bank {
             bankList.replace(p.getUniqueId().toString(), revenue + bankList.get(p.getUniqueId().toString()));
             p.sendMessage(ChatColor.GRAY + "$" + revenue + " has been added to your account!");
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+            sb.loadBanditScoreboard(p);
         } else {
             createBankAccount(p);
         }
@@ -49,7 +49,7 @@ public class Bank {
         bankList.replace(p.getUniqueId().toString(), newBalance);
         p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
         ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(PlayerCore.getPlayerCore(p));
+        sb.loadBanditScoreboard(p);
     }
     public static Boolean hasAccount(Player p) {
         return bankList.containsKey(p.getUniqueId().toString());

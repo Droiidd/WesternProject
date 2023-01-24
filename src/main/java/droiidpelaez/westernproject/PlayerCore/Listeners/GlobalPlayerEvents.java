@@ -9,45 +9,42 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitScheduler;
 
 
-public class WesternPlayerEvents implements Listener {
+public class GlobalPlayerEvents implements Listener {
     private final Core plugin;
     Integer count = 0;
-    public WesternPlayerEvents(Core plugin){
+    public GlobalPlayerEvents(Core plugin){
         this.plugin = plugin;
 
     }
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        if (!PlayerCore.hasPlayer(p)) {
-            PlayerCore newPlayer = new PlayerCore(p, false, false, false, 0.0);
+        if (!PlayerCore.hasPlayer(p.getUniqueId().toString())) {
+            PlayerCore newPlayer = new PlayerCore(p.getUniqueId().toString(), false, false, false, 0);
             p.sendMessage("New player added!");
         }
+        //pCore.loadJoiningPlayer();
+
+
     }
 
     @EventHandler
     public void onPlayerChat(PlayerChatEvent e) {
         Player p = e.getPlayer();
-
-        if (!PlayerCore.hasPlayer(p)) {
-            p.sendMessage("no no no.");
-        }
-        PlayerCore pCore = PlayerCore.getPlayerCore(p);
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (pCore.isPlayerWanted()) {
             //make talk wanted
         }
 
-        pCore.updateBounty(10.0);
-        pCore.updateWanted(true);
-        BountyUtils bUtils = new BountyUtils(plugin);
-        bUtils.startWantedTimer(pCore);
+        pCore.updateOnlineBounty(p, 10);
+        //pCore.updateWanted(true);
+        //BountyUtils bUtils = new BountyUtils(plugin);
+       // bUtils.startWantedTimer(pCore);
 
 
     }
@@ -62,13 +59,13 @@ public class WesternPlayerEvents implements Listener {
         }
         Player damager = (Player) e.getDamager();
         Player victim = (Player) e.getEntity();
-        PlayerCore damCore = PlayerCore.getPlayerCore(damager);
-        PlayerCore vicCore = PlayerCore.getPlayerCore(victim);
+        PlayerCore damCore = PlayerCore.getPlayerCore(damager.getUniqueId().toString());
+        PlayerCore vicCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
 
         if (!vicCore.isPlayerWanted()) {
             if(!damCore.isPlayerWanted()){
                 BountyUtils bUtils = new BountyUtils(plugin);
-                bUtils.startWantedTimer(damCore);
+                bUtils.startWantedTimer(damager);
             }
 
         }
@@ -83,13 +80,13 @@ public class WesternPlayerEvents implements Listener {
         Player killer = p.getKiller();
         if (killer == null) {
         }
-        PlayerCore pCore = PlayerCore.getPlayerCore(p);
-        PlayerCore killCore = PlayerCore.getPlayerCore(killer);
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        PlayerCore killCore = PlayerCore.getPlayerCore(killer.getUniqueId().toString());
         if (pCore.isPlayerWanted()) {
-            //DROP PLAYERS BOUNTY HERE
+            pCore.updateOnlineWanted(p,false);
         } else {
             //Was killed by wanted player
-            killCore.updateBounty(500.0);
+            killCore.updateOnlineBounty(p,500);
         }
     }
 
@@ -100,9 +97,9 @@ public class WesternPlayerEvents implements Listener {
         //No player
         }
         p.setPlayerListName( p.getDisplayName());
-        PlayerCore pCore = PlayerCore.getPlayerCore(p);
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (pCore.isPlayerWanted()) {
-            pCore.updateWanted(false);
+            pCore.updateOnlineWanted(p,false);
             for (Player target : Bukkit.getOnlinePlayers()) {
                 target.sendMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
             }

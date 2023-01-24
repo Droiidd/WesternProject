@@ -1,7 +1,8 @@
-package droiidpelaez.westernproject.PlayerCore;
+package droiidpelaez.westernproject.ConfigFiles;
 
 import droiidpelaez.westernproject.CoreUtils.ConfigManager;
 import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class PlayerUtils {
     private static HashMap<String, Boolean> bleedList = PlayerCore.getBleedList();
-    private static HashMap<String, Double> pBountyList = PlayerCore.getPlayerBountyList();
+    private static HashMap<String, Integer> pBountyList = PlayerCore.getPlayerBountyList();
     private static HashMap<String, Boolean> wantedList = PlayerCore.getWantedList();
     private static HashMap<String, Boolean> crippleList = PlayerCore.getCrippleList();
     private static HashMap<String,String> playerList = PlayerCore.getPlayerList();
@@ -27,7 +28,7 @@ public class PlayerUtils {
         for(Map.Entry<String, Boolean> entry : wantedList.entrySet()){
             playerConfig.playerCFG.set("wantedData."+entry.getKey(), entry.getValue());
         }
-        for(Map.Entry<String, Double> entry : pBountyList.entrySet()){
+        for(Map.Entry<String, Integer> entry : pBountyList.entrySet()){
             playerConfig.playerCFG.set("bountyData."+entry.getKey(), entry.getValue());
         }
         for(Map.Entry<String, String> entry : playerList.entrySet()){
@@ -37,6 +38,7 @@ public class PlayerUtils {
     }
 
     public void restorePlayerFile(ConfigManager playerConfig){
+        System.out.println(ChatColor.LIGHT_PURPLE+"Loading all player data.");
         playerConfig.playerCFG.getConfigurationSection("bloodData").getKeys(false).forEach(key ->{
             Boolean bloodStat = (Boolean) playerConfig.playerCFG.get("bloodData."+key);
 
@@ -53,29 +55,25 @@ public class PlayerUtils {
             wantedList.put(key, wantedStat);
         });
         playerConfig.playerCFG.getConfigurationSection("bountyData").getKeys(false).forEach(key -> {
-            Double bounty = (Double) playerConfig.playerCFG.get("bountyData."+key);
-            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ bounty);
+            Integer bounty = (Integer) playerConfig.playerCFG.get("bountyData."+key);
+            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ChatColor.RESET+ bounty);
             pBountyList.put(key, bounty);
+            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ChatColor.RESET+ bounty);
         });
         playerConfig.playerCFG.getConfigurationSection("playerData").getKeys(false).forEach(key -> {
             String playerId = (String) playerConfig.playerCFG.get("playerData."+key);
-            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ playerId);
+            System.out.println(ChatColor.GOLD+"PLAYER INFO: "+key +" "+ChatColor.WHITE+ playerId);
             playerList.put(key, playerId);
             playerUuid.add(playerId);
         });
 
         for (int i =0;i<playerUuid.size();i++) {
             System.out.println("Loading player ID: " + playerUuid.get(i));
-            Player player = GlobalUtils.getPlayerFromString(playerUuid.get(i));
-            System.out.println("Player loaded!");
-            if(player != null){
-                System.out.println("Making player core...");
-                PlayerCore pCore = new PlayerCore(player,bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),
-                        wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
+            System.out.println("Making player core...");
+                //PlayerCore pCore = new PlayerCore(playerUuid.get(i),bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),
+                  //      wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
+                PlayerCore newCore = new PlayerCore(playerUuid.get(i),bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
                 System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
-
-            }
-            System.out.println(ChatColor.LIGHT_PURPLE+"Player offline.");
 
         }
     }
@@ -90,10 +88,26 @@ public class PlayerUtils {
         if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
                 && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")
                 && playerConfig.playerCFG.contains("playerData")){
-            System.out.println(ChatColor.RED+"DATA FOUND!!");
+            System.out.println(ChatColor.LIGHT_PURPLE+"Loading player data file");
             return true;
         }
         return false;
+    }
+    public void loadJoiningPlayerCore(){
+        for (int i =0;i<playerUuid.size();i++) {
+            System.out.println("Loading player ID: " + playerUuid.get(i));
+            Player player = GlobalUtils.getPlayerFromString(playerUuid.get(i));
+            System.out.println("Player loaded!");
+            if(player != null){
+                System.out.println("Making player core...");
+                PlayerCore pCore = new PlayerCore(player.getUniqueId().toString(),bleedList.get(playerUuid.get(i)),crippleList.get(playerUuid.get(i)),
+                        wantedList.get(playerUuid.get(i)),pBountyList.get(playerUuid.get(i)));
+                System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
+
+            }
+            System.out.println(ChatColor.LIGHT_PURPLE+"Player offline.");
+
+        }
     }
 
 

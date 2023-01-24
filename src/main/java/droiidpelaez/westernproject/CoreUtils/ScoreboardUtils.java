@@ -1,9 +1,9 @@
 package droiidpelaez.westernproject.CoreUtils;
 
-import droiidpelaez.westernproject.Economy.Utils.Bank;
-import droiidpelaez.westernproject.Economy.Utils.Wallet;
+import droiidpelaez.westernproject.Economy.Bank;
+import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
-import droiidpelaez.westernproject.Teams.Utils.Team;
+import droiidpelaez.westernproject.Teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class ScoreboardUtils {
 
         sb.registerNewTeam("Wanted").setPrefix("Wanted");
         sb.getTeam("Wanted").setColor(ChatColor.RED);
-        PlayerCore pCore = PlayerCore.getPlayerCore(p);
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if(pCore.isPlayerWanted()){
             sb.getTeam("Wanted").addPlayer(p);
             //sb.getTeam("Wanted").se
@@ -27,11 +27,11 @@ public class ScoreboardUtils {
 
 
     }
-    public void loadWantedScoreboard(PlayerCore pCore, Integer minuteHand, Integer seconds){
-        Player p = pCore.getPlayer();
+    public void loadWantedScoreboard(Player p, Integer minuteHand, Integer seconds){
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard sb = manager.getNewScoreboard();
-        if(!PlayerCore.hasPlayer(p)){
+        if(!PlayerCore.hasPlayer(p.getUniqueId().toString())){
             System.out.println("NO PLAYER CORE --> SCOREBOARD SHIT");
         }
         //for case 5:00 (Double zero)
@@ -91,7 +91,7 @@ public class ScoreboardUtils {
                 Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
                 Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
                 Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
                 wantedDisplay.setScore(10);
                 separatorLine.setScore(9);
@@ -113,7 +113,7 @@ public class ScoreboardUtils {
             Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
             Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
             Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
             wantedDisplay.setScore(10);
             separatorLine.setScore(9);
@@ -128,11 +128,11 @@ public class ScoreboardUtils {
     }
 
 
-    public void loadPlayerScoreboard(PlayerCore pCore){
-        Player p = pCore.getPlayer();
+    public void loadBanditScoreboard(Player p){
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard sb = manager.getNewScoreboard();
-        if(!PlayerCore.hasPlayer(p)){
+        if(!PlayerCore.hasPlayer(p.getUniqueId().toString())){
             System.out.println("NO PLAYER CORE --> SCOREBOARD SHIT");
         }
         //Title of scoreboard
@@ -147,7 +147,7 @@ public class ScoreboardUtils {
                 Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
                 Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
                 Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
                 wantedDisplay.setScore(10);
                 separatorLine.setScore(9);
@@ -165,7 +165,7 @@ public class ScoreboardUtils {
                 Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
                 Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
                 Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+                Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
                 separatorLine.setScore(9);
                 bountyDisplay.setScore(8);
@@ -187,7 +187,7 @@ public class ScoreboardUtils {
             Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
             Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
             Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
             wantedDisplay.setScore(10);
             separatorLine.setScore(9);
@@ -206,7 +206,7 @@ public class ScoreboardUtils {
             Score separatorLine3 = objective.getScore(ChatColor.GRAY+"------==");
             Score bankDisplay = objective.getScore(ChatColor.DARK_GREEN+"Bank: "+ChatColor.GRAY+ Bank.getPlayerFunds(p).toString()+"g");
             Score walletDisplay = objective.getScore(ChatColor.DARK_GREEN+"Wallet: "+ChatColor.GRAY+ Wallet.getPlayerFunds(p).toString()+"g");
-            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty(p));
+            Score bountyDisplay = objective.getScore(ChatColor.RED+"Bounty: "+ pCore.getPlayerBounty());
 
             separatorLine.setScore(9);
             bountyDisplay.setScore(8);
