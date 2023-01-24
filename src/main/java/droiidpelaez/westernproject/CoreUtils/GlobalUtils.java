@@ -2,10 +2,15 @@ package droiidpelaez.westernproject.CoreUtils;
 
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.Roles.Roles;
+import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +21,7 @@ public class GlobalUtils {
         Player target = GlobalUtils.getPlayerFromString(pId);
         if(target != null){
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadBanditScoreboard(target);
+            sb.loadPlayerScoreboard(target);
         }
         System.out.println("Oops - team add player");
     }
@@ -56,6 +61,22 @@ public class GlobalUtils {
             return null;
         }
         return p;
+    }
+    public static void loadPlayerNameTags(Player p){
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard sb = manager.getNewScoreboard();
+
+        if(Sheriff.isSheriff(p.getUniqueId().toString())){
+            Objective objective = sb.registerNewObjective("Bandit", "dummy", ChatColor.GOLD+ ""+ChatColor.BOLD+"Sheriff");
+            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            p.setScoreboard(sb);
+            p.sendMessage("You a sheruiff");
+        }else{
+            Objective objective = sb.registerNewObjective("Bandit", "dummy", ChatColor.GRAY+ ""+ChatColor.BOLD+"Bandit");
+            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            p.setScoreboard(sb);
+            p.sendMessage("you a bandit");
+        }
     }
 
 

@@ -63,7 +63,6 @@ public class Team {
     }
     public void removeTeam(Team removedTeam, Player p){
         allTeams.remove(removedTeam);
-
     }
     public void addPlayer(String pId){
         if(teamCapacity == 0){
@@ -74,7 +73,7 @@ public class Team {
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadBanditScoreboard(target);
+                sb.loadPlayerScoreboard(target);
             }
             System.out.println("Oops - team add player");
 
@@ -87,7 +86,7 @@ public class Team {
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadBanditScoreboard(target);
+                sb.loadPlayerScoreboard(target);
             }
             System.out.println("Oops - team add player");
         }
@@ -104,7 +103,7 @@ public class Team {
                 playerTeam.remove(p.getUniqueId().toString());
                 removeTeam(getTeam(p), p);
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadBanditScoreboard(p);
+                sb.loadPlayerScoreboard(p);
             }
             else{
                 p.sendMessage( ChatColor.DARK_AQUA+"Successfully left the team");
@@ -117,7 +116,7 @@ public class Team {
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
                 ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadBanditScoreboard(p);
+                sb.loadPlayerScoreboard(p);
                 teamCapacity--;
             }
 

@@ -21,7 +21,7 @@ public class Wallet {
         if(walletList.containsKey(p.getUniqueId().toString())){
             walletList.replace(p.getUniqueId().toString(), revenue + walletList.get(p.getUniqueId().toString()));
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadBanditScoreboard(p);
+            sb.loadPlayerScoreboard(p);
         }
         else{ createWallet(p.getUniqueId().toString()); }
     }
@@ -38,7 +38,7 @@ public class Wallet {
         Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
         walletList.replace(p.getUniqueId().toString(), newBalance);
         ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadBanditScoreboard(p);
+        sb.loadPlayerScoreboard(p);
     }
     public static Boolean hasAccount(Player player){
         return walletList.containsKey(player.getUniqueId().toString());

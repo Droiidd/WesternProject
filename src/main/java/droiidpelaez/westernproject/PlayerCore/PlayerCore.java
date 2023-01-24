@@ -46,20 +46,6 @@ public class PlayerCore {
         playersCoreList.put(pId, this);
         playerUUIDList.put(pId,pId);
     }
-    public void updatePlayerCore(Player p, Boolean bleeding, Boolean crippled, Boolean wanted, Integer bounty ){
-        bleedList.replace(p.getUniqueId().toString(), bleeding);
-        crippleList.replace(p.getUniqueId().toString(), crippled);
-        wantedList.replace(p.getUniqueId().toString(), wanted);
-        playerBountyList.replace(p.getUniqueId().toString(), bounty);
-        playerUUIDList.replace(p.getUniqueId().toString(), p.getUniqueId().toString());
-    }
-    public static void loadPlayerCores(String id, Boolean bleed, Boolean cripple, Boolean wanted, Integer bounty){
-        bleedList.put(id, bleed);
-        crippleList.put(id, cripple);
-        wantedList.put(id, wanted);
-        playerBountyList.put(id, bounty);
-        playerUUIDList.put(id, id);
-    }
     public List<PlayerCore> getPlayerCoreList(){
         return allPlayerCores;
     }
@@ -69,10 +55,6 @@ public class PlayerCore {
     public static PlayerCore getPlayerCore(String playerId){
         return playersCoreList.get(playerId);
     }
-
-//    public Player getPlayer(){
-//        return p;
-//    }
     public Boolean getPlayerBleedStat(){
         return bleedList.get(pId);
     }
@@ -91,13 +73,12 @@ public class PlayerCore {
     public void updateCripple(Boolean newStat){
         crippleList.replace(pId, newStat);
     }
-    public void updateWantedd(Boolean newStat){
+    public void updateWanted(Boolean newStat){
         wantedList.replace(pId, newStat);
     }
-    public void updateBountyy(Integer newStat){
+    public void updateBounty(Integer newStat){
         Integer newBounty = getPlayerBounty()+ newStat;
         playerBountyList.replace(pId,newBounty);
-
     }
     public void updateOnlineWanted(Player p,Boolean newStat){
         if(newStat){
@@ -108,13 +89,13 @@ public class PlayerCore {
         }
         wantedList.replace(p.getUniqueId().toString(), newStat);
         ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadBanditScoreboard(p);
+        sb.loadPlayerScoreboard(p);
     }
     public void updateOnlineBounty(Player p,Integer bountyInc){
         bountyInc += playerBountyList.get(p.getUniqueId().toString());
         playerBountyList.replace(p.getUniqueId().toString(), bountyInc);
         ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadBanditScoreboard(p);
+        sb.loadPlayerScoreboard(p);
     }
 
 }

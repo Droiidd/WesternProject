@@ -15,7 +15,7 @@ public class ToggleScoreBoard implements CommandExecutor {
 
             //Title of scoreboard
             ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadBanditScoreboard(p);
+            sb.loadPlayerScoreboard(p);
             //PlayerCore targetPlayer = PlayerCore.getCore()
         }
 

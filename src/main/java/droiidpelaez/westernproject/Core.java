@@ -12,10 +12,18 @@ import droiidpelaez.westernproject.PlayerCore.Listeners.AllChatEvents;
 import droiidpelaez.westernproject.PlayerCore.Listeners.GlobalPlayerEvents;
 import droiidpelaez.westernproject.ConfigFiles.PlayerUtils;
 
+import droiidpelaez.westernproject.Roles.Sheriff;
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
 import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
+import droiidpelaez.westernproject.Teams.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -150,6 +158,8 @@ public final class Core extends JavaPlugin {
         teamConfig.setup("teamInfo");
 
     }
+
+
 
     }
 
