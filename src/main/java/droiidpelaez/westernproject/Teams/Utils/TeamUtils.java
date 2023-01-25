@@ -1,7 +1,7 @@
-package droiidpelaez.westernproject.ConfigFiles;
+package droiidpelaez.westernproject.Teams.Utils;
 
 import droiidpelaez.westernproject.Core;
-import droiidpelaez.westernproject.CoreUtils.ConfigManager;
+import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.Teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -80,7 +80,6 @@ public class TeamUtils {
                     System.out.println("Player loaded into team");
                 }
             }
-            System.out.println(map.getKey() + " ::: " + map.getValue());
         }
         System.out.println(ChatColor.DARK_AQUA +"TEAMS CREATED");
     }

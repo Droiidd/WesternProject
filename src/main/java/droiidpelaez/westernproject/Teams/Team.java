@@ -1,9 +1,8 @@
 package droiidpelaez.westernproject.Teams;
 
 import droiidpelaez.westernproject.Core;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
-import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -61,7 +60,7 @@ public class Team {
         }
         return true;
     }
-    public void removeTeam(Team removedTeam, Player p){
+    public void removeTeam(Team removedTeam){
         allTeams.remove(removedTeam);
     }
     public void addPlayer(String pId){
@@ -75,7 +74,7 @@ public class Team {
                 ScoreboardUtils sb = new ScoreboardUtils();
                 sb.loadPlayerScoreboard(target);
             }
-            System.out.println("Oops - team add player");
+            System.out.println("Oops -> team add player");
 
         }
         else if(teamCapacity <= 3-1){
@@ -92,7 +91,6 @@ public class Team {
         }
     }
     public void removePlayer(Player p){
-        TeamUtils teamUtils = new TeamUtils(plugin);
         if(hasTeam(p.getUniqueId().toString()) ){
             if(teamCapacity == 1) {
                 p.sendMessage( ChatColor.GRAY+ getTeam(p).teamName + ChatColor.DARK_AQUA+ " has been disbanded");
@@ -101,7 +99,7 @@ public class Team {
                 pTeamStringList.remove(p.getUniqueId().toString());
                 teamInfo.remove(getTeam(p).teamName);
                 playerTeam.remove(p.getUniqueId().toString());
-                removeTeam(getTeam(p), p);
+                removeTeam(getTeam(p));
                 ScoreboardUtils sb = new ScoreboardUtils();
                 sb.loadPlayerScoreboard(p);
             }

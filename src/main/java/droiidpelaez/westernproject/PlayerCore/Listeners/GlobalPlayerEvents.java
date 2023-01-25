@@ -1,8 +1,8 @@
 package droiidpelaez.westernproject.PlayerCore.Listeners;
 
 import droiidpelaez.westernproject.Core;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.PlayerCore.Utils.BountyUtils;
 import droiidpelaez.westernproject.Roles.Sheriff;
@@ -15,10 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 
 public class GlobalPlayerEvents implements Listener {
@@ -38,6 +34,10 @@ public class GlobalPlayerEvents implements Listener {
             p.sendMessage("New player added!");
         }
         GlobalUtils.loadPlayerNameTags(p);
+        if(Sheriff.isSheriff(p.getUniqueId().toString())){
+            Sheriff pSheriff = Sheriff.getSheriff(p.getUniqueId().toString());
+            pSheriff.loadOnlineSheriff(p);
+        }
 
         //pCore.loadJoiningPlayer();
 

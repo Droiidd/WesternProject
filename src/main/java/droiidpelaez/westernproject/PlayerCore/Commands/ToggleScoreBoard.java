@@ -1,7 +1,6 @@
 package droiidpelaez.westernproject.PlayerCore.Commands;
 
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,5 @@
-package droiidpelaez.westernproject.CoreUtils;
+package droiidpelaez.westernproject.UtilCore;
 
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
-import droiidpelaez.westernproject.Roles.Roles;
 import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,8 +10,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class GlobalUtils {

@@ -1,7 +1,7 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
 import droiidpelaez.westernproject.Economy.Bank;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Wallet;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

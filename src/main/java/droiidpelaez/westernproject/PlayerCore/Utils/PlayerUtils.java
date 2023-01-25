@@ -1,8 +1,10 @@
-package droiidpelaez.westernproject.ConfigFiles;
+package droiidpelaez.westernproject.PlayerCore.Utils;
 
-import droiidpelaez.westernproject.CoreUtils.ConfigManager;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.Core;
+import droiidpelaez.westernproject.UtilCore.ConfigManager;
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -17,7 +19,14 @@ public class PlayerUtils {
     private static HashMap<String, Boolean> wantedList = PlayerCore.getWantedList();
     private static HashMap<String, Boolean> crippleList = PlayerCore.getCrippleList();
     private static HashMap<String,String> playerList = PlayerCore.getPlayerList();
+    private static HashMap<String,String> sheriffList = Sheriff.getSheriffPlayerList();
     private List<String> playerUuid = new ArrayList<>();
+    private Core plugin;
+
+    public PlayerUtils(Core plugin){
+        this.plugin = plugin;
+    }
+
     public void savePlayerFile(ConfigManager playerConfig){
         for(Map.Entry<String, Boolean> entry : bleedList.entrySet()){
             playerConfig.playerCFG.set("bloodData."+entry.getKey(), entry.getValue());
@@ -33,6 +42,9 @@ public class PlayerUtils {
         }
         for(Map.Entry<String, String> entry : playerList.entrySet()){
             playerConfig.playerCFG.set("playerData."+entry.getKey(), entry.getValue());
+        }
+        for(Map.Entry<String, String> entry : sheriffList.entrySet()){
+            playerConfig.playerCFG.set("sheriffData."+entry.getKey(), entry.getValue());
         }
         playerConfig.savePlayers();
     }
@@ -66,6 +78,16 @@ public class PlayerUtils {
             playerList.put(key, playerId);
             playerUuid.add(playerId);
         });
+        playerConfig.playerCFG.getConfigurationSection("sheriffData").getKeys(false).forEach(key -> {
+            System.out.println("SHERIFF DATA:");
+            String pName = (String) playerConfig.playerCFG.get("sheriffData."+key);
+            System.out.println(key + "SHeriff" + pName);
+
+            System.out.println(ChatColor.GOLD+"Creating new sheriff");
+
+            Sheriff newSheriff = new Sheriff(key, pName, plugin);
+            System.out.println(ChatColor.GREEN+"SHERRIF CREATED!");
+        });
 
         for (int i =0;i<playerUuid.size();i++) {
             System.out.println("Loading player ID: " + playerUuid.get(i));
@@ -76,6 +98,9 @@ public class PlayerUtils {
                 System.out.println(ChatColor.LIGHT_PURPLE+"PLAYER LOADED!");
 
         }
+
+
+
     }
 
     public boolean checkPlayerMaps(){

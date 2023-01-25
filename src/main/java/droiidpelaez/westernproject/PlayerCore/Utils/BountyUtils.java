@@ -1,14 +1,12 @@
 package droiidpelaez.westernproject.PlayerCore.Utils;
 
 import droiidpelaez.westernproject.Core;
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.Timer;
 
 public class BountyUtils {
     private final Core plugin;

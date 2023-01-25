@@ -2,9 +2,8 @@ package droiidpelaez.westernproject.Teams.Commands;
 
 import droiidpelaez.westernproject.Core;
 
-import droiidpelaez.westernproject.Roles.Sheriff;
 import droiidpelaez.westernproject.Teams.Team;
-import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
+import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -78,7 +77,7 @@ public class TeamCommands implements CommandExecutor {
                     return true;
                 }
                 Team playersTeam = Team.getTeam(p);
-                playersTeam.removeTeam(playersTeam,p);
+                playersTeam.removeTeam(playersTeam);
                 p.sendMessage(ChatColor.DARK_AQUA+"Team "+ChatColor.GRAY+ playersTeam.getTeamName()+ChatColor.DARK_AQUA+" deleted.");
                 return true;
             }
@@ -194,8 +193,7 @@ public class TeamCommands implements CommandExecutor {
                 p.sendMessage(ChatColor.GRAY+"-> Use "+ChatColor.DARK_AQUA+"/team info"+ChatColor.GRAY+" to view your team info");
                 p.sendMessage(ChatColor.GRAY+"-> Use "+ChatColor.DARK_AQUA+"/team info {user}"+ChatColor.GRAY+" to view");
                 p.sendMessage(ChatColor.GRAY+"   another players team.");
-                Sheriff newSheriff = new Sheriff();
-                newSheriff.addSheriff(p);
+
             }
             // ===== LAST ONE =====
             else {

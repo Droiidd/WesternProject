@@ -1,7 +1,6 @@
 package droiidpelaez.westernproject.PlayerCore;
 
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

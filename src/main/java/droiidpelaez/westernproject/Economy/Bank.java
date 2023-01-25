@@ -1,8 +1,7 @@
 package droiidpelaez.westernproject.Economy;
 
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
-import droiidpelaez.westernproject.CoreUtils.ScoreboardUtils;
-import droiidpelaez.westernproject.PlayerCore.PlayerCore;
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

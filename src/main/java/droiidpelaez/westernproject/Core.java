@@ -5,25 +5,18 @@ import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
-import droiidpelaez.westernproject.CoreUtils.ConfigManager;
+import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
 import droiidpelaez.westernproject.PlayerCore.Listeners.AllChatEvents;
 import droiidpelaez.westernproject.PlayerCore.Listeners.GlobalPlayerEvents;
-import droiidpelaez.westernproject.ConfigFiles.PlayerUtils;
+import droiidpelaez.westernproject.PlayerCore.Utils.PlayerUtils;
 
-import droiidpelaez.westernproject.Roles.Sheriff;
+import droiidpelaez.westernproject.Roles.Commands.RoleCommands;
 import droiidpelaez.westernproject.Teams.Commands.TeamCommands;
-import droiidpelaez.westernproject.ConfigFiles.TeamUtils;
-import droiidpelaez.westernproject.Teams.Team;
-import org.bukkit.Bukkit;
+import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +35,7 @@ public final class Core extends JavaPlugin {
         System.out.println("HEY WE STARTED");
         loadConfigManager();
         saveDefaultConfig();
-        PlayerUtils playerSaver = new PlayerUtils();
+        PlayerUtils playerSaver = new PlayerUtils(this);
         TeamUtils teamSaver = new TeamUtils(this);
 
         //
@@ -59,8 +52,7 @@ public final class Core extends JavaPlugin {
         getCommand("deposit").setExecutor(new Deposit());
 
         getCommand("team").setExecutor(new TeamCommands(this));
-
-
+        getCommand("role").setExecutor(new RoleCommands(this));
 
         getCommand("toggleplayerinfo").setExecutor(new ToggleScoreBoard());
         getCommand("playerinfo").setExecutor(new CoreDisplay());
@@ -92,7 +84,7 @@ public final class Core extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        PlayerUtils playerSaver = new PlayerUtils();
+        PlayerUtils playerSaver = new PlayerUtils(this);
         TeamUtils teamSaver = new TeamUtils(this);
         if(!bankList.isEmpty() && !walletList.isEmpty()){
             //saveDoubleFile(bankAccounts,bankList);
@@ -140,9 +132,20 @@ public final class Core extends JavaPlugin {
             teamConfig.savePlayers();
             System.out.println(ChatColor.AQUA+"DATA SAVED");
         }
+    }
 
+    public void removeSheriff(String playerId){
+        System.out.println("SHERIFF ID"+playerId);
+        if(playerConfig.playerCFG.contains("sheriffData."+playerId)){
+            System.out.println("FOUND PLAYER ON FILE");
+            playerConfig.playerCFG.set("sheriffData."+playerId, null);
+            playerConfig.savePlayers();
+            System.out.println("SHERIFF REMOVED");
+        }
 
     }
+
+
     public void loadConfigManager(){
         //wallets
         walletConfig = new ConfigManager();
