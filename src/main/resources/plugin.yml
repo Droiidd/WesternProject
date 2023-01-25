@@ -5,6 +5,7 @@ api-version: 1.19
 authors: [ Droiid ]
 description: A collage of minecraft plugins for a western themed minecraft server
 commands:
+  skully:
   eco:
   playerinfo:
   toggleplayerinfo:

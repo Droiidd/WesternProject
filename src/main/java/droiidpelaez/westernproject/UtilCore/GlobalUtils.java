@@ -3,14 +3,18 @@ package droiidpelaez.westernproject.UtilCore;
 import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class GlobalUtils {
     public static void loadPidScoreboard(String pId){
@@ -73,6 +77,19 @@ public class GlobalUtils {
             p.setScoreboard(sb);
             p.sendMessage("you a bandit");
         }
+    }
+    public static ItemStack getPlayerHead(String player, Double headValue){
+
+        boolean isNewVersion = Arrays.stream(Material.values())
+                .map(Material :: name).collect(Collectors.toList()).contains("PLAYER_HEAD");
+        Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
+        ItemStack item = new ItemStack(type, 1);
+
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwner(player);
+        meta.setDisplayName(headValue+"g");
+        item.setItemMeta(meta);
+        return item;
     }
 
 

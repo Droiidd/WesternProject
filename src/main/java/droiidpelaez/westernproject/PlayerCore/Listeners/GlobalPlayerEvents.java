@@ -8,6 +8,7 @@ import droiidpelaez.westernproject.PlayerCore.Utils.BountyUtils;
 import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 public class GlobalPlayerEvents implements Listener {
@@ -24,6 +26,28 @@ public class GlobalPlayerEvents implements Listener {
     public GlobalPlayerEvents(Core plugin) {
         this.plugin = plugin;
 
+    }
+    @EventHandler
+    public void dropPlayerHead(PlayerDeathEvent e){
+        Player victim = e.getEntity();
+
+        PlayerCore pCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
+        if(Sheriff.isSheriff(victim.getUniqueId().toString())){
+            ItemStack pHead = GlobalUtils.getPlayerHead(victim.getDisplayName(), 1000.0);
+            victim.getInventory().addItem(pHead);
+        }
+        else if(pCore.isPlayerWanted()){
+            Integer bounty = pCore.getPlayerBounty()/2;
+            Double headValue = bounty.doubleValue();
+            ItemStack pHead =GlobalUtils.getPlayerHead(victim.getDisplayName(), headValue);
+            victim.getInventory().addItem(pHead);
+        }
+        else if(pCore.getPlayerBounty() > 100){
+            Integer bounty = pCore.getPlayerBounty()/10;
+            Double headValue = bounty.doubleValue();
+            ItemStack pHead =GlobalUtils.getPlayerHead(victim.getDisplayName(), headValue);
+            victim.getInventory().addItem(pHead);
+        }
     }
 
     @EventHandler
