@@ -12,19 +12,6 @@ import org.bukkit.scoreboard.*;
 import org.checkerframework.checker.units.qual.C;
 
 public class ScoreboardUtils {
-
-    //    public void loadPlayerPrefixes(Player p){
-//        ScoreboardManager manager = Bukkit.getScoreboardManager();
-//        Scoreboard sb = manager.getNewScoreboard();
-//
-//        sb.registerNewTeam("Wanted").setPrefix("Wanted");
-//        sb.getTeam("Wanted").setColor(ChatColor.RED);
-//        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-//        if(pCore.isPlayerWanted()){
-//            sb.getTeam("Wanted").addPlayer(p);
-//            //sb.getTeam("Wanted").se
-//        }
-//    }
     public void loadPlayerScoreboard(Player p) {
         if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             loadSheriffScoreboard(p);

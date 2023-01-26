@@ -17,6 +17,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 
 public class GlobalPlayerEvents implements Listener {
@@ -32,11 +36,10 @@ public class GlobalPlayerEvents implements Listener {
         Player victim = e.getEntity();
         Player killer = victim.getKiller();
         if(killer == null){
-
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
         if(Sheriff.isSheriff(victim.getUniqueId().toString())){
-            ItemStack pHead = GlobalUtils.getPlayerHead(victim.getDisplayName(), 1000.0);
+            ItemStack pHead = GlobalUtils.getPlayerHead(ChatColor.GOLD+""+ChatColor.BOLD+"Sheriff "+ victim.getDisplayName(), 1000.0);
             victim.getInventory().addItem(pHead);
         }
         else if(pCore.isPlayerWanted()){
@@ -65,11 +68,11 @@ public class GlobalPlayerEvents implements Listener {
             PlayerCore newPlayer = new PlayerCore(p.getUniqueId().toString(), false, false, false, 0);
             p.sendMessage("New player added!");
         }
-        GlobalUtils.loadPlayerNameTags(p);
         if(Sheriff.isSheriff(p.getUniqueId().toString())){
             Sheriff pSheriff = Sheriff.getSheriff(p.getUniqueId().toString());
             pSheriff.loadOnlineSheriff(p);
         }
+        GlobalUtils.loadPlayerStatsDisplay(p);
 
     }
 
@@ -81,6 +84,7 @@ public class GlobalPlayerEvents implements Listener {
             //make talk wanted
         }
         pCore.updateOnlineBounty(p, 10);
+
            }
 
     @EventHandler
