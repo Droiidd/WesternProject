@@ -1,7 +1,6 @@
 package droiidpelaez.westernproject.PlayerCore;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import droiidpelaez.westernproject.CoreUtils.GlobalUtils;
+import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -15,9 +14,9 @@ public class PlayerCore {
     private static HashMap<String, Boolean> bleedList = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> crippleList = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> wantedList = new HashMap<String, Boolean>();
-    private static HashMap<String, Double> playerBountyList = new HashMap<String, Double>();
+    private static HashMap<String, Integer> playerBountyList = new HashMap<String, Integer>();
     private  static HashMap<String, String> playerUUIDList = new HashMap<>();
-    private Player p;
+    private String pId;
 
 
     public static HashMap<String, Boolean> getBleedList(){
@@ -26,7 +25,7 @@ public class PlayerCore {
     public static HashMap<String, String> getPlayerList(){
         return playerUUIDList;
     }
-    public static HashMap<String, Double> getPlayerBountyList(){
+    public static HashMap<String, Integer> getPlayerBountyList(){
         return playerBountyList;
     }
     public static HashMap<String, Boolean> getCrippleList(){
@@ -36,66 +35,66 @@ public class PlayerCore {
         return wantedList;
     }
 
-    public PlayerCore(Player p, Boolean bleeding, Boolean crippled, Boolean wanted, Double bounty) {
+    public PlayerCore(String pId, Boolean bleeding, Boolean crippled, Boolean wanted, Integer bounty) {
         allPlayerCores.add(this);
-        this.p = p;
-        bleedList.put(p.getUniqueId().toString(), bleeding);
-        crippleList.put(p.getUniqueId().toString(), crippled);
-        wantedList.put(p.getUniqueId().toString(), wanted);
-        playerBountyList.put(p.getUniqueId().toString(), bounty);
-        playersCoreList.put(p.getUniqueId().toString(), this);
-        playerUUIDList.put(p.getUniqueId().toString(), p.getUniqueId().toString());
-    }
-    public void updatePlayerCore(Player p, Boolean bleeding, Boolean crippled, Boolean wanted, Double bounty ){
-        bleedList.replace(p.getUniqueId().toString(), bleeding);
-        crippleList.replace(p.getUniqueId().toString(), crippled);
-        wantedList.replace(p.getUniqueId().toString(), wanted);
-        playerBountyList.replace(p.getUniqueId().toString(), bounty);
-        playerUUIDList.replace(p.getUniqueId().toString(), p.getUniqueId().toString());
-    }
-    public static void loadPlayerCores(String id, Boolean bleed, Boolean cripple, Boolean wanted, Double bounty){
-        bleedList.put(id, bleed);
-        crippleList.put(id, cripple);
-        wantedList.put(id, wanted);
-        playerBountyList.put(id, bounty);
-        playerUUIDList.put(id, id);
+        this.pId = pId;
+        bleedList.put(pId, bleeding);
+        crippleList.put(pId, crippled);
+        wantedList.put(pId, wanted);
+        playerBountyList.put(pId, bounty);
+        playersCoreList.put(pId, this);
+        playerUUIDList.put(pId,pId);
     }
     public List<PlayerCore> getPlayerCoreList(){
         return allPlayerCores;
     }
-    public static Boolean hasPlayer(Player player){
-        return playerBountyList.containsKey(player.getUniqueId().toString());
+    public static Boolean hasPlayer(String playerId){
+        return playerBountyList.containsKey(playerId);
     }
-    public static PlayerCore getPlayerCore(Player player){
-        return playersCoreList.get(player.getUniqueId().toString());
-    }
-    public Player getPlayer(){
-        return p;
+    public static PlayerCore getPlayerCore(String playerId){
+        return playersCoreList.get(playerId);
     }
     public Boolean getPlayerBleedStat(){
-        return bleedList.get(p.getUniqueId().toString());
+        return bleedList.get(pId);
     }
     public Boolean getPlayerCrippleStat(){
-        return crippleList.get(p.getUniqueId().toString());
+        return crippleList.get(pId);
     }
-    public Boolean getPlayerWantedStat(){
-        return wantedList.get(p.getUniqueId().toString());
+    public Boolean isPlayerWanted(){
+        return wantedList.get(pId);
     }
-    public Double getPlayerBounty(Player player){
-        return playerBountyList.get(player.getUniqueId().toString());
+    public Integer getPlayerBounty(){
+        return playerBountyList.get(pId);
     }
     public void updateBleed(Boolean newStat){
-        bleedList.replace(p.getUniqueId().toString(), newStat);
+        bleedList.replace(pId, newStat);
     }
     public void updateCripple(Boolean newStat){
-        crippleList.replace(p.getUniqueId().toString(), newStat);
+        crippleList.replace(pId, newStat);
     }
     public void updateWanted(Boolean newStat){
-        wantedList.replace(p.getUniqueId().toString(), newStat);
+        wantedList.replace(pId, newStat);
     }
-    public void updateBounty(Double bountyInc){
+    public void updateBounty(Integer newStat){
+        Integer newBounty = getPlayerBounty()+ newStat;
+        playerBountyList.replace(pId,newBounty);
+    }
+    public void updateOnlineWanted(Player p,Boolean newStat){
+        if(newStat){
+            p.setPlayerListName( ChatColor.translateAlternateColorCodes('&', "&4&lWanted&r ")+p.getDisplayName());
+        }
+        else{
+            p.setPlayerListName(p.getDisplayName());
+        }
+        wantedList.replace(p.getUniqueId().toString(), newStat);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(p);
+    }
+    public void updateOnlineBounty(Player p,Integer bountyInc){
         bountyInc += playerBountyList.get(p.getUniqueId().toString());
         playerBountyList.replace(p.getUniqueId().toString(), bountyInc);
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(p);
     }
 
 }

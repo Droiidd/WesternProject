@@ -1,13 +1,11 @@
 package droiidpelaez.westernproject.Teams.Utils;
 
 import droiidpelaez.westernproject.Core;
-import droiidpelaez.westernproject.CoreUtils.ConfigManager;
-import droiidpelaez.westernproject.Roles.Roles;
-import jdk.tools.jlink.plugin.Plugin;
+import droiidpelaez.westernproject.UtilCore.ConfigManager;
+import droiidpelaez.westernproject.Teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -72,8 +70,9 @@ public class TeamUtils {
             Map.Entry map = (Map.Entry)hmIterator.next();
             String teamName = (String) map.getValue();
             String playerId = (String) map.getKey();
-            System.out.println("THIS IS MAPPED INFPO;");
+            System.out.println(ChatColor.DARK_AQUA+"Team info:");
             System.out.println(playerId + " "+ teamName);
+            System.out.println(ChatColor.DARK_AQUA+"------------");
 
             for(int i =  0; i < teamList.size(); i++){
                 if(teamList.get(i).getTeamName().compareTo(teamName) == 0){
@@ -81,24 +80,8 @@ public class TeamUtils {
                     System.out.println("Player loaded into team");
                 }
             }
-
-
-
-            System.out.println(map.getKey() + " ::: " + map.getValue());
         }
-
-//        for(int i = 0; i< teamList.size(); i++){
-//
-//
-//
-//
-//            if(teamName.compareTo(teamList.get(i).getTeamName())==0){
-//                teamList.get(i).addPlayer(key);
-//                System.out.println(ChatColor.LIGHT_PURPLE+"TEAM LOADED!");
-//            }
-//            System.out.println("no team...");
-//        }
-        System.out.println(ChatColor.GREEN+"TEAMS CREATED");
+        System.out.println(ChatColor.DARK_AQUA +"TEAMS CREATED");
     }
 
     public boolean checkPlayerMaps(){
@@ -110,7 +93,7 @@ public class TeamUtils {
 
     public boolean checkPlayerFileData(ConfigManager teamConfig){
         if(teamConfig.playerCFG.contains("teamData") && teamConfig.playerCFG.contains("playerData")){
-            System.out.println(ChatColor.RED+"DATA FOUND?");
+            System.out.println(ChatColor.RED+"Team data found");
             return true;
         }
         return false;

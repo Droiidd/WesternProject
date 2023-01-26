@@ -1,14 +1,12 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
-import droiidpelaez.westernproject.Economy.Utils.BankAccountUtils;
+import droiidpelaez.westernproject.Economy.Bank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 
 public class CheckBalance implements CommandExecutor {
     @Override
@@ -19,13 +17,13 @@ public class CheckBalance implements CommandExecutor {
                 Player target = Bukkit.getServer().getPlayer(args[0]);
                 //This handles offline players, or misspelled players
                 if (target == null) {
-                    p.sendMessage(ChatColor.GRAY + "This player is not online.");
+                    p.sendMessage(ChatColor.GRAY + "This player is not "+ChatColor.DARK_GREEN+ "online.");
                     return true;
                 }
-                p.sendMessage(target.getDisplayName() + "'s balance  :  $" + BankAccountUtils.getPlayerFunds(target));
+                p.sendMessage(target.getDisplayName() + ChatColor.GRAY+ "'s balance: "+ChatColor.GOLD + Bank.getPlayerFunds(target)+"g");
                 return true;
             }
-            p.sendMessage(p.getDisplayName() + "'s balance  :  $" + BankAccountUtils.getPlayerFunds(p));
+            p.sendMessage(p.getDisplayName() + ChatColor.GRAY+ "'s balance  :  "+ChatColor.GOLD + Bank.getPlayerFunds(p)+"g");
         }
         return true;
     }

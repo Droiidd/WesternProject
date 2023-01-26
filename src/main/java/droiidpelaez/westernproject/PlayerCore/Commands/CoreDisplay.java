@@ -11,17 +11,17 @@ public class CoreDisplay implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
             Player p = (Player) sender;
-            if(!PlayerCore.hasPlayer(p)){
+            if(!PlayerCore.hasPlayer(p.getUniqueId().toString())){
                 p.sendMessage("No player found");
                 return true;
             }
-            PlayerCore pCore = PlayerCore.getPlayerCore(p);
+            PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
             if(args.length == 0){
                 p.sendMessage("Player Info:");
                 p.sendMessage("--- --- ---");
-                p.sendMessage("Bounty: "+pCore.getPlayerBounty(p));
+                p.sendMessage("Bounty: "+pCore.getPlayerBounty());
                 p.sendMessage("Bleeding: "+pCore.getPlayerBleedStat());
-                p.sendMessage("Wanted: "+pCore.getPlayerWantedStat());
+                p.sendMessage("Wanted: "+pCore.isPlayerWanted());
                 return true;
             }
             if(args.length != 1){
@@ -32,14 +32,7 @@ public class CoreDisplay implements CommandExecutor {
                 pCore.updateBleed(!pCore.getPlayerBleedStat());
                 p.sendMessage("Stat updated.");
             }
-
-
-
-
         }
-
-
-
         return true;
     }
 }
