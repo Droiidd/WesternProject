@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.PlayerCore;
 
+import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -87,14 +88,12 @@ public class PlayerCore {
             p.setPlayerListName(p.getDisplayName());
         }
         wantedList.replace(p.getUniqueId().toString(), newStat);
-        ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(p);
+        GlobalUtils.loadPlayerStatsDisplay(p);
     }
     public void updateOnlineBounty(Player p,Integer bountyInc){
         bountyInc += playerBountyList.get(p.getUniqueId().toString());
         playerBountyList.replace(p.getUniqueId().toString(), bountyInc);
-        ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(p);
+        GlobalUtils.loadPlayerStatsDisplay(p);
     }
 
 }

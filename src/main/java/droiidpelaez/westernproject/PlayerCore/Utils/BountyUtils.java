@@ -8,7 +8,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.HashMap;
+
 public class BountyUtils {
+    private HashMap<String, Long> cooldown = new HashMap<>();
     private final Core plugin;
     private Integer count;
     private Integer timerSeconds;
@@ -30,6 +33,9 @@ public class BountyUtils {
 
 
 
+        cooldown.put(p.getUniqueId().toString(), System.currentTimeMillis() + (10 * 1000));
+
+
         int id = schedular.scheduleSyncRepeatingTask(plugin, new Runnable(){
             @Override
             public void run(){
@@ -37,14 +43,30 @@ public class BountyUtils {
                     if(timerSeconds == -1){
                         timerSeconds = 59;
                         timerMinutes--;
+
+                    }
+                    if(cooldown.containsKey(p.getUniqueId().toString())){
+                        if(cooldown.get(p.getUniqueId().toString() )>System.currentTimeMillis()){
+                            Long timeLeft =  cooldown.get(p.getUniqueId().toString()) - System.currentTimeMillis()/1000;
+                            Integer t = timeLeft.intValue();
+                            //Still have time left in the cooldown
+
+                            p.sendMessage("time left "+t);
+                        }
+                        else{
+                            Bukkit.getServer().getScheduler().cancelTasks(plugin);
+                        }
                     }
                     //Bukkit.broadcastMessage(timerMinutes.toString()+" "+ timerSeconds.toString());
                     sbUtils.loadWantedScoreboard(p, timerMinutes, timerSeconds);
                     timerSeconds--;
 
+
                 }
                 count++;
+
             }
+
 
         },0, 10);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -52,7 +74,10 @@ public class BountyUtils {
             public void run() {
                 p.sendMessage("Enough.");
                 pCore.updateOnlineWanted(p,false);
-                Bukkit.getScheduler().cancelTask(id);
+                if(!pCore.isPlayerWanted()){
+                    Bukkit.getScheduler().cancelTask(id);
+                }
+
             }
         },  2400);
 

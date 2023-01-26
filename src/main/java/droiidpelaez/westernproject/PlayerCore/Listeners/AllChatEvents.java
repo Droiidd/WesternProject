@@ -41,9 +41,10 @@ public class AllChatEvents implements Listener {
             //Otherwise normal sheriff
             e.setFormat(sheriffDisplay+ChatColor.RESET+e.getFormat());
         }
-
         //Player is WANTED
         else if(pCore.isPlayerWanted()){
+
+            e.setFormat(wantedDisplay+ChatColor.RESET+e.getFormat());
             //If a player has a team
             if(Team.hasTeam(p.getUniqueId().toString())){
                 Team playerTeam = Team.getTeam(p);
@@ -51,11 +52,11 @@ public class AllChatEvents implements Listener {
                 e.setFormat(ChatColor.GRAY +teamName+" "+ChatColor.RESET+e.getFormat());
             }
             //Otherwise normal wanted
-            e.setFormat(wantedDisplay+ChatColor.RESET+e.getFormat());
-        }
 
+        }
         //Player is NOT WANTED
         else{
+            e.setFormat(ChatColor.GRAY+""+ChatColor.BOLD +"Bandit "+ChatColor.RESET+e.getFormat());
             //If player has a team
             if(Team.hasTeam(p.getUniqueId().toString())){
                 Team playerTeam = Team.getTeam(p);

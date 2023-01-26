@@ -33,56 +33,37 @@ public class Sheriff {
         }
         return playerSheriff.get(playerId);
     }
-    public static HashMap<String, String> getSheriffPlayerList(){
+
+    public static HashMap<String, String> getSheriffPlayerList() {
         return sheriffPlayerList;
     }
-
     public void addSheriff(String pId, String pName) {
-
-        sheriffPlayerList.put(pId,pName);
+        sheriffPlayerList.put(pId, pName);
         Player target = GlobalUtils.getPlayerFromString(pId);
-        if(target != null){
-            target.setPlayerListName(getRoleDisplayName() + target.getDisplayName());
-            ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(target);
+        if (target != null) {
+            GlobalUtils.loadPlayerStatsDisplay(target);
         }
         System.out.println("Oops -> sheriff add player");
     }
-    public void loadOnlineSheriff(Player target){
-        target.setPlayerListName(getRoleDisplayName() + target.getDisplayName());
-        ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(target);
+    public void loadOnlineSheriff(Player target) {
+        GlobalUtils.loadPlayerStatsDisplay(target);;
     }
 
     public void removeSheriff(String playerId) {
-        if(isSheriff(playerId)){
+        if (isSheriff(playerId)) {
             plugin.removeSheriff(playerId);
             sheriffPlayerList.remove(playerId);
             playerSheriff.remove(playerId);
-            System.out.println("Good.");
             Player p = GlobalUtils.getPlayerFromString(playerId);
-            if(p != null){
-                p.setPlayerListName(p.getDisplayName());
-                ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(p);
+            if (p != null) {
+                GlobalUtils.loadPlayerStatsDisplay(p);
             }
         }
-       // p.sendMessage("You are no longer a sheriff!");
-        //remove team main plugin
-        System.out.println("BEFORE PLUGIN REMOVE");
-
-        System.out.println("AFTER PLUGIN REMOVE");
-
-
-
     }
-
     public String getRoleDisplayName() {
         String name = ChatColor.GOLD + "" + ChatColor.BOLD + "Sheriff " + ChatColor.RESET;
         return name;
-
     }
-
     public String getRoleName() {
         return ("Sheriff");
     }

@@ -71,8 +71,7 @@ public class Team {
             teamCapacity++;
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
-                ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(target);
+                GlobalUtils.loadPlayerStatsDisplay(target);
             }
             System.out.println("Oops -> team add player");
 
@@ -84,8 +83,7 @@ public class Team {
             teamCapacity++;
             Player target = GlobalUtils.getPlayerFromString(pId);
             if(target != null){
-                ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(target);
+                GlobalUtils.loadPlayerStatsDisplay(target);
             }
             System.out.println("Oops - team add player");
         }
@@ -100,8 +98,7 @@ public class Team {
                 teamInfo.remove(getTeam(p).teamName);
                 playerTeam.remove(p.getUniqueId().toString());
                 removeTeam(getTeam(p));
-                ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(p);
+                GlobalUtils.loadPlayerStatsDisplay(p);
             }
             else{
                 p.sendMessage( ChatColor.DARK_AQUA+"Successfully left the team");
@@ -113,8 +110,7 @@ public class Team {
                 plugin.removeTeam(getTeam(p).teamName, p.getUniqueId().toString());
                 playerTeam.remove(p.getUniqueId().toString());
                 pTeamStringList.remove(p.getUniqueId().toString());
-                ScoreboardUtils sb = new ScoreboardUtils();
-                sb.loadPlayerScoreboard(p);
+                GlobalUtils.loadPlayerStatsDisplay(p);
                 teamCapacity--;
             }
 
