@@ -30,7 +30,10 @@ public class GlobalPlayerEvents implements Listener {
     @EventHandler
     public void dropPlayerHead(PlayerDeathEvent e){
         Player victim = e.getEntity();
+        Player killer = victim.getKiller();
+        if(killer == null){
 
+        }
         PlayerCore pCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
         if(Sheriff.isSheriff(victim.getUniqueId().toString())){
             ItemStack pHead = GlobalUtils.getPlayerHead(victim.getDisplayName(), 1000.0);
@@ -41,6 +44,11 @@ public class GlobalPlayerEvents implements Listener {
             Double headValue = bounty.doubleValue();
             ItemStack pHead =GlobalUtils.getPlayerHead(victim.getDisplayName(), headValue);
             victim.getInventory().addItem(pHead);
+            pCore.updateOnlineWanted(victim, false);
+            ScoreboardUtils sbUtils = new ScoreboardUtils();
+            sbUtils.loadPlayerScoreboard(victim);
+            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + victim.getDisplayName() + " has fallen.");
+            victim.setPlayerListName(victim.getDisplayName());
         }
         else if(pCore.getPlayerBounty() > 100){
             Integer bounty = pCore.getPlayerBounty()/10;
@@ -63,9 +71,6 @@ public class GlobalPlayerEvents implements Listener {
             pSheriff.loadOnlineSheriff(p);
         }
 
-        //pCore.loadJoiningPlayer();
-
-
     }
 
     @EventHandler
@@ -75,14 +80,8 @@ public class GlobalPlayerEvents implements Listener {
         if (pCore.isPlayerWanted()) {
             //make talk wanted
         }
-
         pCore.updateOnlineBounty(p, 10);
-        //pCore.updateWanted(true);
-        //BountyUtils bUtils = new BountyUtils(plugin);
-        // bUtils.startWantedTimer(pCore);
-
-
-    }
+           }
 
     @EventHandler
     public void onBanditAttack(EntityDamageByEntityEvent e) {
@@ -134,11 +133,7 @@ public class GlobalPlayerEvents implements Listener {
             //Check if player was wanted?
         } else if (pCore.isPlayerWanted()) {
             // === Dead player was wanted ===
-            pCore.updateOnlineWanted(p, false);
-            ScoreboardUtils sbUtils = new ScoreboardUtils();
-            sbUtils.loadPlayerScoreboard(p);
-            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
-            p.setPlayerListName(p.getDisplayName());
+
 
         } else if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             // === Dead player was a sheriff
@@ -159,7 +154,6 @@ public class GlobalPlayerEvents implements Listener {
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if(pCore.isPlayerWanted()){
-            pCore.updateOnlineWanted(p, false);
             ScoreboardUtils sbUtils = new ScoreboardUtils();
             sbUtils.loadPlayerScoreboard(p);
             Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
