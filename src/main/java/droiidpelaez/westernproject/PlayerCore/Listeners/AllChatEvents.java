@@ -27,9 +27,10 @@ public class AllChatEvents implements Listener {
         Sheriff sheriff = Sheriff.getSheriff(p.getUniqueId().toString());
         if(sheriff == null){
             System.out.println("Player is not a sheriff");
+
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-
+        //pCore.updateOnlineWanted(p, true);
         //Player is a SHERIFF
         if(sheriff.isSheriff(p.getUniqueId().toString())){
             //If a player has a team

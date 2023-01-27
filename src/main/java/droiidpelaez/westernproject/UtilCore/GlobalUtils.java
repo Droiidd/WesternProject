@@ -80,10 +80,15 @@ public class GlobalUtils {
     }
 
     public static void loadPlayerListName(Player p) {
+        PlayerCore pCore= PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             Sheriff sheriff = Sheriff.getSheriff(p.getUniqueId().toString());
             p.setPlayerListName(sheriff.getRoleDisplayName() + p.getDisplayName());
-        } else {
+        }
+        else if (pCore.isPlayerWanted()){
+            p.setPlayerListName( ChatColor.DARK_RED+"" +ChatColor.BOLD+"Wanted "+ChatColor.RED +p.getDisplayName());
+        }
+        else{
             p.setPlayerListName(ChatColor.GRAY + "" + ChatColor.BOLD + "Bandit " + ChatColor.RESET + p.getDisplayName());
         }
     }
