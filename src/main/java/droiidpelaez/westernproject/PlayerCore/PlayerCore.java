@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.PlayerCore;
 
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -76,19 +77,24 @@ public class PlayerCore {
     public void updateWanted(Boolean newStat){
         wantedList.replace(pId, newStat);
     }
+    public void setBounty(Integer newStat){
+        playerBountyList.replace(pId, newStat);
+    }
     public void updateBounty(Integer newStat){
         Integer newBounty = getPlayerBounty()+ newStat;
         playerBountyList.replace(pId,newBounty);
     }
     public void updateOnlineWanted(Player p,Boolean newStat){
-        if(newStat){
-            p.setPlayerListName( ChatColor.translateAlternateColorCodes('&', "&4&lWanted&r ")+p.getDisplayName());
+        if(!newStat){
+            p.sendMessage(ChatColor.GRAY+"You are no longer "+ChatColor.RED+"wanted");
+            wantedList.replace(p.getUniqueId().toString(), newStat);
+            GlobalUtils.loadPlayerStatsDisplay(p);
         }
         else{
-            p.setPlayerListName(p.getDisplayName());
+            Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has gone rogue!");
+            wantedList.replace(p.getUniqueId().toString(), newStat);
+            GlobalUtils.loadPlayerStatsDisplay(p);
         }
-        wantedList.replace(p.getUniqueId().toString(), newStat);
-        GlobalUtils.loadPlayerStatsDisplay(p);
     }
     public void updateOnlineBounty(Player p,Integer bountyInc){
         bountyInc += playerBountyList.get(p.getUniqueId().toString());

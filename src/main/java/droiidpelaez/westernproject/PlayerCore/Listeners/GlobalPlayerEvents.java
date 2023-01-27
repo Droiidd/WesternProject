@@ -50,7 +50,6 @@ public class GlobalPlayerEvents implements Listener {
             pCore.updateOnlineWanted(victim, false);
             ScoreboardUtils sbUtils = new ScoreboardUtils();
             sbUtils.loadPlayerScoreboard(victim);
-            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + victim.getDisplayName() + " has fallen.");
             victim.setPlayerListName(victim.getDisplayName());
         }
         else if(pCore.getPlayerBounty() > 100){
@@ -85,7 +84,7 @@ public class GlobalPlayerEvents implements Listener {
         }
         pCore.updateOnlineBounty(p, 10);
 
-           }
+    }
 
     @EventHandler
     public void onBanditAttack(EntityDamageByEntityEvent e) {
@@ -99,12 +98,14 @@ public class GlobalPlayerEvents implements Listener {
         Player victim = (Player) e.getEntity();
         PlayerCore damCore = PlayerCore.getPlayerCore(damager.getUniqueId().toString());
         PlayerCore vicCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
-        if (Sheriff.isSheriff(damager.getUniqueId().toString())) {
+//        if (Sheriff.isSheriff(damager.getUniqueId().toString())) {
+//            //If damager is sheriff, no consequence
+//        }
+        BountyUtils bUtils = new BountyUtils(plugin);
 
-        }
-        else if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
+         if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
+            //if sheriff is victim
             if (!damCore.isPlayerWanted()) {
-                BountyUtils bUtils = new BountyUtils(plugin);
                 bUtils.startWantedTimer(damager);
                 damCore.updateOnlineBounty(damager, 500);
                 damager.sendMessage(ChatColor.GRAY + "Bounty " + ChatColor.RED + " +500");
@@ -115,10 +116,12 @@ public class GlobalPlayerEvents implements Listener {
         }
         else if (!vicCore.isPlayerWanted()) {
             if (!damCore.isPlayerWanted()) {
-                BountyUtils bUtils = new BountyUtils(plugin);
                 bUtils.startWantedTimer(damager);
                 damCore.updateOnlineBounty(damager, 250);
                 damager.sendMessage(ChatColor.GRAY + "Bounty " + ChatColor.RED + " +250");
+            }
+            else{
+                //damager is already wanted
             }
         }
     }
@@ -160,8 +163,9 @@ public class GlobalPlayerEvents implements Listener {
         if(pCore.isPlayerWanted()){
             ScoreboardUtils sbUtils = new ScoreboardUtils();
             sbUtils.loadPlayerScoreboard(p);
-            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
+            //Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
             p.setPlayerListName(p.getDisplayName());
+            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
         }
         //If player is sheriff -bounty amount
         //If player is bandit -bounty amount
