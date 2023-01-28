@@ -20,7 +20,7 @@ public class CoreDisplay implements CommandExecutor {
                 p.sendMessage("Player Info:");
                 p.sendMessage("--- --- ---");
                 p.sendMessage("Bounty: "+pCore.getPlayerBounty());
-                p.sendMessage("Bleeding: "+pCore.getPlayerBleedStat());
+                p.sendMessage("Bleeding: "+pCore.isPlayerBleeding());
                 p.sendMessage("Wanted: "+pCore.isPlayerWanted());
                 return true;
             }
@@ -29,7 +29,7 @@ public class CoreDisplay implements CommandExecutor {
                 return true;
             }
             if(args[0].toLowerCase().compareTo("bleed") == 0){
-                pCore.updateBleed(!pCore.getPlayerBleedStat());
+                pCore.updateBleed(!pCore.isPlayerBleeding());
                 p.sendMessage("Stat updated.");
             }
         }

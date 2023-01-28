@@ -5,6 +5,7 @@ import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
+import droiidpelaez.westernproject.PlayerCore.Listeners.PlayerBleedEffect;
 import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
@@ -62,7 +63,8 @@ public final class Core extends JavaPlugin {
 
         // === EVENTS ===
         getServer().getPluginManager().registerEvents(new OnPlayerDeath(), this);
-        getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
+        //getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
+        getServer().getPluginManager().registerEvents(new PlayerBleedEffect(this), this);
 
 
         getServer().getPluginManager().registerEvents(new GlobalPlayerEvents(this), this);

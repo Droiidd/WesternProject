@@ -56,7 +56,7 @@ public class PlayerCore {
     public static PlayerCore getPlayerCore(String playerId){
         return playersCoreList.get(playerId);
     }
-    public Boolean getPlayerBleedStat(){
+    public Boolean isPlayerBleeding(){
         return bleedList.get(pId);
     }
     public Boolean getPlayerCrippleStat(){
@@ -77,16 +77,19 @@ public class PlayerCore {
     public void updateWanted(Boolean newStat){
         wantedList.replace(pId, newStat);
     }
-    public void setBounty(Integer newStat){
+    public void setBounty(Player p,Integer newStat){
         playerBountyList.replace(pId, newStat);
+        GlobalUtils.loadPlayerStatsDisplay(p);
     }
     public void updateBounty(Integer newStat){
         Integer newBounty = getPlayerBounty()+ newStat;
         playerBountyList.replace(pId,newBounty);
+
     }
     public void updateOnlineWanted(Player p,Boolean newStat){
         if(!newStat){
             p.sendMessage(ChatColor.GRAY+"You are no longer "+ChatColor.RED+"wanted");
+            p.setPlayerListName(p.getDisplayName());
             wantedList.replace(p.getUniqueId().toString(), newStat);
             GlobalUtils.loadPlayerStatsDisplay(p);
         }
