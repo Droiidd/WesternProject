@@ -82,6 +82,7 @@ public class PlayerCore {
         }
         else{
             p.sendMessage(ChatColor.GRAY+"Your legs are no longer "+ChatColor.RED+"broken!");
+            p.removePotionEffect(PotionEffectType.SLOW);
             crippleList.put(pId,false);
         }
 

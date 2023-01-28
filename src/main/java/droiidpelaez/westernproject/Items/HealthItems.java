@@ -26,6 +26,7 @@ public class HealthItems {
         ArrayList<String> sLore = new ArrayList<>();
         sLore.add("Use to heal broken legs");
         sMeta.setDisplayName(ChatColor.GRAY+ "Splint");
+        sMeta.setLore(sLore);
         splint.setItemMeta(sMeta);
         return splint;
 
