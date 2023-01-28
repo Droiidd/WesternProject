@@ -20,6 +20,17 @@ public class HealthItems {
         return bandage;
 
     }
+    public static ItemStack getSplint(){
+        ItemStack splint = new ItemStack(Material.STICK);
+        ItemMeta sMeta = splint.getItemMeta();
+        ArrayList<String> sLore = new ArrayList<>();
+        sLore.add("Use to heal broken legs");
+        sMeta.setDisplayName(ChatColor.GRAY+ "Splint");
+        splint.setItemMeta(sMeta);
+        return splint;
+
+
+    }
 
 
 }

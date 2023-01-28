@@ -7,22 +7,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Random;
 
-public class PlayerBleedEffect implements Listener {
+public class PlayerHealthEffects implements Listener {
 
     private Core plugin;
     private int count;
 
-    public PlayerBleedEffect(Core plugin) {
+    public PlayerHealthEffects(Core plugin) {
         this.plugin = plugin;
         count = 0;
     }
 
     @EventHandler
-    public void playerBleed(EntityDamageEvent e) {
+    public void playerBleedEvent(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
@@ -61,11 +63,22 @@ public class PlayerBleedEffect implements Listener {
                     }, 2400);
 
                 }
-
-
             }
         }
+    }
 
+    @EventHandler
+    public void breakLegEvent(EntityDamageEvent e){
+        if(e.getEntity() instanceof  Player){
+            Player p = (Player) e.getEntity();
+            PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+            Float fall = p.getFallDistance();
+            if(fall > 8){
+                if(!pCore.isPlayerCrippled()){
+                    pCore.updateOnlineCripple(p, true);
+                }
+            }
+        }
 
     }
 }

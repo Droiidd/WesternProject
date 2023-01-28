@@ -170,12 +170,32 @@ public class GlobalPlayerEvents implements Listener {
         Player p = e.getPlayer();
         ItemStack bandage = HealthItems.getBandage();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(bandage.getItemMeta().getDisplayName())){
+        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+                bandage.getItemMeta().getDisplayName())){
             if(pCore.isPlayerBleeding()){
                 pCore.updateOnlineBleed(p,false);
                 p.getInventory().removeItem(bandage);
             }
         }
+
+    }
+
+    @EventHandler
+    public void onSplintUse(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        ItemStack splint = HealthItems.getSplint();
+        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+                splint.getItemMeta().getDisplayName()
+        )){
+            if(pCore.isPlayerCrippled()){
+                pCore.updateOnlineCripple(p, false);
+                p.getInventory().removeItem(splint);
+            }
+        }
+
+
+
 
     }
 
