@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.PlayerCore.Listeners;
 
 import droiidpelaez.westernproject.Core;
+import droiidpelaez.westernproject.Items.HealthItems;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
@@ -15,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -161,6 +163,19 @@ public class GlobalPlayerEvents implements Listener {
         }
         //If player is sheriff -bounty amount
         //If player is bandit -bounty amount
+
+    }
+    @EventHandler
+    public void onBandageUse(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        ItemStack bandage = HealthItems.getBandage();
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(bandage.getItemMeta().getDisplayName())){
+            if(pCore.isPlayerBleeding()){
+                pCore.updateOnlineBleed(p,false);
+                p.getInventory().removeItem(bandage);
+            }
+        }
 
     }
 

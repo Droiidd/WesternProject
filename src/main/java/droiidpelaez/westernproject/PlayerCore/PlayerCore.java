@@ -71,6 +71,17 @@ public class PlayerCore {
     public void updateBleed(Boolean newStat){
         bleedList.replace(pId, newStat);
     }
+    public void updateOnlineBleed(Player p,Boolean newStat){
+        if(newStat){
+            p.sendMessage(ChatColor.GRAY+"You are now "+ChatColor.RED+"bleeding!");
+            bleedList.replace(pId, newStat);
+        }
+        else{
+            p.sendMessage(ChatColor.GRAY+"You patched your wounds");
+            bleedList.replace(pId, newStat);
+        }
+
+    }
     public void updateCripple(Boolean newStat){
         crippleList.replace(pId, newStat);
     }

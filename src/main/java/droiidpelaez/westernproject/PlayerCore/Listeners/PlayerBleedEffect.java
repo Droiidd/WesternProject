@@ -27,30 +27,27 @@ public class PlayerBleedEffect implements Listener {
             Player p = (Player) e.getEntity();
             PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
             if (!pCore.isPlayerBleeding()) {
-                pCore.updateBleed(true);
                 int chance = new Random().nextInt(11);
                 if (chance % 2 == 0) {
                     p.sendMessage("5050");
+                    pCore.updateOnlineBleed(p,true);
                     BukkitScheduler schedular = Bukkit.getServer().getScheduler();
-
-                    p.sendMessage("You are bleeding, use a bandage to stop it!");
                     int id = schedular.scheduleSyncRepeatingTask(plugin, new Runnable() {
                         @Override
                         public void run() {
                             if (count % 2 == 0) {
+
                                 //These are natural seconds
                                 if (!pCore.isPlayerBleeding()) {
-                                    p.sendMessage("not bleeding");
-
+                                    Bukkit.getServer().getScheduler().cancelTasks(plugin);
+                                }
+                                else{
+                                    p.damage(1.0);
                                 }
                                 if(p.isDead()){
                                     pCore.updateBleed(false);
                                     Bukkit.getServer().getScheduler().cancelTasks(plugin);
                                 }
-                                double currentHealth = p.getHealth();
-                                double newHealth = currentHealth - 1.0;
-                                p.damage(1.0);
-
 
                             }
                             count++;

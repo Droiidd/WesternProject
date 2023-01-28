@@ -29,7 +29,7 @@ public class CoreDisplay implements CommandExecutor {
                 return true;
             }
             if(args[0].toLowerCase().compareTo("bleed") == 0){
-                pCore.updateBleed(!pCore.isPlayerBleeding());
+                pCore.updateOnlineBleed(p, !pCore.isPlayerBleeding());
                 p.sendMessage("Stat updated.");
             }
         }
