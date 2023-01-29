@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.PlayerCore.Listeners;
 
 import droiidpelaez.westernproject.Core;
+import droiidpelaez.westernproject.Items.HealthItems;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
@@ -15,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -39,24 +41,18 @@ public class GlobalPlayerEvents implements Listener {
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
         if(Sheriff.isSheriff(victim.getUniqueId().toString())){
-            ItemStack pHead = GlobalUtils.getPlayerHead(ChatColor.GOLD+""+ChatColor.BOLD+"Sheriff "+ victim.getDisplayName(), 1000.0);
-            victim.getInventory().addItem(pHead);
+            GlobalUtils.dropPlayerHead(victim, 1000.0);
         }
         else if(pCore.isPlayerWanted()){
             Integer bounty = pCore.getPlayerBounty()/2;
             Double headValue = bounty.doubleValue();
-            ItemStack pHead =GlobalUtils.getPlayerHead(victim.getDisplayName(), headValue);
-            victim.getInventory().addItem(pHead);
-            pCore.updateOnlineWanted(victim, false);
-            ScoreboardUtils sbUtils = new ScoreboardUtils();
-            sbUtils.loadPlayerScoreboard(victim);
-            victim.setPlayerListName(victim.getDisplayName());
+            GlobalUtils.dropPlayerHead(victim, headValue);
         }
         else if(pCore.getPlayerBounty() > 100){
             Integer bounty = pCore.getPlayerBounty()/10;
             Double headValue = bounty.doubleValue();
-            ItemStack pHead =GlobalUtils.getPlayerHead(victim.getDisplayName(), headValue);
-            victim.getInventory().addItem(pHead);
+            GlobalUtils.dropPlayerHead(victim, headValue);
+
         }
     }
 
@@ -98,10 +94,11 @@ public class GlobalPlayerEvents implements Listener {
         Player victim = (Player) e.getEntity();
         PlayerCore damCore = PlayerCore.getPlayerCore(damager.getUniqueId().toString());
         PlayerCore vicCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
-//        if (Sheriff.isSheriff(damager.getUniqueId().toString())) {
-//            //If damager is sheriff, no consequence
-//        }
         BountyUtils bUtils = new BountyUtils(plugin);
+        if (Sheriff.isSheriff(damager.getUniqueId().toString())) {
+            //If damager is sheriff, no consequence
+        }else
+
 
          if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
             //if sheriff is victim
@@ -138,10 +135,9 @@ public class GlobalPlayerEvents implements Listener {
         PlayerCore killCore = PlayerCore.getPlayerCore(killer.getUniqueId().toString());
         if (Sheriff.isSheriff(killer.getUniqueId().toString())) {
             //Check if player was wanted?
-        } else if (pCore.isPlayerWanted()) {
-            // === Dead player was wanted ===
-
-
+        } else if (pCore.getPlayerBounty() > 100) {
+            // === Dead player had large bounty ===
+            pCore.setBounty(p, 0);
         } else if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             // === Dead player was a sheriff
             killCore.updateOnlineBounty(killer, 1000);
@@ -161,14 +157,45 @@ public class GlobalPlayerEvents implements Listener {
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if(pCore.isPlayerWanted()){
-            ScoreboardUtils sbUtils = new ScoreboardUtils();
-            sbUtils.loadPlayerScoreboard(p);
-            //Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
-            p.setPlayerListName(p.getDisplayName());
+            Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
+            pCore.updateOnlineWanted(p, false);
             Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
         }
         //If player is sheriff -bounty amount
         //If player is bandit -bounty amount
+
+    }
+    @EventHandler
+    public void onBandageUse(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        ItemStack bandage = HealthItems.getBandage();
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+                bandage.getItemMeta().getDisplayName())){
+            if(pCore.isPlayerBleeding()){
+                pCore.updateOnlineBleed(p,false);
+                p.getInventory().removeItem(bandage);
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void onSplintUse(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        ItemStack splint = HealthItems.getSplint();
+        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+                splint.getItemMeta().getDisplayName()
+        )){
+            if(pCore.isPlayerCrippled()){
+                pCore.updateOnlineCripple(p, false);
+                p.getInventory().removeItem(splint);
+            }
+        }
+
+
+
 
     }
 

@@ -4,7 +4,10 @@ import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,10 +59,10 @@ public class PlayerCore {
     public static PlayerCore getPlayerCore(String playerId){
         return playersCoreList.get(playerId);
     }
-    public Boolean getPlayerBleedStat(){
+    public Boolean isPlayerBleeding(){
         return bleedList.get(pId);
     }
-    public Boolean getPlayerCrippleStat(){
+    public Boolean isPlayerCrippled(){
         return crippleList.get(pId);
     }
     public Boolean isPlayerWanted(){
@@ -71,22 +74,49 @@ public class PlayerCore {
     public void updateBleed(Boolean newStat){
         bleedList.replace(pId, newStat);
     }
+    public void updateOnlineCripple(Player p, Boolean newStat){
+        if(newStat){
+            p.sendMessage(ChatColor.GRAY+"Your legs are "+ChatColor.RED+"broken!");
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 3));
+            crippleList.put(pId, true);
+        }
+        else{
+            p.sendMessage(ChatColor.GRAY+"Your legs are no longer "+ChatColor.RED+"broken!");
+            p.removePotionEffect(PotionEffectType.SLOW);
+            crippleList.put(pId,false);
+        }
+
+    }
+    public void updateOnlineBleed(Player p,Boolean newStat){
+        if(newStat){
+            p.sendMessage(ChatColor.GRAY+"You are now "+ChatColor.RED+"bleeding!");
+            bleedList.replace(pId, newStat);
+        }
+        else{
+            p.sendMessage(ChatColor.GRAY+"You patched your wounds");
+            bleedList.replace(pId, newStat);
+        }
+
+    }
     public void updateCripple(Boolean newStat){
         crippleList.replace(pId, newStat);
     }
     public void updateWanted(Boolean newStat){
         wantedList.replace(pId, newStat);
     }
-    public void setBounty(Integer newStat){
+    public void setBounty(Player p,Integer newStat){
         playerBountyList.replace(pId, newStat);
+        GlobalUtils.loadPlayerStatsDisplay(p);
     }
     public void updateBounty(Integer newStat){
         Integer newBounty = getPlayerBounty()+ newStat;
         playerBountyList.replace(pId,newBounty);
+
     }
     public void updateOnlineWanted(Player p,Boolean newStat){
         if(!newStat){
             p.sendMessage(ChatColor.GRAY+"You are no longer "+ChatColor.RED+"wanted");
+            p.setPlayerListName(p.getDisplayName());
             wantedList.replace(p.getUniqueId().toString(), newStat);
             GlobalUtils.loadPlayerStatsDisplay(p);
         }

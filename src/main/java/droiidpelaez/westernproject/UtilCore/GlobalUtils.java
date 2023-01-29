@@ -4,12 +4,14 @@ import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -92,27 +94,48 @@ public class GlobalUtils {
             p.setPlayerListName(ChatColor.GRAY + "" + ChatColor.BOLD + "Bandit " + ChatColor.RESET + p.getDisplayName());
         }
     }
-
     public static void loadPlayerStatsDisplay(Player p) {
         loadPlayerListName(p);
         //loadPlayerNameTags(p);
         ScoreboardUtils sb = new ScoreboardUtils();
         sb.loadPlayerScoreboard(p);
-
-
     }
-    public static ItemStack getPlayerHead(String player, Double headValue) {
+    public static void dropPlayerHead(Player p, Double headValue) {
 
-        boolean isNewVersion = Arrays.stream(Material.values())
-                .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
-        Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
-        ItemStack item = new ItemStack(type, 1);
+        String pName = p.getDisplayName();
+        if(Sheriff.isSheriff(p.getUniqueId().toString())){
+            boolean isNewVersion = Arrays.stream(Material.values())
+                    .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
+            Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
+            ItemStack skull = new ItemStack(type, 1);
+            Location deathPoint = p.getLocation();
 
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(player);
-        meta.setDisplayName(headValue + "g");
-        item.setItemMeta(meta);
-        return item;
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            ArrayList<String> skullLore = new ArrayList<>();
+            skullLore.add(""+1000.0 + "g");
+            meta.setLore(skullLore);
+            meta.setOwner(pName);
+            meta.setDisplayName(ChatColor.GOLD+""+ChatColor.BOLD+"Sheriff "+ChatColor.RESET +pName);
+            skull.setItemMeta(meta);
+            deathPoint.getBlock().getWorld().dropItem(deathPoint, skull);
+        }
+        else{
+            boolean isNewVersion = Arrays.stream(Material.values())
+                    .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
+            Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
+            ItemStack skull = new ItemStack(type, 1);
+            Location deathPoint = p.getLocation();
+
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            ArrayList<String> skullLore = new ArrayList<>();
+            skullLore.add(headValue + "g");
+            meta.setLore(skullLore);
+            meta.setOwner(pName);
+            meta.setDisplayName(ChatColor.GRAY+""+ChatColor.BOLD+"Bandit "+ChatColor.RESET +pName);
+            skull.setItemMeta(meta);
+            deathPoint.getBlock().getWorld().dropItem(deathPoint, skull);
+        }
+
     }
 
 
