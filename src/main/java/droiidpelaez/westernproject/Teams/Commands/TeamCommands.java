@@ -202,11 +202,14 @@ public class TeamCommands implements CommandExecutor {
                     p.sendMessage(ChatColor.GRAY + "Incorrect usage, please try: " + ChatColor.DARK_AQUA + "/team create {team name}");
                     return true;
                 }
+                if(teamList.size() == 0){
+                    p.sendMessage(ChatColor.GRAY+"There are no teams to list.");
+                }
 
                 for (int i = 0; i < teamList.size(); i++) {
-                    p.sendMessage("Team List:");
-                    p.sendMessage((i + 1) + "" + teamList.get(i).getTeamName() + " capacity: " +
-                            teamList.get(i).getTeamCapacity() + "/6");
+                    p.sendMessage(ChatColor.GRAY+ "Team List:");
+                    p.sendMessage(ChatColor.GRAY+""+ (i + 1) + ".) " +  ChatColor.DARK_AQUA+teamList.get(i).getTeamName() + ChatColor.GRAY+ " capacity: " +
+                            teamList.get(i).getTeamCapacity() + ChatColor.GRAY+ "/6");
                 }
             }
             // ===== LAST ONE =====
