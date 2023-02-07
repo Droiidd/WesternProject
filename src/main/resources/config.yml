@@ -1,8 +1,8 @@
 test:
-  xPos1: "2650"
-  xPos2: "2646"
-  zPos1: "331"
-  zPos2: "327"
+  xPos1: "2650.O"
+  xPos2: "2646.O"
+  zPos1: "331.O"
+  zPos2: "327.O"
 roles:
   bandit:
     name: "Bandit"

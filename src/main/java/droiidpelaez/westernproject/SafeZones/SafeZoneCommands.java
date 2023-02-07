@@ -16,17 +16,20 @@ public class SafeZoneCommands implements CommandExecutor {
 //            }
             if(args[0].toLowerCase().compareTo("test")==0){
                 SafeZone sf = SafeZone.getSafeZone("test");
-                Double xpos1 = sf.getxPos1();
-                Double xpos2 = sf.getxPos2();
-                Double zpos1 = sf.getzPos1();
-                Double zpos2 = sf.getzPos2();
-                Double playerX = p.getLocation().getX();
-                Double playerZ = p.getLocation().getZ();
+                double xpos1 = sf.getxPos1();
+                double xpos2 = sf.getxPos2();
+                double zpos1 = sf.getzPos1();
+                double zpos2 = sf.getzPos2();
+                p.sendMessage("Cords:");
+                p.sendMessage(""+xpos1+" "+zpos1+"");
+                p.sendMessage(""+xpos2+" "+zpos2+"");
+                double playerX = p.getLocation().getX();
+                double playerZ = p.getLocation().getZ();
 
-                Double minX;
-                Double maxX;
-                Double minZ;
-                Double maxZ;
+                double minX;
+                double maxX;
+                double minZ;
+                double maxZ;
 
                 if(xpos1 < xpos2){
                     minX = xpos1;
@@ -56,7 +59,7 @@ public class SafeZoneCommands implements CommandExecutor {
                     p.sendMessage("no woo....");
                     return true;
                 }
-
+                return true;
             }
             if(args[0].toLowerCase().compareTo("create") == 0){
                 p.sendMessage("created");

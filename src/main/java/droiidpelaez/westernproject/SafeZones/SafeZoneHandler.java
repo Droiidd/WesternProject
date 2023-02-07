@@ -13,10 +13,10 @@ public class SafeZoneHandler {
 
     public void loadCords(){
         if(plugin.getConfig().contains("test")){
-            Double xPos1 = (Double) plugin.getConfig().get("xPos1");
-            Double xPos2 = (Double) plugin.getConfig().get("xPos2");
-            Double zPos1 = (Double) plugin.getConfig().get("zPos1");
-            Double zPos2 = (Double) plugin.getConfig().get("zPos2");
+            double xPos1 = (double) plugin.getConfig().get("xPos1");
+            double xPos2 = (double) plugin.getConfig().get("xPos2");
+            double zPos1 = (double) plugin.getConfig().get("zPos1");
+            double zPos2 = (double) plugin.getConfig().get("zPos2");
             SafeZone sf = new SafeZone("test", xPos1, xPos2, zPos1, zPos2);
             System.out.println("Safe zone successfully loaded!");
         }
