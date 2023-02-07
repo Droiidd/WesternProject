@@ -6,6 +6,7 @@ import droiidpelaez.westernproject.Teams.Team;
 import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -220,6 +221,7 @@ public class TeamCommands implements CommandExecutor {
                 p.sendMessage(ChatColor.DARK_AQUA + "/team create");
                 p.sendMessage(ChatColor.GRAY + "==========");
                 return true;
+
             }
         }
         return true;

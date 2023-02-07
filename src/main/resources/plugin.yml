@@ -23,6 +23,8 @@ commands:
     aliases:
       - dm
   team:
+  zone:
+  zoneinit:
 
   wallet:
     aliases:

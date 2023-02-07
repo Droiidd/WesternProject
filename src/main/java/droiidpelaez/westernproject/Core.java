@@ -6,6 +6,9 @@ import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.PlayerCore.Commands.Medkit;
 import droiidpelaez.westernproject.PlayerCore.Listeners.PlayerHealthEffects;
+import droiidpelaez.westernproject.SafeZones.SafeZoneCommands;
+import droiidpelaez.westernproject.SafeZones.SafeZoneHandler;
+import droiidpelaez.westernproject.SafeZones.SafeZonePosCommand;
 import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
@@ -59,6 +62,9 @@ public final class Core extends JavaPlugin {
         getCommand("playerinfo").setExecutor(new CoreDisplay());
         getCommand("medkit").setExecutor(new Medkit());
 
+        getCommand("zone").setExecutor(new SafeZonePosCommand());
+        getCommand("zoneinit").setExecutor(new SafeZoneCommands());
+
         System.out.println(ChatColor.RED+"COMMANDS REGISTERED");
 
 
@@ -71,6 +77,8 @@ public final class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GlobalPlayerEvents(this), this);
         getServer().getPluginManager().registerEvents(new AllChatEvents(this), this);
 
+        SafeZoneHandler handler = new SafeZoneHandler(this);
+        handler.loadCords();
         // === SAVING ===
         if(walletConfig.playerCFG.contains("data") && bankConfig.playerCFG.contains("data")){
             System.out.println(ChatColor.DARK_GREEN+"Loading bank funds");
