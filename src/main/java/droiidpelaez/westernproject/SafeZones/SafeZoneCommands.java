@@ -16,20 +16,22 @@ public class SafeZoneCommands implements CommandExecutor {
 //            }
             if(args[0].toLowerCase().compareTo("test")==0){
                 SafeZone sf = SafeZone.getSafeZone("test");
-                double xpos1 = sf.getxPos1();
-                double xpos2 = sf.getxPos2();
-                double zpos1 = sf.getzPos1();
-                double zpos2 = sf.getzPos2();
+                Double xpos1 = sf.getxPos1();
+                Double xpos2 = sf.getxPos2();
+                Double zpos1 = sf.getzPos1();
+                Double zpos2 = sf.getzPos2();
                 p.sendMessage("Cords:");
                 p.sendMessage(""+xpos1+" "+zpos1+"");
                 p.sendMessage(""+xpos2+" "+zpos2+"");
-                double playerX = p.getLocation().getX();
-                double playerZ = p.getLocation().getZ();
+                double tempPlayX = p.getLocation().getX();
+                double tempPlayZ = p.getLocation().getZ();
+                Double playerX = new Double(tempPlayX);
+                Double playerZ = new Double(tempPlayZ);
 
-                double minX;
-                double maxX;
-                double minZ;
-                double maxZ;
+                Double minX;
+                Double maxX;
+                Double minZ;
+                Double maxZ;
 
                 if(xpos1 < xpos2){
                     minX = xpos1;

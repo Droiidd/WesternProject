@@ -6,14 +6,14 @@ import java.util.List;
 
 public class SafeZone {
     private String name;
-    private double xPos1;
-    private double xPos2;
-    private double zPos1;
-    private double zPos2;
+    private Double xPos1;
+    private Double xPos2;
+    private Double zPos1;
+    private Double zPos2;
     private List<SafeZone> zoneList = new ArrayList<>();
     private static HashMap<String, SafeZone> zoneMap = new HashMap<>();
 
-    public SafeZone(String name, double xPos1, double xPos2, double zPos1, double zPos2){
+    public SafeZone(String name, Double xPos1, Double xPos2, Double zPos1, Double zPos2){
         this.name = name;
         this.xPos1 = xPos1;
         this.xPos2 = xPos2;
@@ -29,22 +29,22 @@ public class SafeZone {
         }
         return null;
     }
-    public void setxPos1(double pos1){
+    public void setxPos1(Double pos1){
         this.xPos1 = pos1;
     }
-    public void setxPos2(double pos2){
+    public void setxPos2(Double pos2){
         this.xPos2 = pos2;
     }
-    public double getxPos1(){
+    public Double getxPos1(){
         return xPos1;
     }
-    public double getxPos2(){
+    public Double getxPos2(){
         return xPos2;
     }
-    public double getzPos1(){
+    public Double getzPos1(){
         return zPos1;
     }
-    public double getzPos2(){
+    public Double getzPos2(){
         return zPos2;
     }
 

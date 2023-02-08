@@ -12,14 +12,24 @@ public class SafeZoneHandler {
     }
 
     public void loadCords(){
-        if(plugin.getConfig().contains("test")){
-            double xPos1 = (double) plugin.getConfig().get("xPos1");
-            double xPos2 = (double) plugin.getConfig().get("xPos2");
-            double zPos1 = (double) plugin.getConfig().get("zPos1");
-            double zPos2 = (double) plugin.getConfig().get("zPos2");
+        for(String key : plugin.getConfig().getConfigurationSection("locations").getKeys(false)){
+            System.out.println();
+            System.out.println(plugin.getConfig().getString("locations."+key+".xpos1"));
+            System.out.println(plugin.getConfig().getString("locations."+key+".xpos2"));
+            System.out.println(plugin.getConfig().getString("locations."+key+".zpos1"));
+            System.out.println(plugin.getConfig().getString("locations."+key+".zpos2"));
+
+            Double xPos1 = Double.parseDouble(plugin.getConfig().getString("locations."+key+".xpos1"));
+            Double xPos2 = Double.parseDouble(plugin.getConfig().getString("locations."+key+".xpos2"));
+            Double zPos1 = Double.parseDouble(plugin.getConfig().getString("locations."+key+".zpos1"));
+            Double zPos2 = Double.parseDouble(plugin.getConfig().getString("locations."+key+".zpos2"));
+
             SafeZone sf = new SafeZone("test", xPos1, xPos2, zPos1, zPos2);
-            System.out.println("Safe zone successfully loaded!");
+
         }
+
+
+            System.out.println("Safe zone successfully loaded!");
     }
 
 
