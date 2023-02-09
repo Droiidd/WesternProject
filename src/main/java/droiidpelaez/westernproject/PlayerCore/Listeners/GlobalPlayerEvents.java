@@ -2,6 +2,8 @@ package droiidpelaez.westernproject.PlayerCore.Listeners;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Items.HealthItems;
+import droiidpelaez.westernproject.SafeZones.SafeZone;
+import droiidpelaez.westernproject.SafeZones.SafeZoneGenerator;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
@@ -10,6 +12,7 @@ import droiidpelaez.westernproject.Roles.Sheriff;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +21,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -120,6 +124,64 @@ public class GlobalPlayerEvents implements Listener {
             else{
                 //damager is already wanted
             }
+        }
+    }
+    @EventHandler
+    public void playerEnterZone(PlayerMoveEvent e){
+        Player p = e.getPlayer();
+        SafeZone sf = SafeZone.getSafeZone("test");
+        Double xpos1 = sf.getxPos1();
+        Double xpos2 = sf.getxPos2();
+        Double zpos1 = sf.getzPos1();
+        Double zpos2 = sf.getzPos2();
+        p.sendMessage("Cords:");
+        p.sendMessage(""+xpos1+" "+zpos1+"");
+        p.sendMessage(""+xpos2+" "+zpos2+"");
+        double tempPlayX = p.getLocation().getX();
+        double tempPlayZ = p.getLocation().getZ();
+        Double playerX = new Double(tempPlayX);
+        Double playerZ = new Double(tempPlayZ);
+
+        Double minX;
+        Double maxX;
+        Double minZ;
+        Double maxZ;
+
+        if(xpos1 < xpos2){
+            minX = xpos1;
+            maxX = xpos2;
+        }
+        else{
+            minX = xpos2;
+            maxX = xpos1;
+        }
+
+        if(zpos1 < zpos2){
+            minZ = zpos1;
+            maxZ = zpos2;
+        }
+        else{
+            minZ = zpos2;
+            maxZ = zpos1;
+        }
+
+        if(playerX > minX && playerX < maxX){
+            if(playerZ > minZ && playerZ < maxZ){
+                SafeZoneGenerator gen = new SafeZoneGenerator();
+                BossBar test = gen.loadBossBar();
+                test.setProgress(1);
+                test.addPlayer(p);
+                test.setVisible(true);
+                p.sendMessage("WOOOOO");
+
+            }
+        }
+        else{
+            SafeZoneGenerator gen = new SafeZoneGenerator();
+            BossBar test = gen.loadBossBar();
+            test.removePlayer(p);
+            test.setVisible(false);
+            p.sendMessage("no woo....");
         }
     }
 

@@ -98,6 +98,7 @@ public class PlayerCore {
         }
 
     }
+
     public void updateCripple(Boolean newStat){
         crippleList.replace(pId, newStat);
     }

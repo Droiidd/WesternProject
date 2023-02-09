@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.SafeZones;
 
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,60 +54,26 @@ public class SafeZoneCommands implements CommandExecutor {
 
                 if(playerX > minX && playerX < maxX){
                     if(playerZ > minZ && playerZ < maxZ){
+                        SafeZoneGenerator gen = new SafeZoneGenerator();
+                        BossBar test = gen.loadBossBar();
+                        test.setProgress(1);
+                        test.addPlayer(p);
+                        test.setVisible(true);
                         p.sendMessage("WOOOOO");
                         return true;
                     }
                 }
                 else{
+                    SafeZoneGenerator gen = new SafeZoneGenerator();
+                    BossBar test = gen.loadBossBar();
+                    test.removePlayer(p);
+                    test.setVisible(false);
                     p.sendMessage("no woo....");
                     return true;
                 }
                 return true;
             }
-            if(args[0].toLowerCase().compareTo("create") == 0){
-                p.sendMessage("created");
-                SafeZoneGenerator safeZoneGenerator = new SafeZoneGenerator();
-                String zoneName = args[1].toLowerCase();
-                p.sendMessage("zone name:" +zoneName);
-                p.sendMessage("Test" +safeZoneGenerator.getPos1(zoneName)+" "+
-                        safeZoneGenerator.getPos2(zoneName));
-                if(safeZoneGenerator.isZoneInitialized(zoneName)){
-                    p.sendMessage("Zone is true");
-                    Double pos1 = safeZoneGenerator.getPos1(zoneName);
-                    Double pos2 = safeZoneGenerator.getPos2(zoneName);
-                    if(pos2 - pos1 > 0){
-                        if(p.getLocation().getX() < pos2 && p.getLocation().getX() > pos1 ){
-                            p.sendMessage("You are in the zone!");
-                        }else{
-                            p.sendMessage("You are not in the zone");
-                        }
-                        return true;
-
-                    }
-                    else{
-                        if(p.getLocation().getX() > pos2 && p.getLocation().getX() < pos1 ){
-                            p.sendMessage("You are in the zone!");
-                        }else{
-                            p.sendMessage("You are not in the zone");
-                        }
-                        return true;
-                    }
-                }
-                else{
-                    p.sendMessage("zone is not true for some reson");
-                }
-                return true;
-            }
-
-
-
-
         }
-
-
-
-
-
         return true;
     }
 }

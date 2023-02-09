@@ -3,10 +3,3 @@ test:
   xPos2: "2646.O"
   zPos1: "331.O"
   zPos2: "327.O"
-roles:
-  bandit:
-    name: "Bandit"
-    color: "&c"
-  sheriff:
-    name: "Sheriff"
-    color: "&c"
