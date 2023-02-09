@@ -28,32 +28,37 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import java.util.HashMap;
+
 
 public class GlobalPlayerEvents implements Listener {
     private final Core plugin;
-    Integer count = 0;
+    private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
+
+    SafeZoneGenerator gen = new SafeZoneGenerator();
+    BossBar test = gen.loadBossBar();
+
 
     public GlobalPlayerEvents(Core plugin) {
         this.plugin = plugin;
 
     }
+
     @EventHandler
-    public void dropPlayerHead(PlayerDeathEvent e){
+    public void dropPlayerHead(PlayerDeathEvent e) {
         Player victim = e.getEntity();
         Player killer = victim.getKiller();
-        if(killer == null){
+        if (killer == null) {
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(victim.getUniqueId().toString());
-        if(Sheriff.isSheriff(victim.getUniqueId().toString())){
+        if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
             GlobalUtils.dropPlayerHead(victim, 1000.0);
-        }
-        else if(pCore.isPlayerWanted()){
-            Integer bounty = pCore.getPlayerBounty()/2;
+        } else if (pCore.isPlayerWanted()) {
+            Integer bounty = pCore.getPlayerBounty() / 2;
             Double headValue = bounty.doubleValue();
             GlobalUtils.dropPlayerHead(victim, headValue);
-        }
-        else if(pCore.getPlayerBounty() > 100){
-            Integer bounty = pCore.getPlayerBounty()/10;
+        } else if (pCore.getPlayerBounty() > 100) {
+            Integer bounty = pCore.getPlayerBounty() / 10;
             Double headValue = bounty.doubleValue();
             GlobalUtils.dropPlayerHead(victim, headValue);
 
@@ -67,7 +72,7 @@ public class GlobalPlayerEvents implements Listener {
             PlayerCore newPlayer = new PlayerCore(p.getUniqueId().toString(), false, false, false, 0);
             p.sendMessage("New player added!");
         }
-        if(Sheriff.isSheriff(p.getUniqueId().toString())){
+        if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             Sheriff pSheriff = Sheriff.getSheriff(p.getUniqueId().toString());
             pSheriff.loadOnlineSheriff(p);
         }
@@ -101,10 +106,7 @@ public class GlobalPlayerEvents implements Listener {
         BountyUtils bUtils = new BountyUtils(plugin);
         if (Sheriff.isSheriff(damager.getUniqueId().toString())) {
             //If damager is sheriff, no consequence
-        }else
-
-
-         if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
+        } else if (Sheriff.isSheriff(victim.getUniqueId().toString())) {
             //if sheriff is victim
             if (!damCore.isPlayerWanted()) {
                 bUtils.startWantedTimer(damager);
@@ -114,29 +116,29 @@ public class GlobalPlayerEvents implements Listener {
                 damCore.updateOnlineBounty(damager, 50);
                 damager.sendMessage(ChatColor.GRAY + "Bounty " + ChatColor.RED + " +50");
             }
-        }
-        else if (!vicCore.isPlayerWanted()) {
+        } else if (!vicCore.isPlayerWanted()) {
             if (!damCore.isPlayerWanted()) {
                 bUtils.startWantedTimer(damager);
                 damCore.updateOnlineBounty(damager, 250);
                 damager.sendMessage(ChatColor.GRAY + "Bounty " + ChatColor.RED + " +250");
-            }
-            else{
+            } else {
                 //damager is already wanted
             }
         }
     }
+
     @EventHandler
-    public void playerEnterZone(PlayerMoveEvent e){
+    public void playerEnterZone(PlayerMoveEvent e) {
         Player p = e.getPlayer();
+
+
+
         SafeZone sf = SafeZone.getSafeZone("test");
         Double xpos1 = sf.getxPos1();
         Double xpos2 = sf.getxPos2();
         Double zpos1 = sf.getzPos1();
         Double zpos2 = sf.getzPos2();
-        p.sendMessage("Cords:");
-        p.sendMessage(""+xpos1+" "+zpos1+"");
-        p.sendMessage(""+xpos2+" "+zpos2+"");
+
         double tempPlayX = p.getLocation().getX();
         double tempPlayZ = p.getLocation().getZ();
         Double playerX = new Double(tempPlayX);
@@ -147,41 +149,59 @@ public class GlobalPlayerEvents implements Listener {
         Double minZ;
         Double maxZ;
 
-        if(xpos1 < xpos2){
+        if (xpos1 < xpos2) {
             minX = xpos1;
             maxX = xpos2;
-        }
-        else{
+        } else {
             minX = xpos2;
             maxX = xpos1;
         }
 
-        if(zpos1 < zpos2){
+        if (zpos1 < zpos2) {
             minZ = zpos1;
             maxZ = zpos2;
-        }
-        else{
+        } else {
             minZ = zpos2;
             maxZ = zpos1;
         }
 
-        if(playerX > minX && playerX < maxX){
-            if(playerZ > minZ && playerZ < maxZ){
-                SafeZoneGenerator gen = new SafeZoneGenerator();
-                BossBar test = gen.loadBossBar();
-                test.setProgress(1);
-                test.addPlayer(p);
-                test.setVisible(true);
-                p.sendMessage("WOOOOO");
+        if (playerX > minX && playerX < maxX) {
+            if (playerZ > minZ && playerZ < maxZ) {
+
+                if (!playersInZoneList.containsKey(p.getUniqueId().toString())) {
+                    playersInZoneList.put(p.getUniqueId().toString(),true);
+                    //Add player to list
+                }
+
+                if (!playersInZoneList.get(p.getUniqueId().toString())) {
+                    playersInZoneList.replace(p.getUniqueId().toString(), true);
+                    p.sendMessage("First time walking in: "+playersInZoneList.get(p.getUniqueId().toString()));
+
+                    test.setProgress(1);
+                    test.addPlayer(p);
+                    test.setVisible(true);
+
+                }
+                else {
+                    p.sendMessage("Walking around: "+playersInZoneList.get(p.getUniqueId().toString()));
+                }
+            }
+            //Player is not inside the parameters
+        } else {
+            if (playersInZoneList.containsKey(p.getUniqueId().toString())) {
+                if(!playersInZoneList.get(p.getUniqueId().toString())){
+                    //Do nothing because its already false and should not display
+                }
+                else{
+                    test.removePlayer(p);
+                    test.setVisible(false);
+
+                    playersInZoneList.replace(p.getUniqueId().toString(), false);
+                    p.sendMessage("Leaving a town: "+playersInZoneList.get(p.getUniqueId().toString()));
+                }
 
             }
-        }
-        else{
-            SafeZoneGenerator gen = new SafeZoneGenerator();
-            BossBar test = gen.loadBossBar();
-            test.removePlayer(p);
-            test.setVisible(false);
-            p.sendMessage("no woo....");
+
         }
     }
 
@@ -212,13 +232,13 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onWantedDeath(PlayerDeathEvent e){
+    public void onWantedDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
-        if(p == null){
+        if (p == null) {
 
         }
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-        if(pCore.isPlayerWanted()){
+        if (pCore.isPlayerWanted()) {
             Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
             pCore.updateOnlineWanted(p, false);
             Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "Wanted " + ChatColor.GRAY + p.getDisplayName() + " has fallen.");
@@ -227,15 +247,16 @@ public class GlobalPlayerEvents implements Listener {
         //If player is bandit -bounty amount
 
     }
+
     @EventHandler
-    public void onBandageUse(PlayerInteractEvent e){
+    public void onBandageUse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         ItemStack bandage = HealthItems.getBandage();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
-                bandage.getItemMeta().getDisplayName())){
-            if(pCore.isPlayerBleeding()){
-                pCore.updateOnlineBleed(p,false);
+        if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+                bandage.getItemMeta().getDisplayName())) {
+            if (pCore.isPlayerBleeding()) {
+                pCore.updateOnlineBleed(p, false);
                 p.getInventory().removeItem(bandage);
             }
         }
@@ -243,24 +264,21 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onSplintUse(PlayerInteractEvent e){
+    public void onSplintUse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         ItemStack splint = HealthItems.getSplint();
-        if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
+        if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
                 splint.getItemMeta().getDisplayName()
-        )){
-            if(pCore.isPlayerCrippled()){
+        )) {
+            if (pCore.isPlayerCrippled()) {
                 pCore.updateOnlineCripple(p, false);
                 p.getInventory().removeItem(splint);
             }
         }
 
 
-
-
     }
-
 
 
 }
