@@ -2,13 +2,17 @@
 
 A western themed minecraft spigot project for 1.19.2.
 
+> ### Main Overview
+>
+>An open world western gunslinger. A new found world, taken swiftly from it's native people. Survive amidst the chaos of an ever expanding world. Spend your time exploring the mountaintops for valuable resources. Become a bandit and raid scrap encampments. Join up with a crew to take out high loot areas like oil field, or the citadel. Help to stop the growing rise of crime by becoming a sheriff. Climb the ranks by selling wanted player heads. Explore a world full of resources. Survive, journey through and make the choice of your story. Be good or be evil. something something., (flesh out as we actually add these features)
+
 ## Current Features
 
 - [**Teams**](#teams)
 - [**Economy**](#economy)
 - [**Safe Zones**](#safe-zones)
-- Wanted / bounties
-- Sheriff
+- [**Wanted / bounties**](#wanted--bounty)
+- [**Sheriff**](#sheriff-roles)
 
 ## Teams 
 > ### Overview
