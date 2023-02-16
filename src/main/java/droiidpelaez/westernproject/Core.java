@@ -6,7 +6,7 @@ import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.PlayerCore.Commands.Medkit;
 import droiidpelaez.westernproject.PlayerCore.Listeners.PlayerHealthEffects;
-import droiidpelaez.westernproject.SafeZones.SafeZoneCommands;
+import droiidpelaez.westernproject.SafeZones.Commands.SafeZoneCommands;
 import droiidpelaez.westernproject.SafeZones.SafeZoneHandler;
 import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
@@ -40,32 +40,12 @@ public final class Core extends JavaPlugin {
         saveDefaultConfig();
         PlayerUtils playerSaver = new PlayerUtils(this);
         TeamUtils teamSaver = new TeamUtils(this);
-
-        //
-
         // === COMMANDS ===
-        System.out.println(ChatColor.RED+"Registering commands.");
-        getCommand("balance").setExecutor(new CheckBalance());
-        getCommand("eco").setExecutor(new AdminCommands());
-        getCommand("giveGold").setExecutor(new GiveGold());
-        getCommand("drop").setExecutor(new DropGold());
+        CommandRegister cmdRegister = new CommandRegister(this);
 
-        getCommand("wallet").setExecutor(new CheckWallet());
-        getCommand("withdraw").setExecutor(new Withdraw());
-        getCommand("deposit").setExecutor(new Deposit());
-
-        getCommand("team").setExecutor(new TeamCommands(this));
-        getCommand("role").setExecutor(new RoleCommands(this));
-
-        getCommand("toggleplayerinfo").setExecutor(new ToggleScoreBoard());
-        getCommand("playerinfo").setExecutor(new CoreDisplay());
-        getCommand("medkit").setExecutor(new Medkit());
-
-        getCommand("zoneinit").setExecutor(new SafeZoneCommands());
-
-        System.out.println(ChatColor.RED+"COMMANDS REGISTERED");
-
-
+        cmdRegister.regTeamCommands();
+        cmdRegister.regEconomyCommands();
+        cmdRegister.regMiscCommands();
         // === EVENTS ===
         getServer().getPluginManager().registerEvents(new OnPlayerDeath(), this);
         //getServer().getPluginManager().registerEvents(new OnGoldPickUp(), this);
