@@ -25,7 +25,7 @@ public class GiveGold implements CommandExecutor {
             }
 
             //Handles the /eco add ____ case : null player input
-            if(args.length < 2 || args.length > 2){
+            if(args.length != 2){
                 p.sendMessage(ChatColor.GRAY+ "Incorrect usage, please try: "+ ChatColor.DARK_GREEN+"/givegold {user} {amount}");
                 return true;
             }

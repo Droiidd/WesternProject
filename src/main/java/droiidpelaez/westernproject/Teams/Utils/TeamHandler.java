@@ -9,18 +9,20 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class TeamUtils {
-
+public class TeamHandler
+{
     private HashMap<String, String> teamInfo = Team.getTeamInfo();
     private HashMap<String, String> playerTeamList = Team.getPTeamStringList();
     private List<Team> teamList = new ArrayList<>();
     private HashMap<String,String> teamNameList = new HashMap<>();
     private Core mainPlugin;
 
-    public TeamUtils(Core mainPlugin){
+    public TeamHandler(Core mainPlugin)
+    {
         this.mainPlugin = mainPlugin;
     }
-    public static List<Player> getTeamPlayers(Player p){
+    public static List<Player> getTeamPlayers(Player p)
+    {
         Team playersTeam = Team.getTeam(p);
         List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<Player> teamPlayerList = new ArrayList<>();
@@ -36,7 +38,8 @@ public class TeamUtils {
         return teamPlayerList;
     }
 
-    public void saveTeams(ConfigManager teamConfig){
+    public void saveTeams(ConfigManager teamConfig)
+    {
         for(Map.Entry<String, String> entry : teamInfo.entrySet()){
             teamConfig.playerCFG.set("teamData."+entry.getKey(), entry.getValue());
         }
@@ -46,7 +49,13 @@ public class TeamUtils {
         teamConfig.savePlayers();
     }
 
-    public void loadTeams(ConfigManager teamConfig){
+    /**
+     * Reads through each line of the config file, reading the data back onto their hashmaps
+     * At the end, it recreates the java object.
+     * @param teamConfig
+     */
+    public void loadTeams(ConfigManager teamConfig)
+    {
         System.out.println("Attempting to load teams");
         teamConfig.playerCFG.getConfigurationSection("teamData").getKeys(false).forEach(key -> {
             String color = (String) teamConfig.playerCFG.get("teamData."+key);
@@ -84,24 +93,20 @@ public class TeamUtils {
         System.out.println(ChatColor.DARK_AQUA +"TEAMS CREATED");
     }
 
-    public boolean checkPlayerMaps(){
+    public boolean checkPlayerMaps()
+    {
         if(!teamInfo.isEmpty() && !playerTeamList.isEmpty()){
             return true;
         }
         return false;
     }
 
-    public boolean checkPlayerFileData(ConfigManager teamConfig){
+    public boolean checkPlayerFileData(ConfigManager teamConfig)
+    {
         if(teamConfig.playerCFG.contains("teamData") && teamConfig.playerCFG.contains("playerData")){
             System.out.println(ChatColor.RED+"Team data found");
             return true;
         }
         return false;
     }
-
-
-
-
-
-
 }
