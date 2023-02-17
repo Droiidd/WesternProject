@@ -3,10 +3,9 @@ package droiidpelaez.westernproject.Teams.Commands;
 import droiidpelaez.westernproject.Core;
 
 import droiidpelaez.westernproject.Teams.Team;
-import droiidpelaez.westernproject.Teams.Utils.TeamUtils;
+import droiidpelaez.westernproject.Teams.Utils.TeamHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -94,7 +93,7 @@ public class TeamCommands implements CommandExecutor {
                     }
 
                     Team playerTeam = Team.getTeam(p);
-                    List<Player> teamPlayerList = TeamUtils.getTeamPlayers(p);
+                    List<Player> teamPlayerList = TeamHandler.getTeamPlayers(p);
                     p.sendMessage("");
                     p.sendMessage(ChatColor.GRAY + playerTeam.getTeamName() + ChatColor.DARK_AQUA + "'s Info:");
                     p.sendMessage(ChatColor.GRAY + "-------------");
@@ -119,7 +118,7 @@ public class TeamCommands implements CommandExecutor {
                         return true;
                     }
                     Team targetTeam = Team.getTeam(target);
-                    List<Player> teamPlayerList = TeamUtils.getTeamPlayers(target);
+                    List<Player> teamPlayerList = TeamHandler.getTeamPlayers(target);
                     p.sendMessage("");
                     p.sendMessage(ChatColor.GRAY + targetTeam.getTeamName() + ChatColor.DARK_AQUA + "'s Info:");
                     p.sendMessage(ChatColor.GRAY + "-------------");

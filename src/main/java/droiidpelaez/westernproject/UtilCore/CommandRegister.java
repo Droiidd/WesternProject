@@ -1,5 +1,6 @@
-package droiidpelaez.westernproject;
+package droiidpelaez.westernproject.UtilCore;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Commands.*;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.Medkit;

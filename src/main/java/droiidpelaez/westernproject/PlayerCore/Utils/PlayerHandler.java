@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerUtils {
+public class PlayerHandler
+{
     private static HashMap<String, Boolean> bleedList = PlayerCore.getBleedList();
     private static HashMap<String, Integer> pBountyList = PlayerCore.getPlayerBountyList();
     private static HashMap<String, Boolean> wantedList = PlayerCore.getWantedList();
@@ -23,11 +24,17 @@ public class PlayerUtils {
     private List<String> playerUuid = new ArrayList<>();
     private Core plugin;
 
-    public PlayerUtils(Core plugin){
+    public PlayerHandler(Core plugin)
+    {
         this.plugin = plugin;
     }
 
-    public void savePlayerFile(ConfigManager playerConfig){
+    /**
+     * Iterates through each hashmap and loads them onto the config file
+     * @param playerConfig
+     */
+    public void savePlayerFile(ConfigManager playerConfig)
+    {
         for(Map.Entry<String, Boolean> entry : bleedList.entrySet()){
             playerConfig.playerCFG.set("bloodData."+entry.getKey(), entry.getValue());
         }
@@ -49,7 +56,13 @@ public class PlayerUtils {
         playerConfig.savePlayers();
     }
 
-    public void restorePlayerFile(ConfigManager playerConfig){
+    /**
+     * Reads through each line of the config file, reading the data back onto their hashmaps
+     * At the end, it recreates the java object.
+     * @param playerConfig
+     */
+    public void restorePlayerFile(ConfigManager playerConfig)
+    {
         System.out.println(ChatColor.LIGHT_PURPLE+"Loading all player data.");
         playerConfig.playerCFG.getConfigurationSection("bloodData").getKeys(false).forEach(key ->{
             Boolean bloodStat = (Boolean) playerConfig.playerCFG.get("bloodData."+key);
@@ -103,13 +116,15 @@ public class PlayerUtils {
 
     }
 
-    public boolean checkPlayerMaps(){
+    public boolean checkPlayerMaps()
+    {
         if(!bleedList.isEmpty() && !pBountyList.isEmpty() && !wantedList.isEmpty() && !playerList.isEmpty() && !crippleList.isEmpty()){
             return true;
         }
         return false;
     }
-    public boolean checkPlayerFileData(ConfigManager playerConfig){
+    public boolean checkPlayerFileData(ConfigManager playerConfig)
+    {
         if(playerConfig.playerCFG.contains("bloodData") && playerConfig.playerCFG.contains("bountyData")
                 && playerConfig.playerCFG.contains("crippleData") && playerConfig.playerCFG.contains("wantedData")
                 && playerConfig.playerCFG.contains("playerData")){
@@ -118,7 +133,8 @@ public class PlayerUtils {
         }
         return false;
     }
-    public void loadJoiningPlayerCore(){
+    public void loadJoiningPlayerCore()
+    {
         for (int i =0;i<playerUuid.size();i++) {
             System.out.println("Loading player ID: " + playerUuid.get(i));
             Player player = GlobalUtils.getPlayerFromString(playerUuid.get(i));
