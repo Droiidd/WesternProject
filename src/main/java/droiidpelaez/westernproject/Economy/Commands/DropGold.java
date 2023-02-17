@@ -10,9 +10,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class DropGold implements CommandExecutor {
+public class DropGold implements CommandExecutor
+{
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
         if(sender instanceof Player){
             Player p = (Player) sender;
             Double dropAmount = GlobalUtils.checkStrToDErrMsg(args[0], p);
@@ -26,7 +28,6 @@ public class DropGold implements CommandExecutor {
                 p.sendMessage(ChatColor.DARK_GREEN+"/wallet "+ChatColor.GRAY+"to check funds");
                 return true;
             }
-
             Wallet.removeMoney(p, dropAmount);
             ItemStack goldAmount = GoldUtils.getNewCoin(dropAmount);
             p.getWorld().dropItemNaturally(p.getLocation(), goldAmount);

@@ -13,18 +13,18 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Random;
 
-public class PlayerHealthEffects implements Listener {
-
+public class PlayerHealthEffects implements Listener
+{
     private Core plugin;
     private int count;
-
-    public PlayerHealthEffects(Core plugin) {
+    public PlayerHealthEffects(Core plugin)
+    {
         this.plugin = plugin;
         count = 0;
     }
-
     @EventHandler
-    public void playerBleedEvent(EntityDamageEvent e) {
+    public void playerBleedEvent(EntityDamageEvent e)
+    {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
@@ -66,9 +66,9 @@ public class PlayerHealthEffects implements Listener {
             }
         }
     }
-
     @EventHandler
-    public void breakLegEvent(EntityDamageEvent e){
+    public void breakLegEvent(EntityDamageEvent e)
+    {
         if(e.getEntity() instanceof  Player){
             Player p = (Player) e.getEntity();
             PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());

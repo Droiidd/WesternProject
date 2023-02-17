@@ -9,15 +9,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class RoleCommands implements CommandExecutor {
+public class RoleCommands implements CommandExecutor
+{
     private Core plugin;
 
-    public RoleCommands(Core plugin) {
+    public RoleCommands(Core plugin)
+    {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args[0].toLowerCase().compareTo("set") == 0) {
@@ -70,10 +73,7 @@ public class RoleCommands implements CommandExecutor {
                 // === REMOVE NEW ROLE HERE ===
             }
             // === NEW COMMAND HERE ===
-
         }
-
-
         return true;
     }
 }

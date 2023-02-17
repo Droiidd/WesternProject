@@ -16,8 +16,10 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class GlobalUtils {
-    public static void loadPidScoreboard(String pId) {
+public class GlobalUtils
+{
+    public static void loadPidScoreboard(String pId)
+    {
         Player target = GlobalUtils.getPlayerFromString(pId);
         if (target != null) {
             ScoreboardUtils sb = new ScoreboardUtils();
@@ -26,7 +28,8 @@ public class GlobalUtils {
         System.out.println("Oops - team add player");
     }
 
-    public static Double checkStrToDErrMsg(String s, Player p) {
+    public static Double checkStrToDErrMsg(String s, Player p)
+    {
         try {
             Double amount = Double.parseDouble(s);
             return amount;
@@ -36,17 +39,17 @@ public class GlobalUtils {
         return -1.0;
     }
 
-    public static Double StrToDNoMsg(String s, Player p) {
+    public static Double StrToDNoMsg(String s, Player p)
+    {
         try {
             Double amount = Double.parseDouble(s);
             return amount;
         } catch (NumberFormatException e) {
             return -1.0;
         }
-
     }
-
-    public static Double getGoldStrToD(ItemStack goldItem, Player p) {
+    public static Double getGoldStrToD(ItemStack goldItem, Player p)
+    {
         String amount = ChatColor.stripColor(goldItem.getItemMeta().getDisplayName());
         String numberOnly = amount.replaceAll("[^0-9]", "");
         Double depositGold = (GlobalUtils.StrToDNoMsg(numberOnly, p)) / 10;
@@ -57,7 +60,8 @@ public class GlobalUtils {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
-    public static Player getPlayerFromString(String uuid) {
+    public static Player getPlayerFromString(String uuid)
+    {
         UUID playerId = UUID.fromString(uuid);
         Player p = (Player) Bukkit.getOfflinePlayer(playerId);
         if (p == null) {
@@ -67,7 +71,8 @@ public class GlobalUtils {
         return p;
     }
 
-    public static void loadPlayerNameTags(Player p) {
+    public static void loadPlayerNameTags(Player p)
+    {
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         p.sendMessage("Loading tag...");
         if (Sheriff.isSheriff(p.getUniqueId().toString())) {
@@ -81,7 +86,8 @@ public class GlobalUtils {
         }
     }
 
-    public static void loadPlayerListName(Player p) {
+    public static void loadPlayerListName(Player p)
+    {
         PlayerCore pCore= PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (Sheriff.isSheriff(p.getUniqueId().toString())) {
             Sheriff sheriff = Sheriff.getSheriff(p.getUniqueId().toString());
@@ -94,13 +100,15 @@ public class GlobalUtils {
             p.setPlayerListName(ChatColor.GRAY + "" + ChatColor.BOLD + "Bandit " + ChatColor.RESET + p.getDisplayName());
         }
     }
-    public static void loadPlayerStatsDisplay(Player p) {
+    public static void loadPlayerStatsDisplay(Player p)
+    {
         loadPlayerListName(p);
         //loadPlayerNameTags(p);
         ScoreboardUtils sb = new ScoreboardUtils();
         sb.loadPlayerScoreboard(p);
     }
-    public static void dropPlayerHead(Player p, Double headValue) {
+    public static void dropPlayerHead(Player p, Double headValue)
+    {
 
         String pName = p.getDisplayName();
         if(Sheriff.isSheriff(p.getUniqueId().toString())){

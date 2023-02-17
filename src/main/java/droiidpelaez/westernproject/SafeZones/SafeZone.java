@@ -10,8 +10,6 @@ import java.util.List;
 public class SafeZone
 {
     private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
-
-
     private String name;
     private Double xPos1;
     private Double xPos2;

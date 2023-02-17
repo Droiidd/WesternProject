@@ -11,15 +11,13 @@ import org.bukkit.entity.Zombie;
 import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 
-public class SafeZoneGenerator {
-
-   public BossBar loadBossBar(){
+public class SafeZoneGenerator
+{
+   public BossBar loadBossBar()
+   {
        BossBar bBar = Bukkit.createBossBar(ChatColor.GOLD + "Gold town ",
                BarColor.PURPLE,
                BarStyle.SOLID);
        return bBar;
    }
-
-
-
 }

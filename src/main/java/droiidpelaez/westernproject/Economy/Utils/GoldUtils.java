@@ -7,9 +7,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class GoldUtils {
-
-    public static ItemStack getNewCoin(Double amount){
+public class GoldUtils
+{
+    public static ItemStack getNewCoin(Double amount)
+    {
         //Create a new item based off a gold nugget
         ItemStack gold = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta goldMeta = gold.getItemMeta();
@@ -22,10 +23,4 @@ public class GoldUtils {
         //return the item
         return gold;
     }
-
-    public static ItemStack getNormNugget(){
-        ItemStack gold = new ItemStack(Material.GOLD_NUGGET);
-        return gold;
-    }
-
 }
