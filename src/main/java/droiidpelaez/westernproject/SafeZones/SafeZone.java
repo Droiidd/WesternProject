@@ -56,33 +56,9 @@ public class SafeZone
             minZ = zPos2;
             maxZ = zPos1;
         }
-
-        if ((playerX > minX && playerX < maxX) && (playerZ > minZ && playerZ < maxZ)) {
-                //PLAYER IS WITHIN THE ZONE
-                p.sendMessage("You are within the zone");
-                return true;
-
-        }else{
-            p.sendMessage("Outside");
-            return false;
-        }
+        //PLAYER IS WITHIN THE ZONE
+        return (playerX > minX && playerX < maxX) && (playerZ > minZ && playerZ < maxZ);
     }
-    public void playerLeavingZone(Player p)
-    {
-        if (!playersInZoneList.containsKey(p.getUniqueId().toString())) {
-            //Player is not in loaded in ANY zone
-        }
-        if (!playersInZoneList.get(p.getUniqueId().toString())) {
-            //Do nothing because its already false and should not display
-            p.sendMessage("not in zone");
-        } else {
-
-            playersInZoneList.replace(p.getUniqueId().toString(), false);
-            p.sendMessage("Leaving a town: " + playersInZoneList.get(p.getUniqueId().toString()));
-
-        }
-    }
-
     public static SafeZone getSafeZone(String name)
     {
         if(zoneMap.containsKey(name)){
