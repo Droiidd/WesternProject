@@ -31,21 +31,19 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import java.util.HashMap;
 
 
-public class GlobalPlayerEvents implements Listener {
+public class GlobalPlayerEvents implements Listener
+{
     private final Core plugin;
     private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
-
     SafeZoneGenerator gen = new SafeZoneGenerator();
     BossBar test = gen.loadBossBar();
-
-
-    public GlobalPlayerEvents(Core plugin) {
+    public GlobalPlayerEvents(Core plugin)
+    {
         this.plugin = plugin;
-
     }
-
     @EventHandler
-    public void dropPlayerHead(PlayerDeathEvent e) {
+    public void dropPlayerHead(PlayerDeathEvent e)
+    {
         Player victim = e.getEntity();
         Player killer = victim.getKiller();
         if (killer == null) {
@@ -66,7 +64,8 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e)
+    {
         Player p = e.getPlayer();
         if (!PlayerCore.hasPlayer(p.getUniqueId().toString())) {
             PlayerCore newPlayer = new PlayerCore(p.getUniqueId().toString(), false, false, false, 0);
@@ -81,7 +80,8 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(PlayerChatEvent e) {
+    public void onPlayerChat(PlayerChatEvent e)
+    {
         Player p = e.getPlayer();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (pCore.isPlayerWanted()) {
@@ -92,7 +92,8 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onBanditAttack(EntityDamageByEntityEvent e) {
+    public void onBanditAttack(EntityDamageByEntityEvent e)
+    {
         if (!(e.getDamager() instanceof Player)) {
             //NOT PLAYER
         }
@@ -127,7 +128,8 @@ public class GlobalPlayerEvents implements Listener {
         }
     }
     @EventHandler
-    public void onBanditKill(PlayerDeathEvent e) {
+    public void onBanditKill(PlayerDeathEvent e)
+    {
         Player p = e.getEntity();
         if (p == null) {
         }
@@ -153,7 +155,8 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onWantedDeath(PlayerDeathEvent e) {
+    public void onWantedDeath(PlayerDeathEvent e)
+    {
         Player p = e.getEntity();
         if (p == null) {
 
@@ -166,11 +169,11 @@ public class GlobalPlayerEvents implements Listener {
         }
         //If player is sheriff -bounty amount
         //If player is bandit -bounty amount
-
     }
 
     @EventHandler
-    public void onBandageUse(PlayerInteractEvent e) {
+    public void onBandageUse(PlayerInteractEvent e)
+    {
         Player p = e.getPlayer();
         ItemStack bandage = HealthItems.getBandage();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
@@ -185,7 +188,8 @@ public class GlobalPlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onSplintUse(PlayerInteractEvent e) {
+    public void onSplintUse(PlayerInteractEvent e)
+    {
         Player p = e.getPlayer();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         ItemStack splint = HealthItems.getSplint();
@@ -197,13 +201,7 @@ public class GlobalPlayerEvents implements Listener {
                 p.getInventory().removeItem(splint);
             }
         }
-
-
     }
-
-
 }
-
-
 //Add event for players hitting other players that aren't wanted.
 

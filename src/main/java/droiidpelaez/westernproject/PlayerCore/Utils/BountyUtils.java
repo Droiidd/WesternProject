@@ -10,19 +10,21 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
 
-public class BountyUtils {
+public class BountyUtils
+{
     private HashMap<String, Long> cooldown = new HashMap<>();
     private final Core plugin;
     private Integer count;
     private Integer timerSeconds;
     private Integer timerMinutes;
-
-    public BountyUtils(Core plugin) {
+    public BountyUtils(Core plugin)
+    {
         this.plugin = plugin;
         count = 0;
     }
 
-    public void startWantedTimer(Player p) {
+    public void startWantedTimer(Player p)
+    {
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         BukkitScheduler schedular = Bukkit.getServer().getScheduler();
         timerSeconds = 0;
@@ -82,8 +84,5 @@ public class BountyUtils {
                 }
             }
         }, 2400);
-       // p.sendMessage("YESSSS");
-       // pCore.updateOnlineWanted(p, false);
-
     }
 }

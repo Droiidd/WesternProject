@@ -8,9 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Medkit implements CommandExecutor {
+public class Medkit implements CommandExecutor
+{
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
         if(sender instanceof Player){
             Player p = (Player) sender;
             ItemStack bandage = HealthItems.getBandage();
@@ -20,9 +22,6 @@ public class Medkit implements CommandExecutor {
             p.sendMessage(ChatColor.RED+"Medkit"+ChatColor.RESET+" recieved!");
 
         }
-
-
-
         return true;
     }
 }

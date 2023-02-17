@@ -4,14 +4,16 @@ import droiidpelaez.westernproject.Core;
 
 import java.util.HashMap;
 
-public class SafeZoneHandler {
+public class SafeZoneHandler
+{
     private Core plugin;
-
-    public SafeZoneHandler(Core plugin){
+    public SafeZoneHandler(Core plugin)
+    {
         this.plugin = plugin;
     }
 
-    public void loadCords(){
+    public void loadCords()
+    {
         for(String key : plugin.getConfig().getConfigurationSection("locations").getKeys(false)){
             System.out.println();
             System.out.println(plugin.getConfig().getString("locations."+key+".xpos1"));
@@ -27,10 +29,6 @@ public class SafeZoneHandler {
             SafeZone sf = new SafeZone("test", xPos1, xPos2, zPos1, zPos2);
 
         }
-
-
-            System.out.println("Safe zone successfully loaded!");
+        System.out.println("Safe zone successfully loaded!");
     }
-
-
 }

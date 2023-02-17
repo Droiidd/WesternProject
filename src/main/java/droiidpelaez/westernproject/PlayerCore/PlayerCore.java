@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlayerCore {
+public class PlayerCore
+{
     private static List<PlayerCore> allPlayerCores = new ArrayList<>();
     private static HashMap<String, PlayerCore> playersCoreList = new HashMap<>();
     private static HashMap<String, Boolean> bleedList = new HashMap<String, Boolean>();
@@ -22,25 +23,29 @@ public class PlayerCore {
     private static HashMap<String, Integer> playerBountyList = new HashMap<String, Integer>();
     private  static HashMap<String, String> playerUUIDList = new HashMap<>();
     private String pId;
-
-
-    public static HashMap<String, Boolean> getBleedList(){
+    public static HashMap<String, Boolean> getBleedList()
+    {
         return bleedList;
     }
-    public static HashMap<String, String> getPlayerList(){
+    public static HashMap<String, String> getPlayerList()
+    {
         return playerUUIDList;
     }
-    public static HashMap<String, Integer> getPlayerBountyList(){
+    public static HashMap<String, Integer> getPlayerBountyList()
+    {
         return playerBountyList;
     }
-    public static HashMap<String, Boolean> getCrippleList(){
+    public static HashMap<String, Boolean> getCrippleList()
+    {
         return crippleList;
     }
-    public static HashMap<String, Boolean> getWantedList(){
+    public static HashMap<String, Boolean> getWantedList()
+    {
         return wantedList;
     }
 
-    public PlayerCore(String pId, Boolean bleeding, Boolean crippled, Boolean wanted, Integer bounty) {
+    public PlayerCore(String pId, Boolean bleeding, Boolean crippled, Boolean wanted, Integer bounty)
+    {
         allPlayerCores.add(this);
         this.pId = pId;
         bleedList.put(pId, bleeding);
@@ -50,31 +55,8 @@ public class PlayerCore {
         playersCoreList.put(pId, this);
         playerUUIDList.put(pId,pId);
     }
-    public List<PlayerCore> getPlayerCoreList(){
-        return allPlayerCores;
-    }
-    public static Boolean hasPlayer(String playerId){
-        return playerBountyList.containsKey(playerId);
-    }
-    public static PlayerCore getPlayerCore(String playerId){
-        return playersCoreList.get(playerId);
-    }
-    public Boolean isPlayerBleeding(){
-        return bleedList.get(pId);
-    }
-    public Boolean isPlayerCrippled(){
-        return crippleList.get(pId);
-    }
-    public Boolean isPlayerWanted(){
-        return wantedList.get(pId);
-    }
-    public Integer getPlayerBounty(){
-        return playerBountyList.get(pId);
-    }
-    public void updateBleed(Boolean newStat){
-        bleedList.replace(pId, newStat);
-    }
-    public void updateOnlineCripple(Player p, Boolean newStat){
+    public void updateOnlineCripple(Player p, Boolean newStat)
+    {
         if(newStat){
             p.sendMessage(ChatColor.GRAY+"Your legs are "+ChatColor.RED+"broken!");
             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 3));
@@ -85,9 +67,9 @@ public class PlayerCore {
             p.removePotionEffect(PotionEffectType.SLOW);
             crippleList.put(pId,false);
         }
-
     }
-    public void updateOnlineBleed(Player p,Boolean newStat){
+    public void updateOnlineBleed(Player p,Boolean newStat)
+    {
         if(newStat){
             p.sendMessage(ChatColor.GRAY+"You are now "+ChatColor.RED+"bleeding!");
             bleedList.replace(pId, newStat);
@@ -98,23 +80,8 @@ public class PlayerCore {
         }
 
     }
-
-    public void updateCripple(Boolean newStat){
-        crippleList.replace(pId, newStat);
-    }
-    public void updateWanted(Boolean newStat){
-        wantedList.replace(pId, newStat);
-    }
-    public void setBounty(Player p,Integer newStat){
-        playerBountyList.replace(pId, newStat);
-        GlobalUtils.loadPlayerStatsDisplay(p);
-    }
-    public void updateBounty(Integer newStat){
-        Integer newBounty = getPlayerBounty()+ newStat;
-        playerBountyList.replace(pId,newBounty);
-
-    }
-    public void updateOnlineWanted(Player p,Boolean newStat){
+    public void updateOnlineWanted(Player p,Boolean newStat)
+    {
         if(!newStat){
             p.sendMessage(ChatColor.GRAY+"You are no longer "+ChatColor.RED+"wanted");
             p.setPlayerListName(p.getDisplayName());
@@ -127,11 +94,62 @@ public class PlayerCore {
             GlobalUtils.loadPlayerStatsDisplay(p);
         }
     }
-    public void updateOnlineBounty(Player p,Integer bountyInc){
+    public void updateOnlineBounty(Player p,Integer bountyInc)
+    {
         bountyInc += playerBountyList.get(p.getUniqueId().toString());
         playerBountyList.replace(p.getUniqueId().toString(), bountyInc);
         GlobalUtils.loadPlayerStatsDisplay(p);
     }
+    public List<PlayerCore> getPlayerCoreList()
+    {
+        return allPlayerCores;
+    }
+    public static Boolean hasPlayer(String playerId)
+    {
+        return playerBountyList.containsKey(playerId);
+    }
+    public static PlayerCore getPlayerCore(String playerId)
+    {
+        return playersCoreList.get(playerId);
+    }
+    public Boolean isPlayerBleeding()
+    {
+        return bleedList.get(pId);
+    }
+    public Boolean isPlayerCrippled()
+    {
+        return crippleList.get(pId);
+    }
+    public Boolean isPlayerWanted()
+    {
+        return wantedList.get(pId);
+    }
+    public Integer getPlayerBounty()
+    {
+        return playerBountyList.get(pId);
+    }
+    public void updateBleed(Boolean newStat)
+    {
+        bleedList.replace(pId, newStat);
+    }
+    public void updateCripple(Boolean newStat)
+    {
+        crippleList.replace(pId, newStat);
+    }
+    public void updateWanted(Boolean newStat)
+    {
+        wantedList.replace(pId, newStat);
+    }
+    public void setBounty(Player p,Integer newStat)
+    {
+        playerBountyList.replace(pId, newStat);
+        GlobalUtils.loadPlayerStatsDisplay(p);
+    }
+    public void updateBounty(Integer newStat)
+    {
+        Integer newBounty = getPlayerBounty()+ newStat;
+        playerBountyList.replace(pId,newBounty);
 
+    }
 }
 

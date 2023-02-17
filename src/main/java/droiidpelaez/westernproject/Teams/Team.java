@@ -36,16 +36,19 @@ public class Team {
     public static HashMap<String, String> getPTeamStringList(){ return pTeamStringList; }
     //public static HashMap<String, String> getTeamOfficers(){return teamOfficers;}
     public static HashMap<String, String> getTeamInvites(){ return teamInvites; }
-    public Integer getTeamCapacity(){return teamCapacity; }
-    public static boolean hasTeam(String pId){
+    public Integer getTeamCapacity(){ return teamCapacity; }
+    public static boolean hasTeam(String pId)
+    {
         return playerTeam.containsKey(pId);
     }
-    public String getTeamName(){
+    public String getTeamName()
+    {
         return teamName;
     }
 
     // ==== UTIL METHODS ====
-    public static Team getTeam(Player p){
+    public static Team getTeam(Player p)
+    {
         if(!hasTeam(p.getUniqueId().toString())){return null;}
         return playerTeam.get(p.getUniqueId().toString());
     }
@@ -60,10 +63,12 @@ public class Team {
         }
         return true;
     }
-    public void removeTeam(Team removedTeam){
+    public void removeTeam(Team removedTeam)
+    {
         allTeams.remove(removedTeam);
     }
-    public void addPlayer(String pId){
+    public void addPlayer(String pId)
+    {
         if(teamCapacity == 0){
             //teamOfficers.put(p.getUniqueId().toString(), ChatColor.RED+"Captain");
             playerTeam.put(pId, this);
@@ -88,7 +93,8 @@ public class Team {
             System.out.println("Oops - team add player");
         }
     }
-    public void removePlayer(Player p){
+    public void removePlayer(Player p)
+    {
         if(hasTeam(p.getUniqueId().toString()) ){
             if(teamCapacity == 1) {
                 p.sendMessage( ChatColor.GRAY+ getTeam(p).teamName + ChatColor.DARK_AQUA+ " has been disbanded");
@@ -117,7 +123,8 @@ public class Team {
         }
     }
 
-    public static List<Player> getPlayerList(String targetTeamName){
+    public static List<Player> getPlayerList(String targetTeamName)
+    {
         Iterator hmIterator = pTeamStringList.entrySet().iterator();
         List<String> targetTeamPlayerList = new ArrayList<>();
         List<Player> targetTeamPlayers = new ArrayList<>();
@@ -141,7 +148,8 @@ public class Team {
     }
 
     // === Invitational ===
-    public static void invitePlayer(Player target, Player p){
+    public static void invitePlayer(Player target, Player p)
+    {
         if(hasTeam(target.getUniqueId().toString())){
             target.sendMessage(ChatColor.DARK_AQUA +"You are already in a team!");
         }
@@ -156,7 +164,8 @@ public class Team {
         }
 
     }
-    public static void acceptInvite(Player invPlayer){
+    public static void acceptInvite(Player invPlayer)
+    {
         if(!teamInvites.containsKey(invPlayer.getUniqueId().toString())){
             invPlayer.sendMessage(ChatColor.GRAY+"You have "+ChatColor.DARK_AQUA+"0"+ChatColor.GRAY+  " pending invites!");
         }
@@ -173,8 +182,6 @@ public class Team {
                 for(int i = 0;i<teamPlayerList.size();i++){
                     teamPlayerList.get(i).sendMessage(ChatColor.DARK_AQUA+invPlayer.getDisplayName()+ChatColor.GRAY+" has joined the crew!");
                 }
-
-
             }
         }
     }

@@ -12,12 +12,10 @@ import org.bukkit.ChatColor;
 public class CommandRegister
 {
     private Core plugin;
-
     public CommandRegister(Core plugin)
     {
         this.plugin = plugin;
     }
-
     public void regTeamCommands()
     {
         System.out.println(ChatColor.AQUA+"Registering team commands");

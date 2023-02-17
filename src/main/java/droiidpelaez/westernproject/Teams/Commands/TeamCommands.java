@@ -14,18 +14,21 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.List;
 
-public class TeamCommands implements CommandExecutor {
+public class TeamCommands implements CommandExecutor
+{
 
     private final static List<Team> teamList = Team.getAllTeams();
     private final Core plugin;
     private final static HashMap<String, String> teamInvites = Team.getTeamInvites();
 
-    public TeamCommands(Core plugin) {
+    public TeamCommands(Core plugin)
+    {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
@@ -205,9 +208,9 @@ public class TeamCommands implements CommandExecutor {
                 if(teamList.size() == 0){
                     p.sendMessage(ChatColor.GRAY+"There are no teams to list.");
                 }
-
+                p.sendMessage(ChatColor.GRAY+ "Team List:");
                 for (int i = 0; i < teamList.size(); i++) {
-                    p.sendMessage(ChatColor.GRAY+ "Team List:");
+
                     p.sendMessage(ChatColor.GRAY+""+ (i + 1) + ".) " +  ChatColor.DARK_AQUA+teamList.get(i).getTeamName() + ChatColor.GRAY+ " capacity: " +
                             teamList.get(i).getTeamCapacity() + ChatColor.GRAY+ "/6");
                 }

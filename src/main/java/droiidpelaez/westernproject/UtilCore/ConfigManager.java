@@ -7,14 +7,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class ConfigManager {
-
+public class ConfigManager
+{
     private Core plugin = Core.getPlugin(Core.class);
     //Files & config here
     public FileConfiguration playerCFG;
     public File playerFile;
 
-    public void setup(String fileName){
+    public void setup(String fileName)
+    {
         if(!plugin.getDataFolder().exists()){
             plugin.getDataFolder().mkdir();
         }
@@ -26,23 +27,20 @@ public class ConfigManager {
                 throw new RuntimeException(e);
             }
         }
-
         playerCFG = YamlConfiguration.loadConfiguration(playerFile);
-
     }
-
-    public FileConfiguration getPlayerCFG() {
+    public FileConfiguration getPlayerCFG()
+    {
         return playerCFG;
     }
-
-    public void savePlayers(){
+    public void savePlayers()
+    {
         try{
             playerCFG.save(playerFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
     public void reloadPlayers(){
         playerCFG = YamlConfiguration.loadConfiguration(playerFile);
     }

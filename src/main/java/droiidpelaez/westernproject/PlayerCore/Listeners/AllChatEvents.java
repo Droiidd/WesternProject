@@ -11,18 +11,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
-public class AllChatEvents implements Listener {
+public class AllChatEvents implements Listener
+{
     private Core plugin;
     private final String wantedDisplay = ChatColor.DARK_RED+""+ChatColor.BOLD+"Wanted ";
     private final String sheriffDisplay = ChatColor.GOLD+"" +ChatColor.BOLD+"Sheriff ";
-
-
-    public AllChatEvents(Core plugin){
+    public AllChatEvents(Core plugin)
+    {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void onPlayerChat(PlayerChatEvent e){
+    public void onPlayerChat(PlayerChatEvent e)
+    {
         Player p = e.getPlayer();
         Sheriff sheriff = Sheriff.getSheriff(p.getUniqueId().toString());
         if(sheriff == null){
@@ -67,7 +68,4 @@ public class AllChatEvents implements Listener {
             //Otherwise do nothing
         }
     }
-
-
-
 }

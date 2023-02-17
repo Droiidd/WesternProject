@@ -9,12 +9,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AdminCommands implements CommandExecutor {
+public class AdminCommands implements CommandExecutor
+{
         @Override
-        public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+        {
             if(sender instanceof Player){
                 Player p = (Player) sender;
-                //If the entered /eco -> Show the usage
+                //If the user entered /eco -> Show the usage
                 if(args.length == 0){
                     p.sendMessage("");
                     p.sendMessage(ChatColor.GRAY+"==========");
@@ -27,7 +29,7 @@ public class AdminCommands implements CommandExecutor {
                 String add = "add";
                 String remove = "remove";
                 String reset = "reset";
-                // CASE : add
+                // CASE : add -> (add money)
                 if(args[0].toLowerCase().compareTo(add) == 0){
                     //Handles the /eco add ____ case : null player input
                     if(args.length != 3){
@@ -45,45 +47,45 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
                     Bank.updateBalance(target, deposit);
-
                 }
-                // CASE : remove
+                // CASE : remove -> (remove money)
                 else if(args[0].toLowerCase().compareTo(remove) == 0){
+                    //Error checking
                     if(args.length != 3){
                         p.sendMessage(ChatColor.GRAY+ "Incorrect usage, please try: "+ ChatColor.DARK_GREEN+"/eco remove {Player} {Amount}");
                         return true;
                     }
+                    //Checking the player
                     Player target = Bukkit.getServer().getPlayerExact(args[1]);
-                    if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not "+ChatColor.DARK_GREEN+"online."); return true;  }
-
+                    if(target == null){
+                        p.sendMessage(ChatColor.GRAY+"This player is not "+ChatColor.DARK_GREEN+"online.");
+                        return true;
+                    }
                     Double withdrawal = GlobalUtils.checkStrToDErrMsg(args[2], target);
+                    //Error checking
                     if(withdrawal == -1.0){
                         p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                         return true;
                     }
                     Double original = Bank.getPlayerFunds(target);
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
-                    if(original - withdrawal < 0){ p.sendMessage(ChatColor.RED+"Attempted to remove too many funds!"); }
+                    //Makes sure the player is withdrawing an allowed amount
+                    if(original - withdrawal < 0){
+                        p.sendMessage(ChatColor.RED+"Attempted to remove too many funds!");
+                    }
                     else{
                         Bank.removeFunds(target, withdrawal);
                     }
                 }
-                // CASE : reset
+                // CASE : reset -> (resets all banks)
                 else if(args[0].toLowerCase().compareTo(reset) == 0){
                     if(args.length == 1){ p.sendMessage();
                         Bank.deleteAllAct();
                         p.sendMessage(ChatColor.GRAY+"All accounts "+ ChatColor.DARK_GREEN+"removed.");
                         return true;
                     }
-//                Player target = Bukkit.getServer().getPlayerExact(args[1]);
-//                if(target == null){ p.sendMessage(ChatColor.GRAY+"This player is not online."); return true;}
-//                BankUtils.deleteAccount(target);
                 }
-
             }
-
             return true;
         }
-
-
     }
