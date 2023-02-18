@@ -22,7 +22,7 @@ public class MiningItems
         ItemMeta iMeta = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         iMeta.setDisplayName(ChatColor.WHITE+"Unrefined Gold Ore");
-        lore.add(ChatColor.GRAY+"Refine refinement before sale");
+        lore.add(ChatColor.GRAY+"Refine before sale");
         iMeta.setLore(lore);
         item.setItemMeta(iMeta);
         return item;
@@ -69,7 +69,7 @@ public class MiningItems
         ItemMeta iMeta = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Unrefined Copper Cluster");
-        lore.add(ChatColor.GRAY+"Requires refinement before sale");
+        lore.add(ChatColor.GRAY+"Refine before sale");
         iMeta.setLore(lore);
         item.setItemMeta(iMeta);
         return item;
@@ -80,7 +80,7 @@ public class MiningItems
         ItemMeta iMeta = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Unrefined Gold Cluster");
-        lore.add(ChatColor.GRAY+"Requires refinement before sale");
+        lore.add(ChatColor.GRAY+"Refine before sale");
         iMeta.setLore(lore);
         item.setItemMeta(iMeta);
         return item;
@@ -91,7 +91,7 @@ public class MiningItems
         ItemMeta iMeta = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Unrefined Iron Cluster");
-        lore.add(ChatColor.GRAY+"Requires refinement before sale");
+        lore.add(ChatColor.GRAY+"Refine before sale");
         iMeta.setLore(lore);
         item.setItemMeta(iMeta);
         return item;
