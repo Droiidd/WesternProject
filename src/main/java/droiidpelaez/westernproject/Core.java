@@ -3,7 +3,7 @@ package droiidpelaez.westernproject;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Utils.AccountHandler;
 import droiidpelaez.westernproject.Economy.Wallet;
-import droiidpelaez.westernproject.SafeZones.SafeZoneHandler;
+import droiidpelaez.westernproject.SafeZones.Utils.SafeZoneHandler;
 import droiidpelaez.westernproject.UtilCore.CommandRegister;
 import droiidpelaez.westernproject.UtilCore.ConfigManager;
 import droiidpelaez.westernproject.PlayerCore.Utils.PlayerHandler;

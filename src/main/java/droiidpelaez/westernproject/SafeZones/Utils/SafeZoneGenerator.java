@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.SafeZones;
+package droiidpelaez.westernproject.SafeZones.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
