@@ -4,6 +4,7 @@ import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Listeners.OnGoldPickUp;
 import droiidpelaez.westernproject.Economy.Listeners.OnPlayerDeath;
 import droiidpelaez.westernproject.Items.Listeners.BlockBreaking;
+import droiidpelaez.westernproject.Items.Listeners.Foraging;
 import droiidpelaez.westernproject.PlayerCore.Listeners.AllChatEvents;
 import droiidpelaez.westernproject.PlayerCore.Listeners.GlobalPlayerEvents;
 import droiidpelaez.westernproject.PlayerCore.Listeners.PlayerHealthEffects;
@@ -25,6 +26,7 @@ public class EventRegister
         plugin.getServer().getPluginManager().registerEvents(new AllChatEvents(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new SafeZoneListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new BlockBreaking(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new Foraging(plugin), plugin);
     }
 }
 
