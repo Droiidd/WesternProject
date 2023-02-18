@@ -1,6 +1,7 @@
-package droiidpelaez.westernproject.SafeZones;
+package droiidpelaez.westernproject.SafeZones.Utils;
 
 import droiidpelaez.westernproject.Core;
+import droiidpelaez.westernproject.SafeZones.SafeZone;
 
 import java.util.HashMap;
 

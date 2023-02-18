@@ -1,17 +1,15 @@
 package droiidpelaez.westernproject.SafeZones.Listeners;
 
 import droiidpelaez.westernproject.SafeZones.SafeZone;
-import droiidpelaez.westernproject.SafeZones.SafeZoneGenerator;
+import droiidpelaez.westernproject.SafeZones.Utils.SafeZoneGenerator;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class SafeZoneListener implements Listener
 {
