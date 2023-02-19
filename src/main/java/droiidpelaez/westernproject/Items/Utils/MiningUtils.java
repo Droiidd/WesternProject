@@ -3,10 +3,7 @@ package droiidpelaez.westernproject.Items.Utils;
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -24,6 +21,19 @@ public class MiningUtils
     }
 
 
+    public void displayParticles(Location blockLoc)
+    {
+        for(int i = 0; i < 25; i++){
+            blockLoc.getWorld().spawnParticle(Particle.CLOUD, blockLoc.getX()+0.85,blockLoc.getY()+0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CRIT, blockLoc.getX()+0.85,blockLoc.getY()+0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CLOUD, blockLoc.getX()+0.85,blockLoc.getY()-0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CRIT, blockLoc.getX()+0.85,blockLoc.getY()-0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CLOUD, blockLoc.getX()-0.85,blockLoc.getY()+0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CRIT, blockLoc.getX()-0.85,blockLoc.getY()+0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CLOUD, blockLoc.getX()-0.85,blockLoc.getY()-0.8,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(Particle.CLOUD, blockLoc.getX()-0.85,blockLoc.getY()-0.85,blockLoc.getZ()-0.85, 0);
+        }
+    }
     public void startRespawnTimer(Material blockType, Location blockLoc)
     {
         BukkitScheduler schedular = Bukkit.getServer().getScheduler();
@@ -42,10 +52,11 @@ public class MiningUtils
                 blockLoc.getBlock().setType(blockType); //Replaces the stone to its previous ore block
                 int chance = new Random().nextInt(11);
                 if (chance % 2 == 0) {
-                    Bukkit.getServer().getWorld("WesternProject").playSound(blockLoc, Sound.ENTITY_VILLAGER_WORK_MASON, 1, 1);
+                    Bukkit.getServer().getWorld("WesternProject").playSound(blockLoc, Sound.BLOCK_GRINDSTONE_USE, 1, -1);
                 }else{
                     Bukkit.getServer().getWorld("WesternProject").playSound(blockLoc, Sound.ENTITY_VILLAGER_WORK_MASON, 1, 0);
                 }
+                    displayParticles(blockLoc);
                     Bukkit.getScheduler().cancelTask(id); //Use to cancel the runnable
             }
         }, 240); //(This is the amount of seconds it takes )
