@@ -68,14 +68,19 @@ public final class Core extends JavaPlugin
         ForageItems forageItems = new ForageItems();
         ItemStack goldenGamble = forageItems.getGoldenGamblePetal();
         ItemStack molesBreath = forageItems.getMolesBreathSpores();
+        ItemStack starPetal = forageItems.getStarPetal();
 
-        ShapelessRecipe fartPotionRecipe = new ShapelessRecipe(new NamespacedKey(this, "fart_potion"),potionItems.newPotion()).
+        ShapelessRecipe minersSpadeBrewRecipe = new ShapelessRecipe(new NamespacedKey(this, "fart_potion"),potionItems.getMinersSpadeBrew()).
                 addIngredient(goldenGamble.getType()).addIngredient(molesBreath.getType()).addIngredient(potionItems.getFermentedLiquor().getType());
-        getServer().addRecipe(fartPotionRecipe);
+        getServer().addRecipe(minersSpadeBrewRecipe);
 
         ShapelessRecipe fermentedLiquorRecipe = new ShapelessRecipe(new NamespacedKey(this, "fermented_liquor"),potionItems.getFermentedLiquor()).
                 addIngredient(Material.BLAZE_POWDER);
         getServer().addRecipe(fermentedLiquorRecipe);
+
+        ShapelessRecipe greenThumbBrewRecipe = new ShapelessRecipe(new NamespacedKey(this, "green_thumb_brew"),potionItems.getGreenThumbBrew()).
+                addIngredient(starPetal.getType()).addIngredient(goldenGamble.getType()).addIngredient(potionItems.getFermentedLiquor().getType());
+        getServer().addRecipe(greenThumbBrewRecipe);
     }
 
     @Override

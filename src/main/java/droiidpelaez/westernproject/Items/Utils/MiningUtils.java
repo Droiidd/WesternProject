@@ -6,8 +6,11 @@ import droiidpelaez.westernproject.UtilCore.ScoreboardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.Random;
 
 public class MiningUtils
 {
@@ -35,25 +38,22 @@ public class MiningUtils
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override
             public void run() {
-                    blockLoc.getBlock().setType(blockType); //Replaces the stone to its previous ore block
+
+                blockLoc.getBlock().setType(blockType); //Replaces the stone to its previous ore block
+                int chance = new Random().nextInt(11);
+                if (chance % 2 == 0) {
+                    Bukkit.getServer().getWorld("WesternProject").playSound(blockLoc, Sound.ENTITY_VILLAGER_WORK_MASON, 1, 1);
+                }else{
+                    Bukkit.getServer().getWorld("WesternProject").playSound(blockLoc, Sound.ENTITY_VILLAGER_WORK_MASON, 1, 0);
+                }
                     Bukkit.getScheduler().cancelTask(id); //Use to cancel the runnable
             }
         }, 240); //(This is the amount of seconds it takes )
     }
 
-    public void backUpMethod(Player p)
-    {
-        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
 
 
-        scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
-            @Override
-            public void run() {
-                p.sendMessage("test");
-            }
-        },100);
 
-    }
 
 
 

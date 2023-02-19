@@ -14,13 +14,23 @@ import java.util.ArrayList;
 
 public class PotionItems
 {
-    public ItemStack newPotion()
+    public ItemStack getMinersSpadeBrew()
     {
         ItemStack item = new ItemStack(Material.POTION);
         PotionMeta iMeta = (PotionMeta) item.getItemMeta();
-        iMeta.setDisplayName("Fart potion");
-        iMeta.setColor(Color.ORANGE);
-        iMeta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 600 , 2), true);
+        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Miners spade brew");
+        iMeta.setColor(Color.PURPLE);
+        iMeta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 600 , 0), true);
+        item.setItemMeta(iMeta);
+        return item;
+    }
+    public ItemStack getGreenThumbBrew()
+    {
+        ItemStack item = new ItemStack(Material.POTION);
+        PotionMeta iMeta = (PotionMeta) item.getItemMeta();
+        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Green Thumb brew");
+        iMeta.setColor(Color.GREEN);
+        iMeta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 600 , 1), true);
         item.setItemMeta(iMeta);
         return item;
     }

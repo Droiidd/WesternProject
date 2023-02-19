@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.Items.Listeners;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Items.MiningItems;
+import droiidpelaez.westernproject.Items.PotionItems;
 import droiidpelaez.westernproject.Items.Utils.MiningUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,7 +10,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,13 +23,11 @@ public class BlockBreaking implements Listener {
     private Core plugin;
     private MiningItems miningItems = new MiningItems();
 
-    public BlockBreaking(Core plugin)
-    {
+    public BlockBreaking(Core plugin) {
         this.plugin = plugin;
     }
 
-    public void replaceRandomBlock(Material mainBlock, Material secondaryBlock, Location blockLocation, Player p)
-    {
+    public void replaceRandomBlock(Material mainBlock, Material secondaryBlock, Location blockLocation, Player p) {
         MiningUtils mineUtils = new MiningUtils(plugin);
         int chance = new Random().nextInt(11);
         if (chance % 9 == 0) {
@@ -34,23 +35,24 @@ public class BlockBreaking implements Listener {
         } else {
             mineUtils.startRespawnTimer(mainBlock, blockLocation);
         }
-
     }
-
-    public boolean spawnGeode(Player p)
-    {
+    public boolean spawnGeode(Player p) {
         int chance = new Random().nextInt(11);
         if (chance % 9 == 0) {
             return true;
         }
         return false;
     }
-
-
     @EventHandler
-    public void onGeodeBreak(Click)
-    {
-
+    public void onGeodeBreak(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            ItemStack geode = miningItems.getGeode();
+            if (p.getInventory().getItemInMainHand().getType().equals(geode.getType())) {
+                p.getInventory().removeItem(geode);
+                p.sendMessage("give diamonds");
+            }
+        }
     }
 
     @EventHandler
@@ -67,7 +69,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedIron = miningItems.getUnRefinedIron();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
@@ -103,7 +105,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedIron = miningItems.getUnRefinedIron();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
@@ -145,7 +147,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedCopper = miningItems.getUnRefinedCopper();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
@@ -181,7 +183,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedCopper = miningItems.getUnRefinedCopper();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
@@ -223,7 +225,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedGold = miningItems.getUnRefinedGold();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
@@ -260,7 +262,7 @@ public class BlockBreaking implements Listener {
             ItemStack unRefinedGold = miningItems.getUnRefinedGold();
             //TESTING FOR PLAYER LUCK
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
-            if (effect != null && effect.getAmplifier() == 2) {
+            if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
                     p.getInventory().addItem(geode);
