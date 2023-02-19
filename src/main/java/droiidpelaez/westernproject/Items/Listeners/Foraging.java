@@ -35,10 +35,12 @@ public class Foraging implements Listener
         //MOLES BREATH FUNGI -> MOLES BREATH SPORES
         if(e.getBlock().getType().equals(Material.WARPED_FUNGUS)){
             Location blockLocation = e.getBlock().getLocation();
+            GlobalUtils globalUtils = new GlobalUtils();
+            globalUtils. displayParticles(blockLocation, Particle.SMOKE_NORMAL, Particle.SMOKE_NORMAL,3);
             e.setCancelled(true);
             e.getBlock().setType(Material.NETHER_SPROUTS);
             ItemStack foragedItem = forageItems.getMolesBreathSpores();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
             cropUtils.startFlowerRespawnTimer(Material.WARPED_FUNGUS, blockLocation);
@@ -51,7 +53,7 @@ public class Foraging implements Listener
             e.setCancelled(true);
             e.getBlock().setType(Material.MANGROVE_PROPAGULE);
             ItemStack foragedItem = forageItems.getGoldenGamblePetal();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
 
@@ -65,7 +67,7 @@ public class Foraging implements Listener
             e.setCancelled(true);
             e.getBlock().setType(Material.MANGROVE_PROPAGULE);
             ItemStack foragedItem = forageItems.getLifePetal();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
             cropUtils.startFlowerRespawnTimer(Material.LILY_OF_THE_VALLEY, blockLocation);
@@ -73,10 +75,12 @@ public class Foraging implements Listener
         //NIGHT SHADE -> STAR PETAL
         else if(e.getBlock().getType().equals(Material.CORNFLOWER)){
             Location blockLocation = e.getBlock().getLocation();
+            GlobalUtils globalUtils = new GlobalUtils();
+            globalUtils. displayParticles(blockLocation, Particle.SMOKE_NORMAL, Particle.SMOKE_NORMAL,3);
             e.setCancelled(true);
             e.getBlock().setType(Material.MANGROVE_PROPAGULE);
             ItemStack foragedItem = forageItems.getStarPetal();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
             cropUtils.startFlowerRespawnTimer(Material.CORNFLOWER, blockLocation);
@@ -84,10 +88,12 @@ public class Foraging implements Listener
         //Passion Flowers -> Frenzied Stems
         else if(e.getBlock().getType().equals(Material.ROSE_BUSH)){
             Location blockLocation = e.getBlock().getLocation();
+            GlobalUtils globalUtils = new GlobalUtils();
+            globalUtils. displayParticles(blockLocation, Particle.SMOKE_NORMAL, Particle.SMOKE_NORMAL,3);
             e.setCancelled(true);
             e.getBlock().setType(Material.SWEET_BERRY_BUSH);
             ItemStack foragedItem = forageItems.getFrenziedStems();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
             cropUtils.startFlowerRespawnTimer(Material.ROSE_BUSH, blockLocation);
@@ -95,10 +101,12 @@ public class Foraging implements Listener
         //Heart fruit flower -> Heart Fruit
         else if(e.getBlock().getType().equals(Material.POPPY)){
             Location blockLocation = e.getBlock().getLocation();
+            GlobalUtils globalUtils = new GlobalUtils();
+            globalUtils. displayParticles(blockLocation, Particle.SMOKE_NORMAL, Particle.SMOKE_NORMAL,3);
             e.setCancelled(true);
             e.getBlock().setType(Material.MANGROVE_PROPAGULE);
             ItemStack foragedItem = forageItems.getHeartFruit();
-            p.getInventory().addItem(foragedItem);
+            blockLocation.getWorld().dropItemNaturally(blockLocation, foragedItem);
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
             cropUtils.startFlowerRespawnTimer(Material.POPPY, blockLocation);

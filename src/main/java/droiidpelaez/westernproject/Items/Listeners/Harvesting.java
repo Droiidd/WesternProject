@@ -47,12 +47,12 @@ public class Harvesting implements Listener
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
             if (effect != null && effect.getAmplifier() == 1) {
                 //THEY RECEIVE DOUBLE
-                p.getInventory().addItem(drug);
-                p.getInventory().addItem(drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
             }
             //PLAYER IS NOT LUCKY
             else {
-                p.getInventory().addItem(drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer
@@ -68,12 +68,12 @@ public class Harvesting implements Listener
             PotionEffect effect = p.getPotionEffect(PotionEffectType.LUCK);
             if (effect != null && effect.getAmplifier() == 1) {
                 //THEY RECEIVE DOUBLE
-                p.getInventory().addItem(drug);
-                p.getInventory().addItem(drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
             }
             //PLAYER IS NOT LUCKY
             else {
-                p.getInventory().addItem(drug);
+                blockLocation.getWorld().dropItemNaturally(blockLocation, drug);
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
             //Then call the respawn timer

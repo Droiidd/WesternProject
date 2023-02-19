@@ -72,24 +72,24 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
                 }
             }
             //PLAYER IS NOT LUCKY
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
@@ -108,30 +108,30 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
                 }
             }
             //PLAYER IS NOT LUCKY
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
-                    p.getInventory().addItem(unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedIron);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
@@ -150,24 +150,24 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
                 }
             }
             //PLAYER IS NOT LUCKY
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
@@ -186,30 +186,30 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
                 }
             }
             //PLAYER IS NOT LUCKY
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
-                    p.getInventory().addItem(unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedCopper);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
@@ -228,13 +228,13 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
 
                 }
             }
@@ -242,11 +242,11 @@ public class BlockBreaking implements Listener {
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
@@ -265,30 +265,30 @@ public class BlockBreaking implements Listener {
             if (effect != null && effect.getAmplifier() == 0) {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
                 }
             }
             //PLAYER IS NOT LUCKY
             else {
                 //IF IT IS A GEODE
                 if (spawnGeode(p)) {
-                    p.getInventory().addItem(geode);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, geode);
                 }
                 //IT IS NOT A GEODE
                 else {
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
-                    p.getInventory().addItem(unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
+                    blockLocation.getWorld().dropItemNaturally(blockLocation, unRefinedGold);
                 }
             }
             //Make it random 10% chance you get an iron cluster spawn for an iron ore
