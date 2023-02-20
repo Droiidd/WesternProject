@@ -34,10 +34,12 @@ public class Wallet
     }
     public static void removeMoney(Player p, Double withdrawal)
     {
-        Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
-        walletList.replace(p.getUniqueId().toString(), newBalance);
-        ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(p);
+        if(Wallet.getPlayerFunds(p) >= withdrawal){
+            Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
+            walletList.replace(p.getUniqueId().toString(), newBalance);
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(p);
+        }
     }
     public static Boolean hasAccount(Player player)
     {

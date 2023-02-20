@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.UtilCore;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Commands.*;
+import droiidpelaez.westernproject.NPC.NPCCommands;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.Medkit;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;
@@ -42,6 +43,7 @@ public class CommandRegister
         plugin.getCommand("role").setExecutor(new RoleCommands(plugin));
         plugin.getCommand("toggleplayerinfo").setExecutor(new ToggleScoreBoard());
         plugin.getCommand("medkit").setExecutor(new Medkit());
+        plugin.getCommand("npc").setExecutor(new NPCCommands());
         System.out.println(ChatColor.LIGHT_PURPLE+"misc commands registered");
     }
 
