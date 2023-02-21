@@ -22,11 +22,18 @@ public class NPCInteractions implements Listener
         if (e.getRightClicked().getType()== EntityType.VILLAGER) {
             e.setCancelled(true);
             p.sendMessage("You clicked him!");
-            String villagerName = ChatColor.BLUE+""+ChatColor.BOLD+"Geologist";
-            if(e.getRightClicked().getCustomName().compareTo(villagerName)==0){
+            String geologist = ChatColor.BLUE+""+ChatColor.BOLD+"Geologist";
+            String banker = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
+            if(e.getRightClicked().getCustomName().compareTo(geologist)==0){
                 Inventory shop = npcGui.getGeologistShop(p);
                 p.openInventory(shop);
-            }else{
+            }else if(e.getRightClicked().getCustomName().compareTo(banker)==0){
+                Inventory shop = npcGui.getBankerGui(p);
+                p.openInventory(shop);
+            }
+
+
+            else{
                 p.sendMessage("this might be tough.");
             }
 

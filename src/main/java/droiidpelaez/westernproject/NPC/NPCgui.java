@@ -16,7 +16,7 @@ public class NPCgui
 {
     public Inventory getGeologistShop(Player p)
     {
-        Inventory test = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
+        Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
 
         ItemStack crackGeode = new ItemStack(Material.NETHERITE_AXE);
         ItemMeta geodeMeta = crackGeode.getItemMeta();
@@ -55,13 +55,40 @@ public class NPCgui
         pickMeta3.setLore(lore3);
         pick3.setItemMeta(pickMeta3);
 
-        test.setItem(0, exit);
-        test.setItem(4, crackGeode);
-        test.setItem(20, pick);
-        test.setItem(22, pick2);
-        test.setItem(24, pick3);
-        return test;
+        geoGui.setItem(0, exit);
+        geoGui.setItem(4, crackGeode);
+        geoGui.setItem(20, pick);
+        geoGui.setItem(22, pick2);
+        geoGui.setItem(24, pick3);
+        // 0  1  2  3  4  5  6  7  8
+        // 9 10 11 12 13 14 15 16 17
+        //18 19 20 21 22 23 24 25 26
+        return geoGui;
 
+    }
+    public Inventory getBankerGui(Player p)
+    {
+        Inventory bankGui = Bukkit.createInventory(p, 27, ChatColor.GRAY+p.getName()+"'s Bank Account");
+
+        ItemStack deposit = new ItemStack(Material.EMERALD_BLOCK);
+        ItemMeta dMeta = deposit.getItemMeta();
+        dMeta.setDisplayName(ChatColor.WHITE+"Make a deposit");
+        deposit.setItemMeta(dMeta);
+
+        ItemStack withdraw = new ItemStack(Material.NETHERITE_BLOCK);
+        ItemMeta wMeta = withdraw.getItemMeta();
+        wMeta.setDisplayName(ChatColor.WHITE+"Make a withdrawal");
+        withdraw.setItemMeta(wMeta);
+
+        ItemStack exit = new ItemStack(Material.BARRIER);
+        ItemMeta exitMeta = exit.getItemMeta();
+        exitMeta.setDisplayName(ChatColor.WHITE+"Leave");
+        exit.setItemMeta(exitMeta);
+
+        bankGui.setItem(0, exit);
+        bankGui.setItem(11, withdraw);
+        bankGui.setItem(15, deposit);
+        return bankGui;
     }
 
 

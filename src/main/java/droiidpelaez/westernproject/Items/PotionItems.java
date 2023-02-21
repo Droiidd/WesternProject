@@ -14,12 +14,28 @@ import java.util.ArrayList;
 
 public class PotionItems
 {
+    public ItemStack getMiningFrenzyBrew(int quality)
+    {
+        ItemStack item = new ItemStack(Material.POTION);
+        PotionMeta iMeta = (PotionMeta) item.getItemMeta();
+        iMeta.setColor(Color.ORANGE);
+        iMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 600 , quality), true);
+
+        if(quality > 0){
+            iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Miners Frenzy Brew +"+quality);
+            item.setItemMeta(iMeta);
+            return item;
+        }
+        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Miners Frenzy Brew");
+        item.setItemMeta(iMeta);
+        return item;
+    }
     public ItemStack getMinersSpadeBrew()
     {
         ItemStack item = new ItemStack(Material.POTION);
         PotionMeta iMeta = (PotionMeta) item.getItemMeta();
-        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Miners spade brew");
-        iMeta.setColor(Color.PURPLE);
+        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Miners Double Spade Brew");
+        iMeta.setColor(Color.MAROON);
         iMeta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 600 , 0), true);
         item.setItemMeta(iMeta);
         return item;
@@ -28,7 +44,7 @@ public class PotionItems
     {
         ItemStack item = new ItemStack(Material.POTION);
         PotionMeta iMeta = (PotionMeta) item.getItemMeta();
-        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Green Thumb brew");
+        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Green Thumb Brew");
         iMeta.setColor(Color.GREEN);
         iMeta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 600 , 1), true);
         item.setItemMeta(iMeta);
@@ -39,7 +55,7 @@ public class PotionItems
     {
         ItemStack item = new ItemStack(Material.HONEY_BOTTLE);
         ItemMeta iMeta = item.getItemMeta();
-        iMeta.setDisplayName(ChatColor.LIGHT_PURPLE+"Fermented Liquor");
+        iMeta.setDisplayName(ChatColor.DARK_GREEN+"Fermented Liquor");
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY+"Used to make helpful brews...");
         iMeta.setLore(lore);
