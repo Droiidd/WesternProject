@@ -49,10 +49,13 @@ public class Bank
             createBankAccount(p);
         }
         Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
-        bankList.replace(p.getUniqueId().toString(), newBalance);
-        p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
-        ScoreboardUtils sb = new ScoreboardUtils();
-        sb.loadPlayerScoreboard(p);
+        if(newBalance >0){
+            bankList.replace(p.getUniqueId().toString(), newBalance);
+            //p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(p);
+        }
+        p.sendMessage("Incorere");
     }
     public static Boolean hasAccount(Player p)
     {

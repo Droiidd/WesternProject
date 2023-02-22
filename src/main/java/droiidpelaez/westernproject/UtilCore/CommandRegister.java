@@ -2,7 +2,7 @@ package droiidpelaez.westernproject.UtilCore;
 
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Commands.*;
-import droiidpelaez.westernproject.NPC.NPCCommands;
+import droiidpelaez.westernproject.NPC.Commands.NPCCommands;
 import droiidpelaez.westernproject.PlayerCore.Commands.CoreDisplay;
 import droiidpelaez.westernproject.PlayerCore.Commands.Medkit;
 import droiidpelaez.westernproject.PlayerCore.Commands.ToggleScoreBoard;

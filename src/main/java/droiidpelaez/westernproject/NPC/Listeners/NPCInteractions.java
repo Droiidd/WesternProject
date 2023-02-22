@@ -14,6 +14,8 @@ import org.bukkit.inventory.Inventory;
 
 public class NPCInteractions implements Listener
 {
+    private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
+    private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
     @EventHandler
     public void rightClickNPC(PlayerInteractEntityEvent e)
     {
@@ -22,12 +24,10 @@ public class NPCInteractions implements Listener
         if (e.getRightClicked().getType()== EntityType.VILLAGER) {
             e.setCancelled(true);
             p.sendMessage("You clicked him!");
-            String geologist = ChatColor.BLUE+""+ChatColor.BOLD+"Geologist";
-            String banker = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
-            if(e.getRightClicked().getCustomName().compareTo(geologist)==0){
+            if(e.getRightClicked().getCustomName().compareTo(geologistName)==0){
                 Inventory shop = npcGui.getGeologistShop(p);
                 p.openInventory(shop);
-            }else if(e.getRightClicked().getCustomName().compareTo(banker)==0){
+            }else if(e.getRightClicked().getCustomName().compareTo(bankerName)==0){
                 Inventory shop = npcGui.getBankerGui(p);
                 p.openInventory(shop);
             }

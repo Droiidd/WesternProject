@@ -1,4 +1,4 @@
-package droiidpelaez.westernproject.NPC;
+package droiidpelaez.westernproject.NPC.Commands;
 
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import org.bukkit.ChatColor;
@@ -14,6 +14,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class NPCCommands implements CommandExecutor
 {
+    private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
+    private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
     public void createVillager(Player p, String villagerName)
     {
         Villager vil = (Villager)p.getLocation().getWorld().spawn(p.getLocation(), Villager.class);
@@ -36,11 +38,16 @@ public class NPCCommands implements CommandExecutor
 
            switch(userIn){
                case "geologist":
-                   String villagerName = ChatColor.BLUE+""+ChatColor.BOLD+"Geologist";
-                   p.sendMessage("Spawned "+villagerName+"!");
+                   p.sendMessage("Spawned "+geologistName+"!");
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
                    globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
-                   createVillager(p, villagerName);
+                   createVillager(p, geologistName);
+                   break;
+               case "banker":
+                   p.sendMessage("Spawned "+bankerName+"!");
+                   p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   createVillager(p, bankerName);
                    break;
            }
 
