@@ -8,49 +8,65 @@ import java.util.HashMap;
 public class Wallet
 {
     private static HashMap<String, Double> walletList = new HashMap<>();
+    private static HashMap<String, Wallet> playerWalletList = new HashMap<>();
+    private Double accountBalance;
+    public Wallet(String playerId)
+    {
+        playerWalletList.put(playerId, this);
+    }
+    public static Wallet getPlayerWallet(Player p)
+    {
+        return playerWalletList.get(p.getUniqueId().toString());
+    }
     public static HashMap<String, Double> getWallets()
     {
         return walletList;
     }
-    public static void createWallet(String playerId)
+    public void createWallet(String playerId)
     {
         walletList.put(playerId, 0.0);
     }
-    public static void updateBalance(Player p, Double revenue)
+    public void addFunds(Player p, Double revenue)
     {
+        accountBalance += revenue;
+        displayScoreboard(p);
         if(walletList.containsKey(p.getUniqueId().toString())){
             walletList.replace(p.getUniqueId().toString(), revenue + walletList.get(p.getUniqueId().toString()));
-            ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(p);
         }
         else{ createWallet(p.getUniqueId().toString()); }
     }
-    public static void setBalance(String playerId, Double amount)
+    public void setBalance(String playerId, Double amount)
     {
+        accountBalance = amount;
         if(walletList.containsKey(playerId)){
             walletList.replace(playerId,amount);
         }
         walletList.put(playerId, amount);
     }
-    public static void removeMoney(Player p, Double withdrawal)
+    public void removeMoney(Player p, Double withdrawal)
     {
-        if(Wallet.getPlayerFunds(p) >= withdrawal){
-            Double newBalance = walletList.get(p.getUniqueId().toString()) - withdrawal;
+        if(getPlayerFunds(p) >= withdrawal){
+            Double newBalance = accountBalance - withdrawal;
+            accountBalance -= withdrawal;
             walletList.replace(p.getUniqueId().toString(), newBalance);
-            ScoreboardUtils sb = new ScoreboardUtils();
-            sb.loadPlayerScoreboard(p);
+            displayScoreboard(p);
         }
     }
-    public static Boolean hasAccount(Player player)
+    public Boolean hasAccount(Player player)
     {
         return walletList.containsKey(player.getUniqueId().toString());
     }
-    public static Double getPlayerFunds(Player player)
+    public Double getPlayerFunds(Player player)
     {
         if(!hasAccount(player)){
             createWallet(player.getUniqueId().toString());
-            return walletList.get(player.getUniqueId().toString());
+            return accountBalance;
         }
-        return walletList.get(player.getUniqueId().toString());
+        return accountBalance;
+    }
+    public void displayScoreboard(Player p)
+    {
+        ScoreboardUtils sb = new ScoreboardUtils();
+        sb.loadPlayerScoreboard(p);
     }
 }

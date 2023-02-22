@@ -15,11 +15,12 @@ public class OnPlayerDeath implements Listener
     public void onPlayerDeath(PlayerDeathEvent e)
     {
         Player p = e.getEntity();
+        Wallet wallet = Wallet.getPlayerWallet(p);
         //Important location: where we'll spawn the gold coin
         Location deathPoint = p.getLocation();
         //Double of your bank, create a gold coin of that value and drop it at deathpoint
-        Double lostMoney = Wallet.getPlayerFunds(p);
-        Wallet.removeMoney(p, lostMoney);
+        Double lostMoney = wallet.getPlayerFunds(p);
+        wallet.removeMoney(p, lostMoney);
         ItemStack gold = GoldUtils.getNewCoin(lostMoney);
         deathPoint.getBlock().getWorld().dropItem(deathPoint, gold);
     }

@@ -14,12 +14,13 @@ public class CheckWallet implements CommandExecutor
     {
         if(sender instanceof Player){
             Player p = (Player) sender;
+            Wallet wallet = Wallet.getPlayerWallet(p);
             if(args.length>0){
                 p.sendMessage(ChatColor.RED+ "Incorrect usage please try:");
                 p.sendMessage(ChatColor.GRAY+ "/wallet or /wa");
                 return true;
             }
-            p.sendMessage(ChatColor.GRAY+"Wallet: "+ChatColor.GOLD+ Wallet.getPlayerFunds(p)+"g");
+            p.sendMessage(ChatColor.GRAY+"Wallet: "+ChatColor.GOLD+ wallet.getPlayerFunds(p)+"g");
         }
         return true;
     }

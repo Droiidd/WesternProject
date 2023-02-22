@@ -1,30 +1,23 @@
 package droiidpelaez.westernproject.NPC.Listeners;
 
 import droiidpelaez.westernproject.Economy.Bank;
-import droiidpelaez.westernproject.Economy.Utils.AccountController;
-import droiidpelaez.westernproject.Economy.Utils.AccountHandler;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.Items.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
-import droiidpelaez.westernproject.NPC.Enums.MiscEnums;
-import droiidpelaez.westernproject.Roles.Sheriff;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.block.data.type.Wall;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 
 public class NPCguiController implements Listener
@@ -36,10 +29,6 @@ public class NPCguiController implements Listener
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
 
 
-    public void withdraw(Player p, Double amount)
-    {
-
-    }
     public void msgNotEnoughFunds(Player p, String npcName)
     {
         p.sendMessage(npcName+": "+ChatColor.GRAY+"You do not have enough "+ChatColor.RED+"Funds!");
@@ -51,14 +40,14 @@ public class NPCguiController implements Listener
     @EventHandler
     public void chatSaleHandler(AsyncPlayerChatEvent e)
     {
-
         Player p = e.getPlayer();
+        Bank bank = Bank.getPlayerBank(p);
+        Wallet wallet = Wallet.getPlayerWallet(p);
         p.sendMessage("Chat = " + chatListener.get(p.getUniqueId().toString()));
         if(chatListener.containsKey(p.getUniqueId().toString())){
             if(chatListener.get(p.getUniqueId().toString())){
                 e.setCancelled(true);
                 Double amount = GlobalUtils.checkStrToDErrMsg(e.getMessage(), p);
-                AccountController actController = new AccountController();
                 if(amount == -1){
                     p.sendMessage(bankerName+ChatColor.GRAY+ ": That's not right...");
                     chatListener.replace(p.getUniqueId().toString(), false);
@@ -68,16 +57,14 @@ public class NPCguiController implements Listener
                         switch(bankListener.get(p.getUniqueId().toString())){
                             case 1:
                                 //WITHDRAWAL
-                                if(Bank.getPlayerFunds(p) -amount >= 0.0){
+                                if(bank.getPlayerFunds(p) -amount >= 0.0){
 
-                                    Sheriff sheriff = Sheriff.getSheriff(p.getUniqueId().toString());
-                                    sheriff.addSheriff(p.getUniqueId().toString(),p.getDisplayName());
-
-                                    Bukkit.getServer().broadcastMessage("HOLY FUCK");
+                                    Bukkit.getServer().broadcastMessage("HOLY FUCK!!");
 
                                     //bankListener.remove(p.getUniqueId().toString());
                                     chatListener.replace(p.getUniqueId().toString(), false);
-                                    withdraw(p, amount);
+                                    bank.removeFunds(p, amount);
+                                    p.sendMessage(bankerName+ChatColor.GRAY+ ": Withdrew "+amount+ChatColor.GOLD+"g");
 
                                     Bukkit.getServer().broadcastMessage("HOLY FUCK");
 
@@ -90,9 +77,9 @@ public class NPCguiController implements Listener
                                 break;
 
                             case 2:
-                                if(Wallet.getPlayerFunds(p) >= amount){
-                                    Wallet.removeMoney(p, amount);
-                                    Bank.updateBalance(p, amount);
+                                if(wallet.getPlayerFunds(p) >= amount){
+                                    wallet.removeMoney(p, amount);
+                                    bank.updateBalance(p, amount);
                                     //bankListener.remove(p.getUniqueId().toString());
                                     chatListener.replace(p.getUniqueId().toString(), false);
                                     p.sendMessage(bankerName+ChatColor.GRAY+ ": Deposited "+amount+ChatColor.GOLD+"g");
@@ -118,6 +105,8 @@ public class NPCguiController implements Listener
     public void salesmenHandler(InventoryClickEvent e)
     {
         Player p = (Player) e.getWhoClicked();
+        Bank bank = Bank.getPlayerBank(p);
+        Wallet wallet = Wallet.getPlayerWallet(p);
         Tools tools = new Tools();
         MiningItems miningItems = new MiningItems();
         if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:")){
@@ -129,12 +118,12 @@ public class NPCguiController implements Listener
                     break;
                 case DIAMOND_PICKAXE:
                     if(p.getInventory().contains(miningItems.getRiverDiamond(), 5)){
-                        if(Wallet.getPlayerFunds(p)> 1600.0){
+                        if(wallet.getPlayerFunds(p)> 1600.0){
                             //ACCPET USER TRANSACTION
                             for(int i = 0; i < 5; i++){
                                 p.getInventory().remove(miningItems.getRiverDiamond());
                             }
-                            Wallet.removeMoney(p,1600.0);
+                            wallet.removeMoney(p,1600.0);
                             //GIVE USER THEIR ITEMS
                             ItemStack explorerPick = tools.getExplorerPick();
                             p.getInventory().addItem(explorerPick);
@@ -149,9 +138,9 @@ public class NPCguiController implements Listener
                     }
                     break;
                 case IRON_PICKAXE:
-                    if(Wallet.getPlayerFunds(p)>=800.0){
+                    if(wallet.getPlayerFunds(p)>=800.0){
                        //Make sure they can afford
-                        Wallet.removeMoney(p,800.0);
+                        wallet.removeMoney(p,800.0);
 
                         //Giver user purchased Item
                         ItemStack oldMinersPick = tools.getOldMinersPick();
@@ -164,9 +153,9 @@ public class NPCguiController implements Listener
                     break;
                 case STONE_PICKAXE:
                     //sell item
-                    if(Wallet.getPlayerFunds(p)>=200.0){
+                    if(wallet.getPlayerFunds(p)>=200.0){
                         //Make sure they can afford
-                        Wallet.removeMoney(p,200.0);
+                        wallet.removeMoney(p,200.0);
 
                         //Giver user purchased Item
                         ItemStack brokenPick = tools.getBrokenPick();
@@ -179,7 +168,7 @@ public class NPCguiController implements Listener
                     break;
                 case NETHERITE_AXE:
                     //Break geode here
-                    if(Wallet.getPlayerFunds(p)>150.0){
+                    if(wallet.getPlayerFunds(p)>150.0){
                         ItemStack geode = miningItems.getGeode();
                         GeodeController geoController = new GeodeController();
                         GlobalUtils globalUtils = new GlobalUtils();
@@ -187,7 +176,7 @@ public class NPCguiController implements Listener
                             //Checking if a player has geodes of any quantity
                             if(p.getInventory().contains(geode, j)){
                                 p.getInventory().removeItem(geode);
-                                Wallet.removeMoney(p, 50.0);
+                                wallet.removeMoney(p, 50.0);
                                 ArrayList<ItemStack> geodeContents = geoController.openGeode();
                                 for(int i =0;i<geodeContents.size();i++){
                                     p.getInventory().addItem(geodeContents.get(i));
@@ -208,6 +197,7 @@ public class NPCguiController implements Listener
             }
 
         }
+        // >>>====--- BANKER ---===<<<
         else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.GRAY+p.getName()+"'s Bank Account")){
             e.setCancelled(true);
             switch(e.getCurrentItem().getType()){

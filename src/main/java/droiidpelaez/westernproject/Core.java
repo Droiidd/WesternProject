@@ -23,8 +23,8 @@ import java.util.HashMap;
 
 public final class Core extends JavaPlugin
 {
-    private static HashMap<String, Double> bankList = Bank.getBankList();
-    private static HashMap<String, Double> walletList = Wallet.getWallets();
+    private  HashMap<String, Double> bankList = Bank.getBankList();
+    private  HashMap<String, Double> walletList = Wallet.getWallets();
     private ConfigManager walletConfig;
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
