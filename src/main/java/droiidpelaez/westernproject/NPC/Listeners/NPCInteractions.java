@@ -23,7 +23,6 @@ public class NPCInteractions implements Listener
         NPCgui npcGui = new NPCgui();
         if (e.getRightClicked().getType()== EntityType.VILLAGER) {
             e.setCancelled(true);
-            p.sendMessage("You clicked him!");
             if(e.getRightClicked().getCustomName().compareTo(geologistName)==0){
                 Inventory shop = npcGui.getGeologistShop(p);
                 p.openInventory(shop);

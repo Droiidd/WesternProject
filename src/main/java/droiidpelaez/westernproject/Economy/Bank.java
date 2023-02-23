@@ -35,7 +35,7 @@ public class Bank
     {
         return bankList;
     }
-    public void updateBalance(Player p, Double revenue)
+    public void addFunds(Player p, Double revenue)
     {
         if (bankList.containsKey(p.getUniqueId().toString())) {
             bankList.replace(p.getUniqueId().toString(), revenue + bankList.get(p.getUniqueId().toString()));
@@ -57,19 +57,31 @@ public class Bank
     }
     public void removeFunds(Player p, Double withdrawal)
     {
-        Wallet wallet = Wallet.getPlayerWallet(p);
         if (!bankList.containsKey(p.getUniqueId().toString())) {
             createBankAccount(p);
         }
         Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
         if(newBalance >0){
             bankList.replace(p.getUniqueId().toString(), newBalance);
-            wallet.removeMoney(p,withdrawal);
             //p.sendMessage(ChatColor.GRAY + "Remaining balance: $" + bankList.get(p.getUniqueId().toString()));
             ScoreboardUtils sb = new ScoreboardUtils();
             sb.loadPlayerScoreboard(p);
         }
-        p.sendMessage("Incorere");
+    }
+    public void npcWithdraw(Player p, Double withdrawal)
+    {
+        Wallet wallet = Wallet.getPlayerWallet(p);
+
+        if (!bankList.containsKey(p.getUniqueId().toString())) {
+            createBankAccount(p);
+        }
+        Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
+        if(newBalance >0){
+            bankList.replace(p.getUniqueId().toString(), newBalance);
+            wallet.addFunds(p,withdrawal);
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(p);
+        }
     }
     public Boolean hasAccount(Player p)
     {

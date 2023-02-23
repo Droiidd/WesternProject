@@ -40,13 +40,16 @@ public class NPCguiController implements Listener
     @EventHandler
     public void chatSaleHandler(AsyncPlayerChatEvent e)
     {
+        String all = "all";
         Player p = e.getPlayer();
         Bank bank = Bank.getPlayerBank(p);
         Wallet wallet = Wallet.getPlayerWallet(p);
-        p.sendMessage("Chat = " + chatListener.get(p.getUniqueId().toString()));
         if(chatListener.containsKey(p.getUniqueId().toString())){
             if(chatListener.get(p.getUniqueId().toString())){
                 e.setCancelled(true);
+                if(e.getMessage().equalsIgnoreCase(all)){
+                    bankListener.replace(p.getUniqueId().toString(), 3);
+                }
                 Double amount = GlobalUtils.checkStrToDErrMsg(e.getMessage(), p);
                 if(amount == -1){
                     p.sendMessage(bankerName+ChatColor.GRAY+ ": That's not right...");
@@ -58,39 +61,27 @@ public class NPCguiController implements Listener
                             case 1:
                                 //WITHDRAWAL
                                 if(bank.getPlayerFunds(p) -amount >= 0.0){
-
-                                    Bukkit.getServer().broadcastMessage("HOLY FUCK!!");
-
-                                    //bankListener.remove(p.getUniqueId().toString());
                                     chatListener.replace(p.getUniqueId().toString(), false);
-                                    bank.removeFunds(p, amount);
-                                    p.sendMessage(bankerName+ChatColor.GRAY+ ": Withdrew "+amount+ChatColor.GOLD+"g");
-
-                                    Bukkit.getServer().broadcastMessage("HOLY FUCK");
-
+                                    p.sendMessage(bankerName+ChatColor.GRAY+": Withdrew "+ChatColor.GREEN+amount+"g");
+                                    bank.npcWithdraw(p, amount);
                                 }else{
                                     p.sendMessage(bankerName+ChatColor.GRAY+ ": Not enough funds.");
-                                    //bankListener.remove(p.getUniqueId().toString());
                                     chatListener.replace(p.getUniqueId().toString(), false);
                                     //remove all lists
                                 }
                                 break;
 
                             case 2:
-                                if(wallet.getPlayerFunds(p) >= amount){
-                                    wallet.removeMoney(p, amount);
-                                    bank.updateBalance(p, amount);
-                                    //bankListener.remove(p.getUniqueId().toString());
+                                // ===--- DEPOSIT ---===
+                                if(bank.getPlayerFunds(p) -amount >= 0.0){
                                     chatListener.replace(p.getUniqueId().toString(), false);
-                                    p.sendMessage(bankerName+ChatColor.GRAY+ ": Deposited "+amount+ChatColor.GOLD+"g");
-
+                                    p.sendMessage(bankerName+ChatColor.GRAY+": Deposited "+ChatColor.GREEN+amount+"g");
+                                    wallet.npcDeposit(p, amount);
                                 }else{
                                     p.sendMessage(bankerName+ChatColor.GRAY+ ": Not enough funds.");
-                                    //bankListener.remove(p.getUniqueId().toString());
                                     chatListener.replace(p.getUniqueId().toString(), false);
-                                    //remove all lists
                                 }
-
+                                break;
                         }
                     }
                 }

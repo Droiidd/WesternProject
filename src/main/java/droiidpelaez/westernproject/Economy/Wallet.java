@@ -35,6 +35,22 @@ public class Wallet
         }
         else{ createWallet(p.getUniqueId().toString()); }
     }
+    public void npcDeposit(Player p, Double deposit)
+    {
+        Bank bank = Bank.getPlayerBank(p);
+
+        if (!walletList.containsKey(p.getUniqueId().toString())) {
+            createWallet(p.getUniqueId().toString());
+        }
+
+        if(accountBalance >= deposit){
+            walletList.replace(p.getUniqueId().toString(), accountBalance-deposit);
+            accountBalance-=deposit;
+            bank.addFunds(p, deposit);
+            ScoreboardUtils sb = new ScoreboardUtils();
+            sb.loadPlayerScoreboard(p);
+        }
+    }
     public void setBalance(String playerId, Double amount)
     {
         accountBalance = amount;
