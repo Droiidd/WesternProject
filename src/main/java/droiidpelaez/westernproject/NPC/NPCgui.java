@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.NPC;
 
 import droiidpelaez.westernproject.Items.Tools.Tools;
+import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,22 +15,28 @@ import java.util.ArrayList;
 
 public class NPCgui
 {
-    public Inventory getGeologistShop(Player p)
+    private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
+    public ItemStack getExitButton()
     {
-        Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
-
-        ItemStack crackGeode = new ItemStack(Material.NETHERITE_AXE);
-        ItemMeta geodeMeta = crackGeode.getItemMeta();
-        geodeMeta.setDisplayName(ChatColor.WHITE+"Crack a geode open!");
-        ArrayList<String> geoLore = new ArrayList<>();
-        geoLore.add("50.0 g");
-        geodeMeta.setLore(geoLore);
-        crackGeode.setItemMeta(geodeMeta);
-
         ItemStack exit = new ItemStack(Material.BARRIER);
         ItemMeta exitMeta = exit.getItemMeta();
         exitMeta.setDisplayName(ChatColor.WHITE+"Leave");
         exit.setItemMeta(exitMeta);
+        return exit;
+    }
+    public Inventory getGeologistShop(Player p)
+    {
+        Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
+
+        ItemStack crackGeode = new ItemStack(Material.FIREWORK_STAR);
+        ItemMeta geodeMeta = crackGeode.getItemMeta();
+        geodeMeta.setDisplayName(ChatColor.WHITE+"Crack a geode open!");
+        ArrayList<String> geoLore = new ArrayList<>();
+        geoLore.add("150.0 g");
+        geodeMeta.setLore(geoLore);
+        crackGeode.setItemMeta(geodeMeta);
+
+        ItemStack exit = getExitButton();
 
         ItemStack pick = new ItemStack(Material.STONE_PICKAXE);
         ItemMeta pickMeta = pick.getItemMeta();
@@ -66,6 +73,33 @@ public class NPCgui
         return geoGui;
 
     }
+    public Inventory getConductorGui(Player p)
+    {
+        Inventory trainGui = Bukkit.createInventory(p, 27,  conductorName+": Where we heading?");
+
+        ItemStack exit = getExitButton();
+
+        ItemStack santaFe = new ItemStack(Material.NETHER_STAR);
+        ItemMeta sfMeta = santaFe.getItemMeta();
+        ArrayList<String> sfLore = new ArrayList<>();
+        sfMeta.setDisplayName(ChatColor.WHITE+"Train to Santa Fe");
+        sfLore.add(ChatColor.GOLD+"250g");
+        sfMeta.setLore(sfLore);
+        santaFe.setItemMeta(sfMeta);
+
+        ItemStack texas = new ItemStack(Material.DEAD_BUSH);
+        ItemMeta texMeta = texas.getItemMeta();
+        ArrayList<String> texLore = new ArrayList<>();
+        texMeta.setDisplayName(ChatColor.WHITE+"Train to the Republic of Texas");
+        texLore.add(ChatColor.GOLD+"250g");
+        texMeta.setLore(texLore);
+        texas.setItemMeta(texMeta);
+
+        trainGui.setItem(0, exit);
+        trainGui.setItem(11, texas);
+        trainGui.setItem(15, santaFe);
+        return trainGui;
+    }
     public Inventory getBankerGui(Player p)
     {
         Inventory bankGui = Bukkit.createInventory(p, 27, ChatColor.GRAY+p.getName()+"'s Bank Account");
@@ -80,10 +114,7 @@ public class NPCgui
         wMeta.setDisplayName(ChatColor.WHITE+"Make a withdrawal");
         withdraw.setItemMeta(wMeta);
 
-        ItemStack exit = new ItemStack(Material.BARRIER);
-        ItemMeta exitMeta = exit.getItemMeta();
-        exitMeta.setDisplayName(ChatColor.WHITE+"Leave");
-        exit.setItemMeta(exitMeta);
+        ItemStack exit = getExitButton();
 
         bankGui.setItem(0, exit);
         bankGui.setItem(11, withdraw);

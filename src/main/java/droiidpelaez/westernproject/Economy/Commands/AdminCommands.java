@@ -48,7 +48,7 @@ public class AdminCommands implements CommandExecutor
                         p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                         return true;
                     }
-                    bank.updateBalance(target, deposit);
+                    bank.addFunds(target, deposit);
                 }
                 // CASE : remove -> (remove money)
                 else if(args[0].toLowerCase().compareTo(remove) == 0){

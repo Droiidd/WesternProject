@@ -1,5 +1,6 @@
-package droiidpelaez.westernproject.Items;
+package droiidpelaez.westernproject.Items.Utils;
 
+import droiidpelaez.westernproject.Items.MiningItems;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 

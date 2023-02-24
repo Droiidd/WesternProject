@@ -29,7 +29,7 @@ public class Deposit implements CommandExecutor
                 return true;
             }
             if((wallet.getPlayerFunds(p) - amount) >= 0.0){
-                bank.updateBalance(p, amount);
+                bank.addFunds(p, amount);
                 p.sendMessage(ChatColor.GRAY+"You deposited "+ChatColor.GOLD+ amount+"g");
                 wallet.removeMoney(p, amount);
                 return true;

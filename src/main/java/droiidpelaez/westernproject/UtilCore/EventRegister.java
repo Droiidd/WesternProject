@@ -32,7 +32,7 @@ public class EventRegister
         plugin.getServer().getPluginManager().registerEvents(new Foraging(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new Harvesting(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new NPCInteractions(), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new NPCguiController(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new NPCguiController(plugin), plugin);
     }
 }
 

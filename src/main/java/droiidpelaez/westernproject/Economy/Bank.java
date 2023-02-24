@@ -71,12 +71,11 @@ public class Bank
     public void npcWithdraw(Player p, Double withdrawal)
     {
         Wallet wallet = Wallet.getPlayerWallet(p);
-
         if (!bankList.containsKey(p.getUniqueId().toString())) {
             createBankAccount(p);
         }
         Double newBalance = bankList.get(p.getUniqueId().toString()) - withdrawal;
-        if(newBalance >0){
+        if(newBalance >=0){
             bankList.replace(p.getUniqueId().toString(), newBalance);
             wallet.addFunds(p,withdrawal);
             ScoreboardUtils sb = new ScoreboardUtils();

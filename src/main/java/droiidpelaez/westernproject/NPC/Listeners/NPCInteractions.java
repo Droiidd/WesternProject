@@ -16,6 +16,7 @@ public class NPCInteractions implements Listener
 {
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
+    private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
     @EventHandler
     public void rightClickNPC(PlayerInteractEntityEvent e)
     {
@@ -28,6 +29,10 @@ public class NPCInteractions implements Listener
                 p.openInventory(shop);
             }else if(e.getRightClicked().getCustomName().compareTo(bankerName)==0){
                 Inventory shop = npcGui.getBankerGui(p);
+                p.openInventory(shop);
+            }
+            else if(e.getRightClicked().getCustomName().compareTo(conductorName) == 0){
+                Inventory shop = npcGui.getConductorGui(p);
                 p.openInventory(shop);
             }
 

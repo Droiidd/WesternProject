@@ -1,21 +1,22 @@
 package droiidpelaez.westernproject.NPC.Listeners;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
-import droiidpelaez.westernproject.Items.GeodeController;
+import droiidpelaez.westernproject.Items.Utils.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
+import droiidpelaez.westernproject.UtilCore.CoreGlobalUtils;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +25,14 @@ public class NPCguiController implements Listener
 {
     private HashMap<String, Boolean> chatListener = new HashMap<>();
     private HashMap<String, Integer> bankListener = new HashMap<>();
-    //private GlobalUtils gUtils = new GlobalUtils();
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
+    private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
+    private Core plugin;
+    public NPCguiController(Core plugin)
+    {
+        this.plugin = plugin;
+    }
 
 
     public void msgNotEnoughFunds(Player p, String npcName)
@@ -40,21 +46,26 @@ public class NPCguiController implements Listener
     @EventHandler
     public void chatSaleHandler(AsyncPlayerChatEvent e)
     {
-        String all = "all";
+        //This handler is obnoxiously complicated and needs cleaning.
         Player p = e.getPlayer();
         Bank bank = Bank.getPlayerBank(p);
         Wallet wallet = Wallet.getPlayerWallet(p);
+        //Check if player has EVER chatted with an NPC.
         if(chatListener.containsKey(p.getUniqueId().toString())){
+            //Check if player RECENTLY chatted with NPC (check the list if it's true)
             if(chatListener.get(p.getUniqueId().toString())){
                 e.setCancelled(true);
-                if(e.getMessage().equalsIgnoreCase(all)){
-                    bankListener.replace(p.getUniqueId().toString(), 3);
-                }
+                //Player recently chatted with *any* NPC
+                //Check player chat for number
+
+                // ===--- BANK RELATED ---===
                 Double amount = GlobalUtils.checkStrToDErrMsg(e.getMessage(), p);
                 if(amount == -1){
+                    //Player did not enter a valid number
                     p.sendMessage(bankerName+ChatColor.GRAY+ ": That's not right...");
                     chatListener.replace(p.getUniqueId().toString(), false);
                 }
+                //They entered a valid number
                 else{
                     if(bankListener.containsKey(p.getUniqueId().toString())){
                         switch(bankListener.get(p.getUniqueId().toString())){
@@ -73,7 +84,8 @@ public class NPCguiController implements Listener
 
                             case 2:
                                 // ===--- DEPOSIT ---===
-                                if(bank.getPlayerFunds(p) -amount >= 0.0){
+                                p.sendMessage(""+wallet.getPlayerFunds(p)+"");
+                                if(wallet.getPlayerFunds(p) - amount >= 0.0){
                                     chatListener.replace(p.getUniqueId().toString(), false);
                                     p.sendMessage(bankerName+ChatColor.GRAY+": Deposited "+ChatColor.GREEN+amount+"g");
                                     wallet.npcDeposit(p, amount);
@@ -85,12 +97,10 @@ public class NPCguiController implements Listener
                         }
                     }
                 }
-
+                // ===--- END OF BANK ---===
             }
-
-           //player is not interacting with NPC
+           //player has not RECENTLY interacted with an NPC
         }
-
     }
     @EventHandler
     public void salesmenHandler(InventoryClickEvent e)
@@ -100,6 +110,8 @@ public class NPCguiController implements Listener
         Wallet wallet = Wallet.getPlayerWallet(p);
         Tools tools = new Tools();
         MiningItems miningItems = new MiningItems();
+        CoreGlobalUtils gUtils = new CoreGlobalUtils(plugin);
+        // >>>===--- GEOLOGIST ---===<<<
         if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:")){
             e.setCancelled(true);
             switch(e.getCurrentItem().getType()){
@@ -157,7 +169,7 @@ public class NPCguiController implements Listener
                         msgNotEnoughFunds(p,geologistName);
                     }
                     break;
-                case NETHERITE_AXE:
+                case FIREWORK_STAR:
                     //Break geode here
                     if(wallet.getPlayerFunds(p)>150.0){
                         ItemStack geode = miningItems.getGeode();
@@ -167,7 +179,7 @@ public class NPCguiController implements Listener
                             //Checking if a player has geodes of any quantity
                             if(p.getInventory().contains(geode, j)){
                                 p.getInventory().removeItem(geode);
-                                wallet.removeMoney(p, 50.0);
+                                wallet.removeMoney(p, 150.0);
                                 ArrayList<ItemStack> geodeContents = geoController.openGeode();
                                 for(int i =0;i<geodeContents.size();i++){
                                     p.getInventory().addItem(geodeContents.get(i));
@@ -222,6 +234,41 @@ public class NPCguiController implements Listener
                     chatListener.put(p.getUniqueId().toString(), true);
                     p.sendMessage(bankerName+ChatColor.GRAY+ ": please enter deposit amount");
                     break;
+            }
+
+        }
+        // >>>===--- CONDUCTOR ---===<<<
+        else if(e.getView().getTitle().equalsIgnoreCase(conductorName+": Where we heading?")){
+            e.setCancelled(true);
+            switch (e.getCurrentItem().getType()){
+                case BARRIER:
+                    p.closeInventory();
+                    msgThanksForShopping(p, bankerName);
+                    break;
+                case NETHER_STAR:
+                    if(wallet.getPlayerFunds(p) >= 250.0){ //250 is price to ride
+                        p.closeInventory();
+
+                        p.sendMessage(conductorName+": All aboard!!");
+                        p.playSound(p.getLocation(), Sound.BLOCK_BELL_USE,1,1);
+                        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                //p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_PLACE,1,0);
+                                p.playSound(p.getLocation(), Sound.BLOCK_BELL_USE,1,1);
+                            }
+                        }, 1L);
+
+                        //CORDS NEED CHANGING
+                        Location santaFe = new Location(p.getWorld(), 1080, 90, -1953);
+                        gUtils.fastTravelPlayer(p, santaFe);
+                        wallet.removeMoney(p, 250.0);
+                    }
+                    break;
+                case DEAD_BUSH:
+                    //republic of texas
+                    break;
+
             }
 
         }

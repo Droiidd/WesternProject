@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.NPC.Commands;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
@@ -16,6 +17,7 @@ public class NPCCommands implements CommandExecutor
 {
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
+    private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
     public void createVillager(Player p, String villagerName)
     {
         Villager vil = (Villager)p.getLocation().getWorld().spawn(p.getLocation(), Villager.class);
@@ -34,7 +36,7 @@ public class NPCCommands implements CommandExecutor
                return false;
            }
            String userIn = args[0].toLowerCase().trim();
-            GlobalUtils globalUtils = new GlobalUtils();
+           GlobalUtils globalUtils = new GlobalUtils();
 
            switch(userIn){
                case "geologist":
@@ -48,6 +50,12 @@ public class NPCCommands implements CommandExecutor
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
                    globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
                    createVillager(p, bankerName);
+                   break;
+               case "conductor":
+                   p.sendMessage("Spawned "+conductorName+"!");
+                   p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   createVillager(p, conductorName);
                    break;
            }
 
