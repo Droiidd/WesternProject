@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.NPC;
 
+import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Tools.Tools;
 import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
@@ -24,9 +25,46 @@ public class NPCgui
         exit.setItemMeta(exitMeta);
         return exit;
     }
+    public ItemStack giveItemPrice(ItemStack item, double price)
+    {
+        ItemMeta meta = item.getItemMeta();
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+""+price+"g");
+
+
+        return newItem;
+    }
+    public Inventory getArmorer(Player p)
+    {
+        Inventory shop = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Armorer - "+ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
+        BanditArmor armor = new BanditArmor();
+        ItemStack fhBoots = armor.farmHandBoots();
+        ItemStack fhPants = armor.farmHandChaps();
+        ItemStack fhShirt = armor.farmHandShirt();
+        ItemStack fhHat = armor.farmHandCap();
+        ItemStack hmBoots = armor.huntsmenBoots();
+        ItemStack hmPants = armor.huntsmenPants();
+        ItemStack hmJacket = armor.huntsmenJacket();
+        ItemStack hmHat = armor.huntsmenHat();
+        ItemStack ftBoots = armor.frontierBoots();
+        ItemStack ftPants = armor.frontierPants();
+        ItemStack ftJacket = armor.frontierJacket();
+        ItemStack ftHat = armor.frontierHat();
+        ItemMeta fhBootMeta = fhBoots.getItemMeta();
+        fhBootMeta.
+
+
+
+
+
+        shop.setItem(0, exit);
+        return shop;
+    }
     public Inventory getGeologistShop(Player p)
     {
         Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
 
         ItemStack crackGeode = new ItemStack(Material.FIREWORK_STAR);
         ItemMeta geodeMeta = crackGeode.getItemMeta();
@@ -35,8 +73,6 @@ public class NPCgui
         geoLore.add("150.0 g");
         geodeMeta.setLore(geoLore);
         crackGeode.setItemMeta(geodeMeta);
-
-        ItemStack exit = getExitButton();
 
         ItemStack pick = new ItemStack(Material.STONE_PICKAXE);
         ItemMeta pickMeta = pick.getItemMeta();
