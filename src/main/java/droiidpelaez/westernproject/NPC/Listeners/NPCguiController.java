@@ -3,6 +3,7 @@ package droiidpelaez.westernproject.NPC.Listeners;
 import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
+import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Utils.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
@@ -10,6 +11,7 @@ import droiidpelaez.westernproject.UtilCore.CoreGlobalUtils;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,12 +22,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NPCguiController implements Listener
 {
     private HashMap<String, Boolean> chatListener = new HashMap<>();
     private HashMap<String, Integer> bankListener = new HashMap<>();
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
+    private String armorerName = ChatColor.BLUE+""+ ChatColor.BOLD+"Armorer";
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
     private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
     private Core plugin;
@@ -42,6 +47,20 @@ public class NPCguiController implements Listener
     public void msgThanksForShopping(Player p, String npcName)
     {
         p.sendMessage(npcName+": "+ChatColor.GRAY+"Please, come again");
+    }
+    public void sellPlayerItem(Player p,String npcName ,ItemStack purchsedItem, Double cost)
+    {
+        Wallet wallet = Wallet.getPlayerWallet(p);
+        if(wallet.getPlayerFunds(p) >= cost){
+            //Player can afford
+            p.closeInventory();
+            wallet.removeMoney(p,cost);
+            p.getInventory().addItem(purchsedItem);
+            msgThanksForShopping(p, npcName);
+        }else{
+            //Player cannot afford
+            msgNotEnoughFunds(p, npcName);
+        }
     }
     @EventHandler
     public void chatSaleHandler(AsyncPlayerChatEvent e)
@@ -272,9 +291,52 @@ public class NPCguiController implements Listener
             }
 
         }
+        // >>>===--- ARMORER ---===<<<
+        else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Armorer - "+ChatColor.GRAY+"For Sale:")){
+            BanditArmor armor = new BanditArmor();
+
+            ItemStack fhBoots = armor.farmHandBoots();
+            ItemStack fhPants = armor.farmHandChaps();
+            ItemStack fhShirt = armor.farmHandShirt();
+            ItemStack fhHat = armor.farmHandCap();
+
+            ItemStack hmBoots = armor.huntsmenBoots();
+            ItemStack hmPants = armor.huntsmenPants();
+            ItemStack hmJacket = armor.huntsmenJacket();
+            ItemStack hmHat = armor.huntsmenHat();
+
+            ItemStack ftBoots = armor.frontierBoots();
+            ItemStack ftPants = armor.frontierPants();
+            ItemStack ftJacket = armor.frontierJacket();
+            ItemStack ftHat = armor.frontierHat();
+            Double itemPrice = checkItemPrice(e.getCurrentItem());
+            if(itemPrice == -1){
+                //itemPrice is fucked
+            }else{
+                switch(e.getCurrentItem().getType()){
+                    case LEATHER_BOOTS:
+                        sellPlayerItem(p, armorerName, fhBoots, itemPrice);
+                        break;
+                    case IRON_BOOTS:
+                        Map<Enchantment, Integer> map = e.getCurrentItem().getEnchantments();
+                        if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
+                            sellPlayerItem(p, armorerName, ftBoots, itemPrice);
+                        }else{
+                            sellPlayerItem(p, armorerName, hmBoots, itemPrice);
+                        }
+                        break;
+                }
+            }
+
+
+        }
     }
 
-
+public Double checkItemPrice(ItemStack item)
+{
+    List<String> t = item.getItemMeta().getLore();
+    return GlobalUtils.StrToDNoMsg(t.get(0));
+}
 
 
 

@@ -18,6 +18,7 @@ public class NPCCommands implements CommandExecutor
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
     private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
+    private String armorerName = ChatColor.BLUE+""+ ChatColor.BOLD+"Armorer";
     public void createVillager(Player p, String villagerName)
     {
         Villager vil = (Villager)p.getLocation().getWorld().spawn(p.getLocation(), Villager.class);
@@ -57,6 +58,13 @@ public class NPCCommands implements CommandExecutor
                    globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
                    createVillager(p, conductorName);
                    break;
+               case "armorer":
+                   p.sendMessage("Spawned "+armorerName+"!");
+                   p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   createVillager(p, armorerName);
+                   break;
+
            }
 
 

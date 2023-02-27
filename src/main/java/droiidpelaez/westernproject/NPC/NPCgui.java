@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.NPC;
 
+import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Tools.Tools;
 import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
@@ -24,9 +25,69 @@ public class NPCgui
         exit.setItemMeta(exitMeta);
         return exit;
     }
+    public ItemStack giveItemPrice(ItemStack item, double price)
+    {
+        ItemMeta meta = item.getItemMeta();
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+""+price+"g");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+    public Inventory getArmorer(Player p)
+    {
+        Inventory shop = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Armorer - "+ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
+        BanditArmor armor = new BanditArmor();
+        ItemStack fhBoots = armor.farmHandBoots();
+        ItemStack fhPants = armor.farmHandChaps();
+        ItemStack fhShirt = armor.farmHandShirt();
+        ItemStack fhHat = armor.farmHandCap();
+
+        ItemStack fhBootPrice = giveItemPrice(fhBoots, 50.0);
+        ItemStack fhPantsPrice = giveItemPrice(fhPants, 50.0);
+        ItemStack fhShirtPrice = giveItemPrice(fhShirt, 50.0);
+        ItemStack fhHatPrice = giveItemPrice(fhHat, 50.0);
+
+        ItemStack hmBoots = armor.huntsmenBoots();
+        ItemStack hmPants = armor.huntsmenPants();
+        ItemStack hmJacket = armor.huntsmenJacket();
+        ItemStack hmHat = armor.huntsmenHat();
+
+        ItemStack hmBootPrice = giveItemPrice(hmBoots, 100.0);
+        ItemStack hmPantsPrice = giveItemPrice(hmPants, 100.0);
+        ItemStack hmJacketPrice = giveItemPrice(hmJacket, 100.0);
+        ItemStack hmHatPrice = giveItemPrice(hmHat, 100.0);
+
+        ItemStack ftBoots = armor.frontierBoots();
+        ItemStack ftPants = armor.frontierPants();
+        ItemStack ftJacket = armor.frontierJacket();
+        ItemStack ftHat = armor.frontierHat();
+
+        ItemStack ftBootPrice = giveItemPrice(ftBoots, 200.0);
+        ItemStack ftPantsPrice = giveItemPrice(ftPants, 200.0);
+        ItemStack ftJacketPrice = giveItemPrice(ftJacket, 120.0);
+        ItemStack ftHatPrice = giveItemPrice(ftHat, 200.0);
+
+        shop.setItem(2,fhHatPrice);
+        shop.setItem(3,fhPantsPrice);
+        shop.setItem(4,fhShirtPrice);
+        shop.setItem(5,fhBootPrice);
+        shop.setItem(11, hmHatPrice);
+        shop.setItem(12, hmJacketPrice);
+        shop.setItem(13, hmPantsPrice);
+        shop.setItem(14, hmBootPrice);
+        shop.setItem(20, ftHatPrice);
+        shop.setItem(21, ftJacketPrice);
+        shop.setItem(22, ftPantsPrice);
+        shop.setItem(23, ftBootPrice);
+        shop.setItem(0, exit);
+        return shop;
+    }
     public Inventory getGeologistShop(Player p)
     {
         Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
 
         ItemStack crackGeode = new ItemStack(Material.FIREWORK_STAR);
         ItemMeta geodeMeta = crackGeode.getItemMeta();
@@ -35,8 +96,6 @@ public class NPCgui
         geoLore.add("150.0 g");
         geodeMeta.setLore(geoLore);
         crackGeode.setItemMeta(geodeMeta);
-
-        ItemStack exit = getExitButton();
 
         ItemStack pick = new ItemStack(Material.STONE_PICKAXE);
         ItemMeta pickMeta = pick.getItemMeta();
