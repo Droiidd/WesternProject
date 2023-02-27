@@ -53,20 +53,21 @@ public class GlobalUtils
         return -1.0;
     }
 
-    public static Double StrToDNoMsg(String s, Player p)
+    public static Double StrToDNoMsg(String s)
     {
         try {
             Double amount = Double.parseDouble(s);
             return amount;
         } catch (NumberFormatException e) {
-            return -1.0;
+            System.out.println(e);
         }
+        return -1.0;
     }
     public static Double getGoldStrToD(ItemStack goldItem, Player p)
     {
         String amount = ChatColor.stripColor(goldItem.getItemMeta().getDisplayName());
         String numberOnly = amount.replaceAll("[^0-9]", "");
-        Double depositGold = (GlobalUtils.StrToDNoMsg(numberOnly, p)) / 10;
+        Double depositGold = (GlobalUtils.StrToDNoMsg(numberOnly)) / 10;
         return depositGold;
     }
 
