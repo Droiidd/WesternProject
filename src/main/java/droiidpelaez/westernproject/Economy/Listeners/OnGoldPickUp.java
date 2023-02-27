@@ -1,5 +1,6 @@
 package droiidpelaez.westernproject.Economy.Listeners;
 
+import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import droiidpelaez.westernproject.Economy.Wallet;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ public class OnGoldPickUp implements Listener
     public void onPlayerPickUp(PlayerPickupItemEvent e)
     {
         Player p = e.getPlayer();
+        Wallet wallet = Wallet.getPlayerWallet(p);
         //Ensuring its a gold coin and not something else
             ItemStack pickedUpGold = e.getItem().getItemStack();
             Double namedGold = GlobalUtils.getGoldStrToD(pickedUpGold,p);
@@ -31,7 +33,7 @@ public class OnGoldPickUp implements Listener
                     e.setCancelled(true);
                     //Confirm pick up and give the player their money
                     p.sendMessage(ChatColor.GRAY + "You picked up " + ChatColor.GOLD + namedGold + "g");
-                    Wallet.updateBalance(p, namedGold);
+                    wallet.addFunds(p, namedGold);
                 }
             }
     }

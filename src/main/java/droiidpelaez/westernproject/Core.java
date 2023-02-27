@@ -3,6 +3,8 @@ package droiidpelaez.westernproject;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Utils.AccountHandler;
 import droiidpelaez.westernproject.Economy.Wallet;
+import droiidpelaez.westernproject.Items.ForageItems;
+import droiidpelaez.westernproject.Items.PotionItems;
 import droiidpelaez.westernproject.SafeZones.Utils.SafeZoneHandler;
 import droiidpelaez.westernproject.UtilCore.CommandRegister;
 import droiidpelaez.westernproject.UtilCore.ConfigManager;
@@ -11,14 +13,18 @@ import droiidpelaez.westernproject.PlayerCore.Utils.PlayerHandler;
 import droiidpelaez.westernproject.Teams.Utils.TeamHandler;
 import droiidpelaez.westernproject.UtilCore.EventRegister;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
 public final class Core extends JavaPlugin
 {
-    private static HashMap<String, Double> bankList = Bank.getBankList();
-    private static HashMap<String, Double> walletList = Wallet.getWallets();
+    private  HashMap<String, Double> bankList = Bank.getBankList();
+    private  HashMap<String, Double> walletList = Wallet.getWallets();
     private ConfigManager walletConfig;
     private ConfigManager bankConfig;
     private ConfigManager playerConfig;
@@ -44,6 +50,7 @@ public final class Core extends JavaPlugin
         // === LOADS SAFE ZONE CORDS FROM CONFIG ===
         SafeZoneHandler handler = new SafeZoneHandler(this);
         handler.loadCords();
+        spruceSaplingRecipe();
         // === SAVING ===
         if(walletConfig.playerCFG.contains("data") && bankConfig.playerCFG.contains("data")){
             actSaver.restoreAccounts(walletConfig, bankConfig);
@@ -55,6 +62,34 @@ public final class Core extends JavaPlugin
             System.out.println("LOADING TEAMS");
             teamSaver.loadTeams(teamConfig);
         }
+    }
+    public void spruceSaplingRecipe() {
+        PotionItems potionItems = new PotionItems();
+        ForageItems forageItems = new ForageItems();
+        ItemStack goldenGamble = forageItems.getGoldenGamblePetal();
+        ItemStack molesBreath = forageItems.getMolesBreathSpores();
+        ItemStack starPetal = forageItems.getStarPetal();
+        ItemStack frenziedStems = forageItems.getFrenziedStems();
+
+        ShapelessRecipe minersDoubleSpadeBrewRecipe = new ShapelessRecipe(new NamespacedKey(this, "double_spade_potion"),potionItems.getMinersSpadeBrew()).
+                addIngredient(goldenGamble.getType()).addIngredient(molesBreath.getType()).addIngredient(potionItems.getFermentedLiquor().getType());
+        getServer().addRecipe(minersDoubleSpadeBrewRecipe);
+
+        ShapelessRecipe fermentedLiquorRecipe = new ShapelessRecipe(new NamespacedKey(this, "fermented_liquor"),potionItems.getFermentedLiquor()).
+                addIngredient(Material.BLAZE_POWDER);
+        getServer().addRecipe(fermentedLiquorRecipe);
+
+        ShapelessRecipe greenThumbBrewRecipe = new ShapelessRecipe(new NamespacedKey(this, "green_thumb_brew"),potionItems.getGreenThumbBrew()).
+                addIngredient(starPetal.getType()).addIngredient(goldenGamble.getType()).addIngredient(potionItems.getFermentedLiquor().getType());
+        getServer().addRecipe(greenThumbBrewRecipe);
+
+        ShapelessRecipe miningFrenzyBrewRecipe = new ShapelessRecipe(new NamespacedKey(this, "mining_frenzy_brew"),potionItems.getMiningFrenzyBrew(0)).
+                addIngredient(frenziedStems.getType()).addIngredient(molesBreath.getType()).addIngredient(potionItems.getFermentedLiquor().getType());
+        getServer().addRecipe(miningFrenzyBrewRecipe);
+
+
+
+
     }
 
     @Override

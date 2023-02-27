@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.Economy.Commands;
 
 import droiidpelaez.westernproject.Economy.Bank;
+import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.UtilCore.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ public class AdminCommands implements CommandExecutor
         {
             if(sender instanceof Player){
                 Player p = (Player) sender;
+                Bank bank = Bank.getPlayerBank(p);
                 //If the user entered /eco -> Show the usage
                 if(args.length == 0){
                     p.sendMessage("");
@@ -46,7 +48,7 @@ public class AdminCommands implements CommandExecutor
                         p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                         return true;
                     }
-                    Bank.updateBalance(target, deposit);
+                    bank.addFunds(target, deposit);
                 }
                 // CASE : remove -> (remove money)
                 else if(args[0].toLowerCase().compareTo(remove) == 0){
@@ -67,20 +69,20 @@ public class AdminCommands implements CommandExecutor
                         p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                         return true;
                     }
-                    Double original = Bank.getPlayerFunds(target);
+                    Double original = bank.getPlayerFunds(target);
                     p.sendMessage("Attempting to withdrawal : $"+(withdrawal)+"...");
                     //Makes sure the player is withdrawing an allowed amount
                     if(original - withdrawal < 0){
                         p.sendMessage(ChatColor.RED+"Attempted to remove too many funds!");
                     }
                     else{
-                        Bank.removeFunds(target, withdrawal);
+                        bank.removeFunds(target, withdrawal);
                     }
                 }
                 // CASE : reset -> (resets all banks)
                 else if(args[0].toLowerCase().compareTo(reset) == 0){
                     if(args.length == 1){ p.sendMessage();
-                        Bank.deleteAllAct();
+                        bank.deleteAllAct();
                         p.sendMessage(ChatColor.GRAY+"All accounts "+ ChatColor.DARK_GREEN+"removed.");
                         return true;
                     }

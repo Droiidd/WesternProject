@@ -1,14 +1,14 @@
 package droiidpelaez.westernproject.UtilCore;
 
+import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.PlayerCore.PlayerCore;
 import droiidpelaez.westernproject.Roles.Sheriff;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
@@ -18,6 +18,20 @@ import java.util.stream.Collectors;
 
 public class GlobalUtils
 {
+
+    public void displayParticles(Location blockLoc, Particle p1, Particle p2, int amount)
+    {
+        for(int i = 0; i < amount; i++){
+            blockLoc.getWorld().spawnParticle(p1, blockLoc.getX()+0.85,blockLoc.getY()+0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(p2, blockLoc.getX()+0.85,blockLoc.getY()+0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(p1, blockLoc.getX()+0.85,blockLoc.getY()-0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(p2, blockLoc.getX()+0.85,blockLoc.getY()-0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(p1, blockLoc.getX()-0.85,blockLoc.getY()+0.85,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(p2, blockLoc.getX()-0.85,blockLoc.getY()+0.8,blockLoc.getZ()-0.85, 0);
+            blockLoc.getWorld().spawnParticle(p1, blockLoc.getX()-0.85,blockLoc.getY()-0.8,blockLoc.getZ()+0.85, 0);
+            blockLoc.getWorld().spawnParticle(p2, blockLoc.getX()-0.85,blockLoc.getY()-0.85,blockLoc.getZ()-0.85, 0);
+        }
+    }
     public static void loadPidScoreboard(String pId)
     {
         Player target = GlobalUtils.getPlayerFromString(pId);

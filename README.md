@@ -181,3 +181,29 @@ There's a lot to flesh out as we add more features to the game.
 - [ ] Specific sheriff zone / hq
 - [ ] Sheriffs cannot hurt one another
 - [ ] Chief head collector system
+
+## Foraging
+
+> **Overview**
+> 
+> All forage-ables can be sold for a decent price to an NPC within the witch cove. (Potential required
+> crafting item from witch cove -> potions). Foragables were added to the game for an interesting side hustle,
+> and to remove the benefits from purchasable ranks. In addition to being sellable, each foragable can be used in
+> crafting AND are pretty much exclusive crafting items. Meaning, they are the only items in the game that can be
+> used in crafting.
+> 
+> At the [NPC List](#NPC) you can find two NPC's related to foraging. One who sells recipes, and one who
+> sells locations. Recipes are a required item in each crafting recipe, additionally telling you the
+> ingredients.
+> 
+> Foragables can be found all over the map, but usually find themselves a home in certain areas. Locations
+> are a piece of paper that can guide you to specific forgables: "Mist wood, found near bodies of water" for example.
+### Potion Recipes
+
+### Intended features
+- [ ] Add crafting recipes
+- [ ] Add specific ingredients found in high danger areas
+- [ ] Come up with locations for forgables
+- [ ] Add location papers
+
+## Mining

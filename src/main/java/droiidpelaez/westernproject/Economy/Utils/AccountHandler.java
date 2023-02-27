@@ -40,21 +40,18 @@ public class AccountHandler
         System.out.println(ChatColor.DARK_GREEN+"Loading wallet funds");
         walletConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) walletConfig.playerCFG.get("data."+key);;
-            Wallet.setBalance(key, account);
+            Wallet wallet = new Wallet(key);
+            wallet.setBalance(key, account);
         });
         System.out.println(ChatColor.DARK_GREEN+"Wallets loaded");
         System.out.println(ChatColor.DARK_GREEN+"Loading bank funds");
         bankConfig.playerCFG.getConfigurationSection("data").getKeys(false).forEach(key ->{
             Double account = (Double) bankConfig.playerCFG.get("data."+key);
-            Bank.setBalance(key, account);
+            Bank bank = new Bank(key);
+            bank.setBalance(key, account);
         });
         System.out.println(ChatColor.DARK_GREEN+"Bank accounts loaded");
 
     }
-
-
-
-
-
 
 }

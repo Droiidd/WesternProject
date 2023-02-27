@@ -16,6 +16,8 @@ public class Deposit implements CommandExecutor
     {
         if(sender instanceof Player){
             Player p = (Player) sender;
+            Bank bank = Bank.getPlayerBank(p);
+            Wallet wallet = Wallet.getPlayerWallet(p);
             if(args.length != 1){
                 p.sendMessage(ChatColor.GRAY+ "Incorrect usage please try:");
                 p.sendMessage(ChatColor.DARK_GREEN+ "/deposit {amount}");
@@ -26,10 +28,10 @@ public class Deposit implements CommandExecutor
                 p.sendMessage(ChatColor.GRAY+"Invalid amount."+ChatColor.DARK_GREEN+" Please try again");
                 return true;
             }
-            if((Wallet.getPlayerFunds(p) - amount) >= 0.0){
-                Bank.updateBalance(p, amount);
+            if((wallet.getPlayerFunds(p) - amount) >= 0.0){
+                bank.addFunds(p, amount);
                 p.sendMessage(ChatColor.GRAY+"You deposited "+ChatColor.GOLD+ amount+"g");
-                Wallet.removeMoney(p, amount);
+                wallet.removeMoney(p, amount);
                 return true;
             }
         }
