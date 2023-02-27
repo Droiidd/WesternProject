@@ -10,7 +10,6 @@ import droiidpelaez.westernproject.NPC.Listeners.NPCInteractions;
 import droiidpelaez.westernproject.NPC.Listeners.NPCguiController;
 import droiidpelaez.westernproject.PlayerCore.Listeners.AllChatEvents;
 import droiidpelaez.westernproject.PlayerCore.Listeners.GlobalPlayerEvents;
-import droiidpelaez.westernproject.PlayerCore.Listeners.PlayerHealthEffects;
 import droiidpelaez.westernproject.SafeZones.Listeners.SafeZoneListener;
 
 public class EventRegister
@@ -24,7 +23,6 @@ public class EventRegister
     {
         plugin.getServer().getPluginManager().registerEvents(new OnPlayerDeath(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new OnGoldPickUp(), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new PlayerHealthEffects(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new GlobalPlayerEvents(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new AllChatEvents(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new SafeZoneListener(), plugin);

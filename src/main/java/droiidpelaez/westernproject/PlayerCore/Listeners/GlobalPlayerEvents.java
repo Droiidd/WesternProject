@@ -14,24 +14,29 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
+import java.util.Random;
 
 
 public class GlobalPlayerEvents implements Listener
 {
     private final Core plugin;
-    private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
+    //private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
+    private int count;
     SafeZoneGenerator gen = new SafeZoneGenerator();
     BossBar test = gen.loadBossBar();
     public GlobalPlayerEvents(Core plugin)
     {
         this.plugin = plugin;
+        this.count = 0;
     }
     @EventHandler
     public void dropPlayerHead(PlayerDeathEvent e)
@@ -54,6 +59,75 @@ public class GlobalPlayerEvents implements Listener
 
         }
     }
+    public void startPlayerBleed(Player p, PlayerCore pCore)
+    {
+                pCore.updateOnlineBleed(p,true);
+                BukkitScheduler schedular = Bukkit.getServer().getScheduler();
+                int id = schedular.scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!p.isOnline()){
+                            pCore.updateBleed(true);
+                            Bukkit.getServer().getScheduler().cancelTasks(plugin);
+                        }
+                        if (count % 2 == 0) {
+                            //These are natural seconds
+                            if (!pCore.isPlayerBleeding()) {
+                                Bukkit.getServer().getScheduler().cancelTasks(plugin);
+                            }
+                            else{
+                                p.damage(1.0);
+                            }
+                            if(p.isDead()){
+                                pCore.updateBleed(false);
+                                Bukkit.getServer().getScheduler().cancelTasks(plugin);
+                            }
+
+                        }
+                        count++;
+                    }
+                }, 0, 10);
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        Bukkit.getScheduler().cancelTask(id);
+                    }
+                }, 2400);
+
+
+    }
+
+    @EventHandler
+    public void playerBleedEvent(EntityDamageEvent e)
+    {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+            if (!pCore.isPlayerBleeding()) {
+                int chance = new Random().nextInt(11);
+                if (chance % 2 == 0) {
+                    p.sendMessage("5050");
+                    startPlayerBleed(p,pCore);
+                }
+            }
+            //  Else they are already bleeding
+        }
+    }
+    @EventHandler
+    public void breakLegEvent(EntityDamageEvent e)
+    {
+        if(e.getEntity() instanceof  Player){
+            Player p = (Player) e.getEntity();
+            PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+            Float fall = p.getFallDistance();
+            if(fall > 8){
+                if(!pCore.isPlayerCrippled()){
+                    pCore.updateOnlineCripple(p, true);
+                }
+            }
+        }
+
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
@@ -67,8 +141,12 @@ public class GlobalPlayerEvents implements Listener
             Sheriff pSheriff = Sheriff.getSheriff(p.getUniqueId().toString());
             pSheriff.loadOnlineSheriff(p);
         }
+        PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
+        if(pCore.isPlayerBleeding()){
+            p.sendMessage("THEYRE BLEEDING");
+            startPlayerBleed(p,pCore);
+        }
         GlobalUtils.loadPlayerStatsDisplay(p);
-
     }
 
     @EventHandler
