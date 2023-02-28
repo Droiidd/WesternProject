@@ -293,6 +293,7 @@ public class NPCguiController implements Listener
         }
         // >>>===--- ARMORER ---===<<<
         else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Armorer - "+ChatColor.GRAY+"For Sale:")){
+            e.setCancelled(true);
             BanditArmor armor = new BanditArmor();
 
             ItemStack fhBoots = armor.farmHandBoots();
@@ -309,19 +310,26 @@ public class NPCguiController implements Listener
             ItemStack ftPants = armor.frontierPants();
             ItemStack ftJacket = armor.frontierJacket();
             ItemStack ftHat = armor.frontierHat();
-            Double itemPrice = checkItemPrice(e.getCurrentItem());
+            Double itemPrice = GlobalUtils.itemPriceReader(e.getCurrentItem());
+            p.sendMessage("price is good");
             if(itemPrice == -1){
+                p.sendMessage("price is fucked");
                 //itemPrice is fucked
             }else{
                 switch(e.getCurrentItem().getType()){
+                    case BARRIER:
+                        p.closeInventory();
+                        msgThanksForShopping(p, bankerName);
+                        break;
                     case LEATHER_BOOTS:
                         sellPlayerItem(p, armorerName, fhBoots, itemPrice);
                         break;
                     case IRON_BOOTS:
-                        Map<Enchantment, Integer> map = e.getCurrentItem().getEnchantments();
+                        p.sendMessage("hi!");
                         if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
                             sellPlayerItem(p, armorerName, ftBoots, itemPrice);
                         }else{
+
                             sellPlayerItem(p, armorerName, hmBoots, itemPrice);
                         }
                         break;
@@ -332,11 +340,6 @@ public class NPCguiController implements Listener
         }
     }
 
-public Double checkItemPrice(ItemStack item)
-{
-    List<String> t = item.getItemMeta().getLore();
-    return GlobalUtils.StrToDNoMsg(t.get(0));
-}
 
 
 

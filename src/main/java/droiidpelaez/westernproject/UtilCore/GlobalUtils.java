@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,14 @@ public class GlobalUtils
             System.out.println(e);
         }
         return -1.0;
+    }
+    public static Double itemPriceReader(ItemStack item)
+    {
+        List<String> t = item.getItemMeta().getLore();
+        String amount = ChatColor.stripColor(t.get(0));
+        String numberOnly = amount.replaceAll("[^0-9]", "");
+        Double itemPrice = (GlobalUtils.StrToDNoMsg(numberOnly)) / 10;
+        return itemPrice;
     }
     public static Double getGoldStrToD(ItemStack goldItem, Player p)
     {
