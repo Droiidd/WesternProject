@@ -19,6 +19,7 @@ public class NPCCommands implements CommandExecutor
     private String bankerName = ChatColor.GOLD+""+ChatColor.BOLD+"Banker";
     private String conductorName = ChatColor.GRAY+""+ChatColor.BOLD+"Conductor";
     private String armorerName = ChatColor.BLUE+""+ ChatColor.BOLD+"Armorer";
+    private String illegalArmorerName = ChatColor.RED+""+ ChatColor.BOLD+"Illegal Armorer";
     public void createVillager(Player p, String villagerName)
     {
         Villager vil = (Villager)p.getLocation().getWorld().spawn(p.getLocation(), Villager.class);
@@ -43,26 +44,32 @@ public class NPCCommands implements CommandExecutor
                case "geologist":
                    p.sendMessage("Spawned "+geologistName+"!");
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
-                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
                    createVillager(p, geologistName);
                    break;
                case "banker":
                    p.sendMessage("Spawned "+bankerName+"!");
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
-                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
                    createVillager(p, bankerName);
                    break;
                case "conductor":
                    p.sendMessage("Spawned "+conductorName+"!");
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
-                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
                    createVillager(p, conductorName);
                    break;
                case "armorer":
                    p.sendMessage("Spawned "+armorerName+"!");
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
-                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,5);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
                    createVillager(p, armorerName);
+                   break;
+               case "illegalarmorer":
+                   p.sendMessage("Spawned "+illegalArmorerName+"!");
+                   p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
+                   createVillager(p, illegalArmorerName);
                    break;
 
            }

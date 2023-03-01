@@ -84,6 +84,44 @@ public class NPCgui
         shop.setItem(0, exit);
         return shop;
     }
+    public Inventory getIllegalArmorerShop(Player p)
+    {
+        Inventory shop = Bukkit.createInventory(p, 27,ChatColor.RED+"Illegal Armorer - "+ ChatColor.GRAY+"For Sale:" );
+        ItemStack exit = getExitButton();
+        BanditArmor armor = new BanditArmor();
+
+        ItemStack ftBoots = armor.frontierBoots();
+        ItemStack ftPants = armor.frontierPants();
+        ItemStack ftJacket = armor.frontierJacket();
+        ItemStack ftHat = armor.frontierHat();
+
+        ItemStack ftBootPrice = giveItemPrice(ftBoots, 200.0);
+        ItemStack ftPantsPrice = giveItemPrice(ftPants, 200.0);
+        ItemStack ftJacketPrice = giveItemPrice(ftJacket, 120.0);
+        ItemStack ftHatPrice = giveItemPrice(ftHat, 200.0);
+
+        ItemStack jmBoots = armor.journeyMenBoots();
+        ItemStack jmPants = armor.journeyMenPants();
+        ItemStack jmJacket = armor.journeyMenJacket();
+        ItemStack jmHat = armor.journeyMenHelm();
+
+        ItemStack jmBootPrice = giveItemPrice(jmBoots, 200.0);
+        ItemStack jmPantsPrice = giveItemPrice(jmPants, 200.0);
+        ItemStack jmJacketPrice = giveItemPrice(jmJacket, 120.0);
+        ItemStack jmHatPrice = giveItemPrice(jmHat, 200.0);
+
+        shop.setItem(2,ftHatPrice);
+        shop.setItem(3,ftJacketPrice);
+        shop.setItem(4,ftPantsPrice);
+        shop.setItem(5,ftBootPrice);
+        shop.setItem(11, jmHatPrice);
+        shop.setItem(12, jmJacketPrice);
+        shop.setItem(13, jmPantsPrice);
+        shop.setItem(14, jmBootPrice);
+        shop.setItem(0, exit);
+
+        return shop;
+    }
     public Inventory getGeologistShop(Player p)
     {
         Inventory geoGui = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Geologist - "+ ChatColor.GRAY+"For Sale:");
