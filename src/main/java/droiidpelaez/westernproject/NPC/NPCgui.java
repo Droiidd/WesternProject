@@ -70,8 +70,8 @@ public class NPCgui
         ItemStack ftHatPrice = giveItemPrice(ftHat, 200.0);
 
         shop.setItem(2,fhHatPrice);
-        shop.setItem(3,fhPantsPrice);
-        shop.setItem(4,fhShirtPrice);
+        shop.setItem(3,fhShirtPrice);
+        shop.setItem(4,fhPantsPrice);
         shop.setItem(5,fhBootPrice);
         shop.setItem(11, hmHatPrice);
         shop.setItem(12, hmJacketPrice);

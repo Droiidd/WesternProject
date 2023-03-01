@@ -29,11 +29,11 @@ public class BanditArmor
     {
         ItemStack armor = new ItemStack(Material.LEATHER_LEGGINGS);
         LeatherArmorMeta aMeta = (LeatherArmorMeta) armor.getItemMeta();
-        aMeta.setDisplayName(ChatColor.WHITE+"Farmhand chaps");
+        aMeta.setDisplayName(ChatColor.WHITE+"Farmhand Chaps");
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"Stained brown with mud");
         aMeta.setLore(lore);
-        aMeta.setColor(Color.fromRGB(916338));
+        aMeta.setColor(Color.fromRGB(153,102,51));
         armor.setItemMeta(aMeta);
         return armor;
     }
@@ -45,7 +45,7 @@ public class BanditArmor
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"Keeps the sun away");
         aMeta.setLore(lore);
-        aMeta.setColor(Color.fromRGB(916338));
+        aMeta.setColor(Color.fromRGB(153,102,51));
         armor.setItemMeta(aMeta);
         return armor;
     }
@@ -58,7 +58,7 @@ public class BanditArmor
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"Stained brown from sweat");
         aMeta.setLore(lore);
-        aMeta.setColor(Color.fromRGB(916338));
+        aMeta.setColor(Color.fromRGB(153,102,51));
         armor.setItemMeta(aMeta);
         return armor;
     }
@@ -88,7 +88,7 @@ public class BanditArmor
     {
         ItemStack armor = new ItemStack(Material.IRON_CHESTPLATE);
         ItemMeta aMeta =  armor.getItemMeta();
-        aMeta.setDisplayName(ChatColor.DARK_GREEN+"Huntsmen Trousers");
+        aMeta.setDisplayName(ChatColor.DARK_GREEN+"Huntsmen Jacket");
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"Made from beast hide");
         aMeta.setLore(lore);

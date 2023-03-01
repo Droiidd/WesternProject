@@ -324,23 +324,46 @@ public class NPCguiController implements Listener
                     case LEATHER_BOOTS:
                         sellPlayerItem(p, armorerName, fhBoots, itemPrice);
                         break;
+                    case LEATHER_LEGGINGS:
+                        sellPlayerItem(p, armorerName, fhPants, itemPrice);
+                        break;
+                    case LEATHER_CHESTPLATE:
+                        sellPlayerItem(p, armorerName, fhShirt, itemPrice);
+                        break;
+                    case LEATHER_HELMET:
+                        sellPlayerItem(p, armorerName, fhHat, itemPrice);
+                        break;
                     case IRON_BOOTS:
-                        p.sendMessage("hi!");
                         if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
                             sellPlayerItem(p, armorerName, ftBoots, itemPrice);
                         }else{
-
                             sellPlayerItem(p, armorerName, hmBoots, itemPrice);
+                        }
+                        break;
+                    case IRON_LEGGINGS:
+                        if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
+                            sellPlayerItem(p, armorerName, ftPants, itemPrice);
+                        }else{
+                            sellPlayerItem(p, armorerName, hmPants, itemPrice);
+                        }
+                        break;
+                    case IRON_CHESTPLATE:
+                        if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
+                            sellPlayerItem(p, armorerName, ftJacket, itemPrice);
+                        }else{
+                            sellPlayerItem(p, armorerName, hmJacket, itemPrice);
+                        }
+                        break;
+                    case IRON_HELMET:
+                        if(e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)){
+                            sellPlayerItem(p, armorerName, ftHat, itemPrice);
+                        }else{
+                            sellPlayerItem(p, armorerName, hmHat, itemPrice);
                         }
                         break;
                 }
             }
-
-
         }
+
     }
-
-
-
-
 }
