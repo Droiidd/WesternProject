@@ -34,6 +34,7 @@ public class NPCguiController implements Listener {
     private String bankerName = ChatColor.GOLD + "" + ChatColor.BOLD + "Banker";
     private String conductorName = ChatColor.GRAY + "" + ChatColor.BOLD + "Conductor";
     private String illegalArmorerName = ChatColor.RED + "" + ChatColor.BOLD + "Illegal Armorer";
+    private String sheriffArmorerName = ChatColor.DARK_AQUA+""+ ChatColor.BOLD+"Sheriff Armorer";
     private Core plugin;
 
     public NPCguiController(Core plugin) {
@@ -129,6 +130,7 @@ public class NPCguiController implements Listener {
         Tools tools = new Tools();
         MiningItems miningItems = new MiningItems();
         CoreGlobalUtils gUtils = new CoreGlobalUtils(plugin);
+
         // >>>===--- GEOLOGIST ---===<<<
         if (e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE + "Geologist - " + ChatColor.GRAY + "For Sale:")) {
             e.setCancelled(true);
@@ -409,7 +411,7 @@ public class NPCguiController implements Listener {
                 }
             }
         }
-        else if(e.getView().getTitle().equalsIgnoreCase()){
+        else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.DARK_AQUA+"Sheriff Armorer - "+ ChatColor.GRAY+"For Sale:")){
             e.setCancelled(true);
             SheriffArmor armor = new SheriffArmor();
 
@@ -435,43 +437,43 @@ public class NPCguiController implements Listener {
             } else {
                 switch (e.getCurrentItem().getType()) {
                     case DIAMOND_BOOTS:
-                        sellPlayerItem(p, illegalArmorerName, marshallBoots, itemPrice);
+                        sellPlayerItem(p, sheriffArmorerName, marshallBoots, itemPrice);
                         break;
                     case DIAMOND_LEGGINGS:
-                        sellPlayerItem(p, illegalArmorerName, marshallPants, itemPrice);
+                        sellPlayerItem(p, sheriffArmorerName, marshallPants, itemPrice);
                         break;
                     case DIAMOND_CHESTPLATE:
-                        sellPlayerItem(p, illegalArmorerName, marshallJacket, itemPrice);
+                        sellPlayerItem(p, sheriffArmorerName, marshallJacket, itemPrice);
                         break;
                     case DIAMOND_HELMET:
-                        sellPlayerItem(p, illegalArmorerName, marshallHat, itemPrice);
+                        sellPlayerItem(p, sheriffArmorerName, marshallHat, itemPrice);
                         break;
                     case CHAINMAIL_BOOTS:
                         if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-                            sellPlayerItem(p, armorerName, deputyBoots, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, deputyBoots, itemPrice);
                         } else {
-                            sellPlayerItem(p, armorerName, sheriffBoots, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, sheriffBoots, itemPrice);
                         }
                         break;
                     case CHAINMAIL_LEGGINGS:
                         if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-                            sellPlayerItem(p, armorerName, deputyPants, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, deputyPants, itemPrice);
                         } else {
-                            sellPlayerItem(p, armorerName, sheriffPants, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, sheriffPants, itemPrice);
                         }
                         break;
                     case CHAINMAIL_CHESTPLATE:
                         if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-                            sellPlayerItem(p, armorerName, deputyJacket, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, deputyJacket, itemPrice);
                         } else {
-                            sellPlayerItem(p, armorerName, sheriffJacket, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, sheriffJacket, itemPrice);
                         }
                         break;
                     case CHAINMAIL_HELMET:
                         if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-                            sellPlayerItem(p, armorerName, deputyHat, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, deputyHat, itemPrice);
                         } else {
-                            sellPlayerItem(p, armorerName, sheriffHat, itemPrice);
+                            sellPlayerItem(p, sheriffArmorerName, sheriffHat, itemPrice);
                         }
                         break;
                 }

@@ -116,12 +116,25 @@ public class NPCgui
         ItemStack marshallJacket = armor.getMarshallJacket();
         ItemStack marshallHat = armor.getMarshallHat();
 
-        ItemStack mbPrice = giveItemPrice(marshallPants, 50.0);
-        ItemStack mpPrice = giveItemPrice(marshallJacket, 50.0);
-        ItemStack mjPrice = giveItemPrice(marshallBoots, 50.0);
+        ItemStack mbPrice = giveItemPrice(marshallBoots, 50.0);
+        ItemStack mpPrice = giveItemPrice(marshallPants, 50.0);
+        ItemStack mjPrice = giveItemPrice(marshallJacket, 50.0);
         ItemStack mhPrice = giveItemPrice(marshallHat, 50.0);
 
+        shop.setItem(2,shPrice);
+        shop.setItem(3,sjPrice);
+        shop.setItem(4,spPrice);
+        shop.setItem(5,sbPrice);
+        shop.setItem(11, dhPrice);
+        shop.setItem(12, djPrice);
+        shop.setItem(13, dpPrice);
+        shop.setItem(14, dbPrice);
+        shop.setItem(20, mhPrice);
+        shop.setItem(21, mjPrice);
+        shop.setItem(22, mpPrice);
+        shop.setItem(23, mbPrice);
 
+        shop.setItem(0, exit);
         return shop;
     }
     public Inventory getIllegalArmorerShop(Player p)
