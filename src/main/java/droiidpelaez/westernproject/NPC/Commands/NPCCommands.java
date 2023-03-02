@@ -13,6 +13,9 @@ import org.bukkit.entity.Villager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NPCCommands implements CommandExecutor
 {
     private String geologistName = ChatColor.BLUE+""+ ChatColor.BOLD+"Geologist";

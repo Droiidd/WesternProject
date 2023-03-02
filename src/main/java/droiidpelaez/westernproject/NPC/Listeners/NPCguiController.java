@@ -4,6 +4,7 @@ import droiidpelaez.westernproject.Core;
 import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
+import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
 import droiidpelaez.westernproject.Items.Utils.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
@@ -404,6 +405,74 @@ public class NPCguiController implements Listener {
                         break;
                     case IRON_HELMET:
                         sellPlayerItem(p, armorerName, ftHat, itemPrice);
+                        break;
+                }
+            }
+        }
+        else if(e.getView().getTitle().equalsIgnoreCase()){
+            e.setCancelled(true);
+            SheriffArmor armor = new SheriffArmor();
+
+            ItemStack sheriffBoots = armor.getSheriffBoots();
+            ItemStack sheriffPants = armor.getSheriffPants();
+            ItemStack sheriffJacket = armor.getSheriffJacket();
+            ItemStack sheriffHat = armor.getSheriffHat();
+
+            ItemStack deputyBoots = armor.getDeputyBoots();
+            ItemStack deputyPants = armor.getDeputyPants();
+            ItemStack deputyJacket = armor.getDeputyJacket();
+            ItemStack deputyHat = armor.getDeputyHat();
+
+            ItemStack marshallBoots = armor.getMarshallBoots();
+            ItemStack marshallPants = armor.getMarshallPants();
+            ItemStack marshallJacket = armor.getMarshallJacket();
+            ItemStack marshallHat = armor.getMarshallHat();
+
+            Double itemPrice = GlobalUtils.itemPriceReader(e.getCurrentItem());
+            if (itemPrice == -1) {
+                p.sendMessage("price is fucked");
+                //itemPrice is fucked
+            } else {
+                switch (e.getCurrentItem().getType()) {
+                    case DIAMOND_BOOTS:
+                        sellPlayerItem(p, illegalArmorerName, marshallBoots, itemPrice);
+                        break;
+                    case DIAMOND_LEGGINGS:
+                        sellPlayerItem(p, illegalArmorerName, marshallPants, itemPrice);
+                        break;
+                    case DIAMOND_CHESTPLATE:
+                        sellPlayerItem(p, illegalArmorerName, marshallJacket, itemPrice);
+                        break;
+                    case DIAMOND_HELMET:
+                        sellPlayerItem(p, illegalArmorerName, marshallHat, itemPrice);
+                        break;
+                    case CHAINMAIL_BOOTS:
+                        if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                            sellPlayerItem(p, armorerName, deputyBoots, itemPrice);
+                        } else {
+                            sellPlayerItem(p, armorerName, sheriffBoots, itemPrice);
+                        }
+                        break;
+                    case CHAINMAIL_LEGGINGS:
+                        if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                            sellPlayerItem(p, armorerName, deputyPants, itemPrice);
+                        } else {
+                            sellPlayerItem(p, armorerName, sheriffPants, itemPrice);
+                        }
+                        break;
+                    case CHAINMAIL_CHESTPLATE:
+                        if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                            sellPlayerItem(p, armorerName, deputyJacket, itemPrice);
+                        } else {
+                            sellPlayerItem(p, armorerName, sheriffJacket, itemPrice);
+                        }
+                        break;
+                    case CHAINMAIL_HELMET:
+                        if (e.getCurrentItem().containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                            sellPlayerItem(p, armorerName, deputyHat, itemPrice);
+                        } else {
+                            sellPlayerItem(p, armorerName, sheriffHat, itemPrice);
+                        }
                         break;
                 }
             }

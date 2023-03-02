@@ -1,6 +1,7 @@
 package droiidpelaez.westernproject.NPC;
 
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
+import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
 import droiidpelaez.westernproject.Items.Tools.Tools;
 import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
@@ -82,6 +83,45 @@ public class NPCgui
         shop.setItem(22, ftPantsPrice);
         shop.setItem(23, ftBootPrice);
         shop.setItem(0, exit);
+        return shop;
+    }
+    public Inventory getSheriffArmorer(Player p)
+    {
+        Inventory shop = Bukkit.createInventory(p, 27, ChatColor.DARK_AQUA+"Sheriff Armorer - "+ ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
+        SheriffArmor armor = new SheriffArmor();
+
+        ItemStack sheriffBoots = armor.getSheriffBoots();
+        ItemStack sheriffPants = armor.getSheriffPants();
+        ItemStack sheriffJacket = armor.getSheriffJacket();
+        ItemStack sheriffHat = armor.getSheriffHat();
+
+        ItemStack sbPrice = giveItemPrice(sheriffBoots, 50.0);
+        ItemStack spPrice = giveItemPrice(sheriffPants, 50.0);
+        ItemStack sjPrice = giveItemPrice(sheriffJacket, 50.0);
+        ItemStack shPrice = giveItemPrice(sheriffHat, 50.0);
+
+        ItemStack deputyBoots = armor.getDeputyBoots();
+        ItemStack deputyPants = armor.getDeputyPants();
+        ItemStack deputyJacket = armor.getDeputyJacket();
+        ItemStack deputyHat = armor.getDeputyHat();
+
+        ItemStack dbPrice = giveItemPrice(deputyBoots, 50.0);
+        ItemStack dpPrice = giveItemPrice(deputyPants, 50.0);
+        ItemStack djPrice = giveItemPrice(deputyJacket, 50.0);
+        ItemStack dhPrice = giveItemPrice(deputyHat, 50.0);
+
+        ItemStack marshallBoots = armor.getMarshallBoots();
+        ItemStack marshallPants = armor.getMarshallPants();
+        ItemStack marshallJacket = armor.getMarshallJacket();
+        ItemStack marshallHat = armor.getMarshallHat();
+
+        ItemStack mbPrice = giveItemPrice(marshallPants, 50.0);
+        ItemStack mpPrice = giveItemPrice(marshallJacket, 50.0);
+        ItemStack mjPrice = giveItemPrice(marshallBoots, 50.0);
+        ItemStack mhPrice = giveItemPrice(marshallHat, 50.0);
+
+
         return shop;
     }
     public Inventory getIllegalArmorerShop(Player p)
