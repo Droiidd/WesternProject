@@ -20,6 +20,7 @@ public class NPCInteractions implements Listener
     private String armorerName = ChatColor.BLUE+""+ ChatColor.BOLD+"Armorer";
     private String illegalArmorerName = ChatColor.RED+""+ ChatColor.BOLD+"Illegal Armorer";
     private String sheriffArmorerName = ChatColor.DARK_AQUA+""+ ChatColor.BOLD+"Sheriff Armorer";
+    private String surgeonName = ChatColor.BLUE+""+ChatColor.BOLD+"Surgeon";
     @EventHandler
     public void rightClickNPC(PlayerInteractEntityEvent e)
     {
@@ -48,6 +49,10 @@ public class NPCInteractions implements Listener
             }
             else if(e.getRightClicked().getCustomName().compareTo(sheriffArmorerName)==0){
                 Inventory shop = npcGui.getSheriffArmorer(p);
+                p.openInventory(shop);
+            }
+            else if(e.getRightClicked().getCustomName().compareTo(surgeonName)==0){
+                Inventory shop = npcGui.getSurgeon(p);
                 p.openInventory(shop);
             }
 

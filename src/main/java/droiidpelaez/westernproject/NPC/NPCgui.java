@@ -2,6 +2,7 @@ package droiidpelaez.westernproject.NPC;
 
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
+import droiidpelaez.westernproject.Items.HealthItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
 import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
@@ -85,54 +86,59 @@ public class NPCgui
         shop.setItem(0, exit);
         return shop;
     }
+    public Inventory getSurgeon(Player p)
+    {
+        Inventory shop = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Surgeon - "+ ChatColor.GRAY+"For Sale:");
+        ItemStack exit = getExitButton();
+        HealthItems meds = new HealthItems();
+
+        ItemStack bandage = giveItemPrice(meds.getBandage(), 50.0);
+        ItemStack splint = giveItemPrice(meds.getSplint(), 50.0);
+        ItemStack morphine = giveItemPrice(meds.getMorphine(), 50.0);
+        ItemStack whiskey = giveItemPrice(meds.getWhiskey(), 50.0);
+
+        shop.setItem(10, bandage);
+        shop.setItem(12, splint);
+        shop.setItem(14, whiskey);
+        shop.setItem(16, morphine);
+
+        shop.setItem(0, exit);
+        return shop;
+    }
+
     public Inventory getSheriffArmorer(Player p)
     {
         Inventory shop = Bukkit.createInventory(p, 27, ChatColor.DARK_AQUA+"Sheriff Armorer - "+ ChatColor.GRAY+"For Sale:");
         ItemStack exit = getExitButton();
         SheriffArmor armor = new SheriffArmor();
 
-        ItemStack sheriffBoots = armor.getSheriffBoots();
-        ItemStack sheriffPants = armor.getSheriffPants();
-        ItemStack sheriffJacket = armor.getSheriffJacket();
-        ItemStack sheriffHat = armor.getSheriffHat();
+        ItemStack sheriffBoots = giveItemPrice(armor.getSheriffBoots(), 50.0);
+        ItemStack sheriffPants = giveItemPrice(armor.getSheriffPants(), 50.0);
+        ItemStack sheriffJacket = giveItemPrice(armor.getSheriffJacket(), 50.0);
+        ItemStack sheriffHat = giveItemPrice(armor.getSheriffHat(), 50.0);
 
-        ItemStack sbPrice = giveItemPrice(sheriffBoots, 50.0);
-        ItemStack spPrice = giveItemPrice(sheriffPants, 50.0);
-        ItemStack sjPrice = giveItemPrice(sheriffJacket, 50.0);
-        ItemStack shPrice = giveItemPrice(sheriffHat, 50.0);
+        ItemStack deputyBoots =  giveItemPrice(armor.getDeputyBoots(), 50.0);
+        ItemStack deputyPants = giveItemPrice(armor.getDeputyPants(), 50.0);
+        ItemStack deputyJacket = giveItemPrice(armor.getDeputyJacket(), 50.0);
+        ItemStack deputyHat = giveItemPrice(armor.getDeputyHat(), 50.0);
 
-        ItemStack deputyBoots = armor.getDeputyBoots();
-        ItemStack deputyPants = armor.getDeputyPants();
-        ItemStack deputyJacket = armor.getDeputyJacket();
-        ItemStack deputyHat = armor.getDeputyHat();
+        ItemStack marshallBoots = giveItemPrice(armor.getMarshallBoots(), 50.0);
+        ItemStack marshallPants =  giveItemPrice(armor.getMarshallPants(), 50.0);
+        ItemStack marshallJacket = giveItemPrice(armor.getMarshallJacket(), 50.0);
+        ItemStack marshallHat = giveItemPrice(armor.getMarshallHat(), 50.0);
 
-        ItemStack dbPrice = giveItemPrice(deputyBoots, 50.0);
-        ItemStack dpPrice = giveItemPrice(deputyPants, 50.0);
-        ItemStack djPrice = giveItemPrice(deputyJacket, 50.0);
-        ItemStack dhPrice = giveItemPrice(deputyHat, 50.0);
-
-        ItemStack marshallBoots = armor.getMarshallBoots();
-        ItemStack marshallPants = armor.getMarshallPants();
-        ItemStack marshallJacket = armor.getMarshallJacket();
-        ItemStack marshallHat = armor.getMarshallHat();
-
-        ItemStack mbPrice = giveItemPrice(marshallBoots, 50.0);
-        ItemStack mpPrice = giveItemPrice(marshallPants, 50.0);
-        ItemStack mjPrice = giveItemPrice(marshallJacket, 50.0);
-        ItemStack mhPrice = giveItemPrice(marshallHat, 50.0);
-
-        shop.setItem(2,shPrice);
-        shop.setItem(3,sjPrice);
-        shop.setItem(4,spPrice);
-        shop.setItem(5,sbPrice);
-        shop.setItem(11, dhPrice);
-        shop.setItem(12, djPrice);
-        shop.setItem(13, dpPrice);
-        shop.setItem(14, dbPrice);
-        shop.setItem(20, mhPrice);
-        shop.setItem(21, mjPrice);
-        shop.setItem(22, mpPrice);
-        shop.setItem(23, mbPrice);
+        shop.setItem(2,sheriffHat);
+        shop.setItem(3,sheriffJacket);
+        shop.setItem(4,sheriffPants);
+        shop.setItem(5,sheriffBoots);
+        shop.setItem(11, deputyHat);
+        shop.setItem(12, deputyJacket);
+        shop.setItem(13, deputyPants);
+        shop.setItem(14, deputyBoots);
+        shop.setItem(20, marshallHat);
+        shop.setItem(21, marshallJacket);
+        shop.setItem(22, marshallPants);
+        shop.setItem(23,marshallBoots);
 
         shop.setItem(0, exit);
         return shop;

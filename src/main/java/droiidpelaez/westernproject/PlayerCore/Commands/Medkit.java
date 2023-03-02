@@ -15,8 +15,9 @@ public class Medkit implements CommandExecutor
     {
         if(sender instanceof Player){
             Player p = (Player) sender;
-            ItemStack bandage = HealthItems.getBandage();
-            ItemStack splint = HealthItems.getSplint();
+            HealthItems meds = new HealthItems();
+            ItemStack bandage = meds.getBandage();
+            ItemStack splint = meds.getSplint();
             p.getInventory().addItem(bandage);
             p.getInventory().addItem(splint);
             p.sendMessage(ChatColor.RED+"Medkit"+ChatColor.RESET+" recieved!");

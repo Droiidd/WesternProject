@@ -31,6 +31,7 @@ public class GlobalPlayerEvents implements Listener
     private final Core plugin;
     //private HashMap<String, Boolean> playersInZoneList = new HashMap<>();
     private int count;
+    private HealthItems meds = new HealthItems();
     SafeZoneGenerator gen = new SafeZoneGenerator();
     BossBar test = gen.loadBossBar();
     public GlobalPlayerEvents(Core plugin)
@@ -245,7 +246,7 @@ public class GlobalPlayerEvents implements Listener
     public void onBandageUse(PlayerInteractEvent e)
     {
         Player p = e.getPlayer();
-        ItemStack bandage = HealthItems.getBandage();
+        ItemStack bandage = meds.getBandage();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
         if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
                 bandage.getItemMeta().getDisplayName())) {
@@ -262,7 +263,7 @@ public class GlobalPlayerEvents implements Listener
     {
         Player p = e.getPlayer();
         PlayerCore pCore = PlayerCore.getPlayerCore(p.getUniqueId().toString());
-        ItemStack splint = HealthItems.getSplint();
+        ItemStack splint = meds.getSplint();
         if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(
                 splint.getItemMeta().getDisplayName()
         )) {

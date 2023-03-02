@@ -5,6 +5,7 @@ import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
+import droiidpelaez.westernproject.Items.HealthItems;
 import droiidpelaez.westernproject.Items.Utils.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
@@ -19,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -29,12 +31,14 @@ import java.util.Map;
 public class NPCguiController implements Listener {
     private HashMap<String, Boolean> chatListener = new HashMap<>();
     private HashMap<String, Integer> bankListener = new HashMap<>();
+    private HashMap<String, String> surgeonListener = new HashMap<>();
     private String geologistName = ChatColor.BLUE + "" + ChatColor.BOLD + "Geologist";
     private String armorerName = ChatColor.BLUE + "" + ChatColor.BOLD + "Armorer";
     private String bankerName = ChatColor.GOLD + "" + ChatColor.BOLD + "Banker";
     private String conductorName = ChatColor.GRAY + "" + ChatColor.BOLD + "Conductor";
     private String illegalArmorerName = ChatColor.RED + "" + ChatColor.BOLD + "Illegal Armorer";
     private String sheriffArmorerName = ChatColor.DARK_AQUA+""+ ChatColor.BOLD+"Sheriff Armorer";
+    private String surgeonName = ChatColor.BLUE+""+ChatColor.BOLD+"Surgeon";
     private Core plugin;
 
     public NPCguiController(Core plugin) {
@@ -49,18 +53,39 @@ public class NPCguiController implements Listener {
         p.sendMessage(npcName + ": " + ChatColor.GRAY + "Please, come again");
     }
 
-    public void sellPlayerItem(Player p, String npcName, ItemStack purchsedItem, Double cost) {
+    public void sellPlayerItem(Player p, String npcName, ItemStack purchasedItem, Double cost) {
         Wallet wallet = Wallet.getPlayerWallet(p);
         if (wallet.getPlayerFunds(p) >= cost) {
             //Player can afford
             p.closeInventory();
             wallet.removeMoney(p, cost);
-            p.getInventory().addItem(purchsedItem);
+            p.getInventory().addItem(purchasedItem);
             msgThanksForShopping(p, npcName);
         } else {
             //Player cannot afford
             msgNotEnoughFunds(p, npcName);
         }
+    }
+
+    public void sellLargeAmount(Player p, String npcName, ItemStack purchasedItem, Double cost, Double amount)
+    {
+        Wallet wallet = Wallet.getPlayerWallet(p);
+        cost = cost * amount;
+        if (wallet.getPlayerFunds(p) >= cost) {
+            //Player can afford
+            p.closeInventory();
+            wallet.removeMoney(p, cost);
+            for(int i = 0;i<amount;i++){
+                p.getInventory().addItem(purchasedItem);
+            }
+            msgThanksForShopping(p, npcName);
+        } else {
+            //Player cannot afford
+            msgNotEnoughFunds(p, npcName);
+        }
+
+
+
     }
 
     @EventHandler
@@ -86,6 +111,7 @@ public class NPCguiController implements Listener {
                 }
                 //They entered a valid number
                 else {
+                    // >>>===--- Bank Listener ---===<<<
                     if (bankListener.containsKey(p.getUniqueId().toString())) {
                         switch (bankListener.get(p.getUniqueId().toString())) {
                             case 1:
@@ -115,8 +141,26 @@ public class NPCguiController implements Listener {
                                 break;
                         }
                     }
+                    // >>>===--- Surgeon Listener ---===<<<
+                    else if(surgeonListener.containsKey(p.getUniqueId().toString())){
+                        HealthItems meds = new HealthItems();
+                        switch (surgeonListener.get(p.getUniqueId().toString())){
+                            case "splint":
+                                sellLargeAmount(p, surgeonName, meds.getSplint(), 50.0, amount);
+                                break;
+                            case "bandage":
+                                sellLargeAmount(p, surgeonName, meds.getBandage(), 50.0, amount);
+                                break;
+                            case "whiskey":
+                                sellLargeAmount(p, surgeonName, meds.getWhiskey(), 50.0, amount);
+                                break;
+                            case "morphine":
+                                sellLargeAmount(p, surgeonName, meds.getMorphine(), 50.0, amount);
+                                break;
+                        }
+                    }
                 }
-                // ===--- END OF BANK ---===
+
             }
             //player has not RECENTLY interacted with an NPC
         }
@@ -411,6 +455,7 @@ public class NPCguiController implements Listener {
                 }
             }
         }
+        // >>>===--- SHERIFF ARMORER ---===<<<
         else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.DARK_AQUA+"Sheriff Armorer - "+ ChatColor.GRAY+"For Sale:")){
             e.setCancelled(true);
             SheriffArmor armor = new SheriffArmor();
@@ -479,6 +524,64 @@ public class NPCguiController implements Listener {
                 }
             }
         }
-
+        // >>>===--- SURGEON ---===<<<
+        else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Surgeon - "+ChatColor.GRAY+"For Sale:")){
+            e.setCancelled(true);
+            HealthItems meds = new HealthItems();
+            switch(e.getCurrentItem().getType()){
+                case STICK:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (surgeonListener.containsKey(p.getUniqueId().toString())) {
+                        surgeonListener.replace(p.getUniqueId().toString(), "splint");
+                    }
+                    surgeonListener.put(p.getUniqueId().toString(), "splint");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    break;
+                case PAPER:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (surgeonListener.containsKey(p.getUniqueId().toString())) {
+                        surgeonListener.replace(p.getUniqueId().toString(), "bandage");
+                    }
+                    surgeonListener.put(p.getUniqueId().toString(), "bandage");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    break;
+                case POTION:
+                    ItemStack potion = e.getCurrentItem();
+                    PotionMeta pMeta = (PotionMeta) potion.getItemMeta();
+                    String potionName = pMeta.getDisplayName();
+                    p.closeInventory();
+                    if(potionName.equalsIgnoreCase(meds.getMorphine().getItemMeta().getDisplayName())){
+                        if (chatListener.containsKey(p.getUniqueId().toString())) {
+                            chatListener.replace(p.getUniqueId().toString(), true);
+                        }
+                        if (surgeonListener.containsKey(p.getUniqueId().toString())) {
+                            surgeonListener.replace(p.getUniqueId().toString(), "morphine");
+                        }
+                        surgeonListener.put(p.getUniqueId().toString(), "morphine");
+                        chatListener.put(p.getUniqueId().toString(), true);
+                        p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    }
+                    else if(potionName.equalsIgnoreCase(meds.getWhiskey().getItemMeta().getDisplayName())){
+                        if (chatListener.containsKey(p.getUniqueId().toString())) {
+                            chatListener.replace(p.getUniqueId().toString(), true);
+                        }
+                        if (surgeonListener.containsKey(p.getUniqueId().toString())) {
+                            surgeonListener.replace(p.getUniqueId().toString(), "whiskey");
+                        }
+                        surgeonListener.put(p.getUniqueId().toString(), "whiskey");
+                        chatListener.put(p.getUniqueId().toString(), true);
+                        p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    }
+                    break;
+            }
+        }
     }
 }
