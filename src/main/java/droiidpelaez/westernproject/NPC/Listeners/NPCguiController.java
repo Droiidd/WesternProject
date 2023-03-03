@@ -5,7 +5,9 @@ import droiidpelaez.westernproject.Economy.Bank;
 import droiidpelaez.westernproject.Economy.Wallet;
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
+import droiidpelaez.westernproject.Items.FoodItems;
 import droiidpelaez.westernproject.Items.HealthItems;
+import droiidpelaez.westernproject.Items.PotionItems;
 import droiidpelaez.westernproject.Items.Utils.GeodeController;
 import droiidpelaez.westernproject.Items.MiningItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
@@ -32,6 +34,7 @@ public class NPCguiController implements Listener {
     private HashMap<String, Boolean> chatListener = new HashMap<>();
     private HashMap<String, Integer> bankListener = new HashMap<>();
     private HashMap<String, String> surgeonListener = new HashMap<>();
+    private HashMap<String, String> shopKeepListener = new HashMap<>();
     private String geologistName = ChatColor.BLUE + "" + ChatColor.BOLD + "Geologist";
     private String armorerName = ChatColor.BLUE + "" + ChatColor.BOLD + "Armorer";
     private String bankerName = ChatColor.GOLD + "" + ChatColor.BOLD + "Banker";
@@ -39,7 +42,11 @@ public class NPCguiController implements Listener {
     private String illegalArmorerName = ChatColor.RED + "" + ChatColor.BOLD + "Illegal Armorer";
     private String sheriffArmorerName = ChatColor.DARK_AQUA+""+ ChatColor.BOLD+"Sheriff Armorer";
     private String surgeonName = ChatColor.BLUE+""+ChatColor.BOLD+"Surgeon";
+    private String shopKeepName = ChatColor.BLUE+""+ChatColor.BOLD+"Shop Keep";
     private Core plugin;
+    private boolean usingBanker;
+    private boolean usingSurgeon;
+    private boolean usingShopKeep;
 
     public NPCguiController(Core plugin) {
         this.plugin = plugin;
@@ -73,19 +80,15 @@ public class NPCguiController implements Listener {
         cost = cost * amount;
         if (wallet.getPlayerFunds(p) >= cost) {
             //Player can afford
-            p.closeInventory();
-            wallet.removeMoney(p, cost);
-            for(int i = 0;i<amount;i++){
-                p.getInventory().addItem(purchasedItem);
-            }
+            //int total = amount.intValue();
+            purchasedItem.setAmount(amount.intValue());
+            p.getInventory().addItem(purchasedItem);
             msgThanksForShopping(p, npcName);
+            wallet.removeMoney(p, cost);
         } else {
             //Player cannot afford
             msgNotEnoughFunds(p, npcName);
         }
-
-
-
     }
 
     @EventHandler
@@ -112,51 +115,102 @@ public class NPCguiController implements Listener {
                 //They entered a valid number
                 else {
                     // >>>===--- Bank Listener ---===<<<
-                    if (bankListener.containsKey(p.getUniqueId().toString())) {
-                        switch (bankListener.get(p.getUniqueId().toString())) {
-                            case 1:
-                                //WITHDRAWAL
-                                if (bank.getPlayerFunds(p) - amount >= 0.0) {
-                                    chatListener.replace(p.getUniqueId().toString(), false);
-                                    p.sendMessage(bankerName + ChatColor.GRAY + ": Withdrew " + ChatColor.GREEN + amount + "g");
-                                    bank.npcWithdraw(p, amount);
-                                } else {
-                                    p.sendMessage(bankerName + ChatColor.GRAY + ": Not enough funds.");
-                                    chatListener.replace(p.getUniqueId().toString(), false);
-                                    //remove all lists
-                                }
-                                break;
+                    if(usingBanker){
+                        if (bankListener.containsKey(p.getUniqueId().toString())) {
+                            switch (bankListener.get(p.getUniqueId().toString())) {
+                                case 1:
+                                    //WITHDRAWAL
+                                    if (bank.getPlayerFunds(p) - amount >= 0.0) {
+                                        chatListener.replace(p.getUniqueId().toString(), false);
+                                        p.sendMessage(bankerName + ChatColor.GRAY + ": Withdrew " + ChatColor.GREEN + amount + "g");
+                                        bank.npcWithdraw(p, amount);
+                                    } else {
+                                        p.sendMessage(bankerName + ChatColor.GRAY + ": Not enough funds.");
+                                        chatListener.replace(p.getUniqueId().toString(), false);
+                                        //remove all lists
+                                    }
+                                    usingBanker = false;
+                                    p.sendMessage(""+usingBanker+"");
+                                    break;
 
-                            case 2:
-                                // ===--- DEPOSIT ---===
-                                p.sendMessage("" + wallet.getPlayerFunds(p) + "");
-                                if (wallet.getPlayerFunds(p) - amount >= 0.0) {
-                                    chatListener.replace(p.getUniqueId().toString(), false);
-                                    p.sendMessage(bankerName + ChatColor.GRAY + ": Deposited " + ChatColor.GREEN + amount + "g");
-                                    wallet.npcDeposit(p, amount);
-                                } else {
-                                    p.sendMessage(bankerName + ChatColor.GRAY + ": Not enough funds.");
-                                    chatListener.replace(p.getUniqueId().toString(), false);
-                                }
-                                break;
+                                case 2:
+                                    // ===--- DEPOSIT ---===
+                                    p.sendMessage("" + wallet.getPlayerFunds(p) + "");
+                                    if (wallet.getPlayerFunds(p) - amount >= 0.0) {
+                                        chatListener.replace(p.getUniqueId().toString(), false);
+                                        p.sendMessage(bankerName + ChatColor.GRAY + ": Deposited " + ChatColor.GREEN + amount + "g");
+                                        wallet.npcDeposit(p, amount);
+                                    } else {
+                                        p.sendMessage(bankerName + ChatColor.GRAY + ": Not enough funds.");
+                                        chatListener.replace(p.getUniqueId().toString(), false);
+                                    }
+                                    usingBanker = false;
+                                    break;
+                            }
                         }
                     }
                     // >>>===--- Surgeon Listener ---===<<<
-                    else if(surgeonListener.containsKey(p.getUniqueId().toString())){
-                        HealthItems meds = new HealthItems();
-                        switch (surgeonListener.get(p.getUniqueId().toString())){
-                            case "splint":
-                                sellLargeAmount(p, surgeonName, meds.getSplint(), 50.0, amount);
-                                break;
-                            case "bandage":
-                                sellLargeAmount(p, surgeonName, meds.getBandage(), 50.0, amount);
-                                break;
-                            case "whiskey":
-                                sellLargeAmount(p, surgeonName, meds.getWhiskey(), 50.0, amount);
-                                break;
-                            case "morphine":
-                                sellLargeAmount(p, surgeonName, meds.getMorphine(), 50.0, amount);
-                                break;
+                    else if(usingSurgeon){
+                        if(surgeonListener.containsKey(p.getUniqueId().toString())){
+                            p.sendMessage("contains player");
+                            HealthItems meds = new HealthItems();
+                            p.sendMessage(surgeonListener.get(p.getUniqueId().toString()));
+                            switch (surgeonListener.get(p.getUniqueId().toString())){
+                                case "splint":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingSurgeon = false;
+                                    sellLargeAmount(p, surgeonName, meds.getSplint(), 50.0, amount);
+                                    break;
+                                case "bandage":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingSurgeon = false;
+                                    sellLargeAmount(p, surgeonName, meds.getBandage(), 50.0, amount);
+                                    break;
+                                case "whiskey":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingSurgeon = false;
+                                    sellLargeAmount(p, surgeonName, meds.getWhiskey(), 50.0, amount);
+                                    break;
+                                case "morphine":
+                                    usingSurgeon = false;
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    sellLargeAmount(p, surgeonName, meds.getMorphine(), 50.0, amount);
+                                    break;
+                            }
+                        }
+                    }
+                    // >>>===--- Shop Keep Listener ---===<<<
+                    else if (usingShopKeep){
+                        if(shopKeepListener.containsKey(p.getUniqueId().toString())){
+                            FoodItems food = new FoodItems();
+                            p.sendMessage(shopKeepListener.get(p.getUniqueId().toString()));
+                            switch (shopKeepListener.get(p.getUniqueId().toString())){
+                                case "brown":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingShopKeep = false;
+                                    sellLargeAmount(p, shopKeepName, food.brownStew(), 50.0, amount);
+                                    break;
+                                case "chicken":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingShopKeep = false;
+                                    sellLargeAmount(p, shopKeepName, food.cookedChicken(), 50.0, amount);
+                                    break;
+                                case "rabbit":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingShopKeep = false;
+                                    sellLargeAmount(p, shopKeepName, food.cookedRabbit(), 50.0, amount);
+                                    break;
+                                case "rabbitstew":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingShopKeep = false;
+                                    sellLargeAmount(p, shopKeepName, food.rabbitStew(), 50.0, amount);
+                                    break;
+                                case "potato":
+                                    chatListener.replace(p.getUniqueId().toString(), false);
+                                    usingShopKeep = false;
+                                    sellLargeAmount(p, shopKeepName, food.charredPotato(), 50.0, amount);
+                                    break;
+                            }
                         }
                     }
                 }
@@ -283,6 +337,7 @@ public class NPCguiController implements Listener {
                     bankListener.put(p.getUniqueId().toString(), withdraw);
                     chatListener.put(p.getUniqueId().toString(), true);
                     p.sendMessage(bankerName + ChatColor.GRAY + ": please enter withdrawal amount");
+                    usingBanker = true;
                     break;
                 case EMERALD_BLOCK:
                     p.closeInventory();
@@ -296,6 +351,7 @@ public class NPCguiController implements Listener {
                     bankListener.put(p.getUniqueId().toString(), deposit);
                     chatListener.put(p.getUniqueId().toString(), true);
                     p.sendMessage(bankerName + ChatColor.GRAY + ": please enter deposit amount");
+                    usingBanker = true;
                     break;
             }
 
@@ -540,6 +596,7 @@ public class NPCguiController implements Listener {
                     surgeonListener.put(p.getUniqueId().toString(), "splint");
                     chatListener.put(p.getUniqueId().toString(), true);
                     p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    usingSurgeon = true;
                     break;
                 case PAPER:
                     p.closeInventory();
@@ -552,6 +609,7 @@ public class NPCguiController implements Listener {
                     surgeonListener.put(p.getUniqueId().toString(), "bandage");
                     chatListener.put(p.getUniqueId().toString(), true);
                     p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
+                    usingSurgeon = true;
                     break;
                 case POTION:
                     ItemStack potion = e.getCurrentItem();
@@ -580,8 +638,100 @@ public class NPCguiController implements Listener {
                         chatListener.put(p.getUniqueId().toString(), true);
                         p.sendMessage(surgeonName + ChatColor.GRAY + ": How many would you like?");
                     }
+                    usingSurgeon = true;
                     break;
             }
+        }
+        // >>>===--- SHOP KEEP ---===<<<
+        else if(e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE+"Shop Keeper - "+ChatColor.GRAY+"For Sale:")){
+            e.setCancelled(true);
+            FoodItems food = new FoodItems();
+            PotionItems recipes = new PotionItems();
+            switch (e.getCurrentItem().getType()){
+                case PAPER:
+                    switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())){
+                        case "Fermented Liquor Recipe":
+                            sellPlayerItem(p, shopKeepName, recipes.getFermentedLiquorRecipe(), 50.0);
+                            break;
+                        case "Green Thumb Brew Recipe":
+                            sellPlayerItem(p, shopKeepName, recipes.getGreenThumbBrewRecipe(), 50.0);
+                            break;
+                        case "Miner's Frenzy Brew Recipe":
+                            sellPlayerItem(p, shopKeepName, recipes.getMinersFrenzyBrewRecipe(), 50.0);
+                            break;
+                        case "Miner's Double Spade Brew Recipe":
+                            sellPlayerItem(p, shopKeepName, recipes.getMinersDoubleSpadeBrewRecipe(), 50.0);
+                            break;
+                    }
+                    break;
+                case COOKED_CHICKEN:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (shopKeepListener.containsKey(p.getUniqueId().toString())) {
+                        shopKeepListener.replace(p.getUniqueId().toString(), "chicken");
+                    }
+                    shopKeepListener.put(p.getUniqueId().toString(), "chicken");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(shopKeepName + ChatColor.GRAY + ": How many would you like?");
+                    usingShopKeep = true;
+                    break;
+                case COOKED_RABBIT:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (shopKeepListener.containsKey(p.getUniqueId().toString())) {
+                        shopKeepListener.replace(p.getUniqueId().toString(), "rabbit");
+                    }
+                    shopKeepListener.put(p.getUniqueId().toString(), "rabbit");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(shopKeepName + ChatColor.GRAY + ": How many would you like?");
+                    usingShopKeep = true;
+                    break;
+                case MUSHROOM_STEW:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (shopKeepListener.containsKey(p.getUniqueId().toString())) {
+                        shopKeepListener.replace(p.getUniqueId().toString(), "brown");
+                    }
+                    shopKeepListener.put(p.getUniqueId().toString(), "brown");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(shopKeepName + ChatColor.GRAY + ": How many would you like?");
+                    usingShopKeep = true;
+                    break;
+                case RABBIT_STEW:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (shopKeepListener.containsKey(p.getUniqueId().toString())) {
+                        shopKeepListener.replace(p.getUniqueId().toString(), "rabbitstew");
+                    }
+                    shopKeepListener.put(p.getUniqueId().toString(), "rabbitstew");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(shopKeepName + ChatColor.GRAY + ": How many would you like?");
+                    usingShopKeep = true;
+                    break;
+                case BAKED_POTATO:
+                    p.closeInventory();
+                    if (chatListener.containsKey(p.getUniqueId().toString())) {
+                        chatListener.replace(p.getUniqueId().toString(), true);
+                    }
+                    if (shopKeepListener.containsKey(p.getUniqueId().toString())) {
+                        shopKeepListener.replace(p.getUniqueId().toString(), "potato");
+                    }
+                    shopKeepListener.put(p.getUniqueId().toString(), "potato");
+                    chatListener.put(p.getUniqueId().toString(), true);
+                    p.sendMessage(shopKeepName + ChatColor.GRAY + ": How many would you like?");
+                    usingShopKeep = true;
+                    break;
+
+            }
+
         }
     }
 }

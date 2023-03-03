@@ -25,6 +25,7 @@ public class NPCCommands implements CommandExecutor
     private String sheriffArmorerName = ChatColor.DARK_AQUA+""+ ChatColor.BOLD+"Sheriff Armorer";
     private String illegalArmorerName = ChatColor.RED+""+ ChatColor.BOLD+"Illegal Armorer";
     private String surgeonName = ChatColor.BLUE+""+ChatColor.BOLD+"Surgeon";
+    private String shopKeepName = ChatColor.BLUE+""+ChatColor.BOLD+"Shop Keep";
     public void createVillager(Player p, String villagerName)
     {
         Villager vil = (Villager)p.getLocation().getWorld().spawn(p.getLocation(), Villager.class);
@@ -87,6 +88,12 @@ public class NPCCommands implements CommandExecutor
                    p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
                    globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
                    createVillager(p, surgeonName);
+                   break;
+               case "shopkeep":
+                   p.sendMessage("Spawned "+shopKeepName+"!");
+                   p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1 , 0);
+                   globalUtils.displayParticles(p.getLocation(), Particle.CLOUD, Particle.GLOW,15);
+                   createVillager(p, shopKeepName);
                    break;
 
            }

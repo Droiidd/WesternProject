@@ -2,8 +2,11 @@ package droiidpelaez.westernproject.NPC;
 
 import droiidpelaez.westernproject.Items.Armor.BanditArmor;
 import droiidpelaez.westernproject.Items.Armor.SheriffArmor;
+import droiidpelaez.westernproject.Items.FoodItems;
 import droiidpelaez.westernproject.Items.HealthItems;
+import droiidpelaez.westernproject.Items.PotionItems;
 import droiidpelaez.westernproject.Items.Tools.Tools;
+import droiidpelaez.westernproject.Items.Utils.RecipeUtils;
 import jdk.internal.foreign.ArenaAllocator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.Potion;
 
 import java.util.ArrayList;
 
@@ -103,6 +107,38 @@ public class NPCgui
         shop.setItem(16, morphine);
 
         shop.setItem(0, exit);
+        return shop;
+    }
+    public Inventory getShopKeep(Player p)
+    {
+        PotionItems recipes = new PotionItems();
+        FoodItems foods = new FoodItems();
+        Inventory shop = Bukkit.createInventory(p, 27, ChatColor.BLUE+"Shop Keeper - "+ChatColor.GRAY+"For Sale:");
+        ItemStack fermentLiqRecipe = giveItemPrice(recipes.getFermentedLiquorRecipe(), 50.0);
+        ItemStack greenThumbRecipe = giveItemPrice(recipes.getGreenThumbBrewRecipe(), 50.0);
+        ItemStack mineDoubleRecipe = giveItemPrice(recipes.getMinersDoubleSpadeBrewRecipe(), 50.0);
+        ItemStack mineFrenRecipe = giveItemPrice(recipes.getMinersFrenzyBrewRecipe(), 50.0);
+
+        ItemStack brownStew = giveItemPrice(foods.brownStew(), 10.0);
+        ItemStack rabbitStew = giveItemPrice(foods.rabbitStew(), 10.0);
+        ItemStack cookedChicken = giveItemPrice(foods.cookedChicken(), 10.0);
+        ItemStack cookedRabbit = giveItemPrice(foods.cookedRabbit(), 10.0);
+        ItemStack charredPotato = giveItemPrice(foods.charredPotato(), 10.0);
+
+        ItemStack exit = getExitButton();
+
+        shop.setItem(0, exit);
+        shop.setItem(3, fermentLiqRecipe);
+        shop.setItem(4, greenThumbRecipe);
+        shop.setItem(5, mineDoubleRecipe);
+        shop.setItem(6, mineFrenRecipe);
+
+        shop.setItem(11, charredPotato);
+        shop.setItem(12, cookedChicken);
+        shop.setItem(13, cookedRabbit);
+        shop.setItem(14, brownStew);
+        shop.setItem(15, rabbitStew);
+
         return shop;
     }
 

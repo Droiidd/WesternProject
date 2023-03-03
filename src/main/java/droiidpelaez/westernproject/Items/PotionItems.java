@@ -62,6 +62,51 @@ public class PotionItems
         item.setItemMeta(iMeta);
         return item;
     }
+    public ItemStack getFermentedLiquorRecipe()
+    {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta iMeta = item.getItemMeta();
+        iMeta.setDisplayName(ChatColor.DARK_GREEN+"Fermented Liquor Recipe");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_GRAY+"Right click to read...");
+        iMeta.setLore(lore);
+        item.setItemMeta(iMeta);
+        return item;
+    }
+    public ItemStack getGreenThumbBrewRecipe()
+    {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta iMeta = item.getItemMeta();
+        iMeta.setDisplayName(ChatColor.DARK_GREEN+"Green Thumb Brew Recipe");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_GRAY+"Right click to read...");
+        iMeta.setLore(lore);
+        item.setItemMeta(iMeta);
+        return item;
+    }
+    public ItemStack getMinersFrenzyBrewRecipe()
+    {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta iMeta = item.getItemMeta();
+        iMeta.setDisplayName(ChatColor.DARK_GREEN+"Miner's Frenzy Brew Recipe");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_GRAY+"Right click to read...");
+        iMeta.setLore(lore);
+        item.setItemMeta(iMeta);
+        return item;
+    }
+    public ItemStack getMinersDoubleSpadeBrewRecipe()
+    {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta iMeta = item.getItemMeta();
+        iMeta.setDisplayName(ChatColor.DARK_GREEN+"Miner's Double Spade Brew Recipe");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_GRAY+"Right click to read...");
+        iMeta.setLore(lore);
+        item.setItemMeta(iMeta);
+        return item;
+    }
+
 
 
 }
